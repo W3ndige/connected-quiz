@@ -8,13 +8,17 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 
-// TODO(W3ndige): Error handling.
 // TODO(W3ndige): Sending end of connection message.
 // TODO(W3ndige): Maximum buffer protection
-// TODO(W3ndige): Client have to confirm that he got the question, only then the server will send another message.
 
 const int PORT = 1337;
 const int MAX_RECEIVE_BUFFER = 500;
+
+void receiveAndVerify(int socket_fd, char *buffer) {
+  int len = recv(socket_fd, buffer, MAX_RECEIVE_BUFFER, 0);
+  buffer[len] = '\0';
+  send(socket_fd, "OK", strlen("OK"), 0);
+}
 
 int main(int argc, char *argv[]) {
    char buffer[MAX_RECEIVE_BUFFER];
@@ -32,18 +36,18 @@ int main(int argc, char *argv[]) {
    }
 
    while (1) {
-     int len = recv(socket_fd, buffer, sizeof(buffer),0);
-     buffer[len] = '\0';
+     receiveAndVerify(socket_fd, buffer);
      printf("New question: %s\n", buffer);
-     for (int i = 0; i < 4; i++) {
-       memset(buffer, 0, sizeof(buffer) / sizeof(buffer[0]));
-       len = recv(socket_fd, buffer, sizeof(buffer),0);
-       buffer[len] = '\0';
-       printf("%i. %s\n", i + 1, buffer);
+     for (int i  = 0; i < 4; i++) {
+       receiveAndVerify(socket_fd, buffer);
+       printf("%d. %s\n", i + 1, buffer);
      }
      printf("Enter your response:\n");
      fgets(buffer, MAX_RECEIVE_BUFFER, stdin);
      send(socket_fd, buffer, strlen(buffer), 0);
+
+     receiveAndVerify(socket_fd, buffer);
+     printf("%s\n", buffer);
    }
 
    close(socket_fd);
