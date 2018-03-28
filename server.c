@@ -46,10 +46,12 @@ int sendAndValidate(int client_fd, struct sockaddr_in destination, char *message
   return 0;
 }
 
-void handleClient(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, char *questions, char **answers, int correct_answer) {
+void handleClient(int socket_fd, socklen_t socket_size,struct sockaddr_in destination, char *questions, char **answers, int correct_answer) {
+  fork();
+  pid_t pid = getpid();
   char buffer[MAX_RECEIVE_BUFFER];
   int client_fd = accept(socket_fd, (struct sockaddr *)&destination, &socket_size);
-  printf("New connection from: %s\n", inet_ntoa(destination.sin_addr));
+  printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), pid);
   while (1) {
     if (sendAndValidate(client_fd, destination, questions)) {
       for (size_t i = 0; i < sizeof(answers) / 2; i++) {
