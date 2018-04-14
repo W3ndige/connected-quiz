@@ -1,0 +1,41 @@
+BEGIN_OF_QUESTION
+What is the approximate diameter of the Earth?
+END_OF_QUESTION
+40.000 KM
+25.200 KM
+6.350 KM
+12.700 KM
+D
+BEGIN_OF_QUESTION
+What is the center of a black hole called?
+END_OF_QUESTION
+Core
+Singularity
+Event horizon
+Mantle
+B
+BEGIN_OF_QUESTION
+What is an Astronomical Unit?
+END_OF_QUESTION
+The distance from the Earth to the Sun.
+The distance from the Earth to the Pluto.
+The distance from the Sun to the center of Milky Way.
+The distance that light will travel in one minute.
+A
+BEGIN_OF_QUESTION
+What is the distance of a parsec?
+END_OF_QUESTION
+3.26 light years
+3.14 light years
+2.28 light years
+4.16 ligh years
+A
+BEGIN_OF_QUESTION
+Where is the asteroid belt located?
+END_OF_QUESTION
+Between Earth and Mars
+Between Jupiter and Saturn
+Between Mars and Jupiter
+Between Mercury and Venus
+C
+END_OF_LIST

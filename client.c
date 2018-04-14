@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
    memset(&destination, 0, sizeof(struct sockaddr_in));
 
    destination.sin_family = AF_INET;
-   destination.sin_addr.s_addr = inet_addr("192.168.0.248");
+   destination.sin_addr.s_addr = inet_addr("127.0.0.1");
    destination.sin_port = htons(PORT);
 
    if (connect(socket_fd, (struct sockaddr *)&destination, sizeof(struct sockaddr_in)) == -1) {
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
      printf("New question: %s\n", buffer);
      for (int i  = 0; i < 4; i++) {
        receiveAndVerify(socket_fd, buffer);
-       printf("%d. %s\n", i + 1, buffer);
+       printf("%c. %s\n", 'A' + i, buffer);
      }
      printf("Enter your response:\n");
      fgets(buffer, MAX_RECEIVE_BUFFER, stdin);
