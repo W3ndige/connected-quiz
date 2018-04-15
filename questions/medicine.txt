@@ -7,3 +7,39 @@ Humerus, located in arm.
 Ulna, located in forearm.
 A
 END_OF_LIST
+BEGIN_OF_QUESTION
+Where is the pharynx located?
+END_OF_QUESTION
+Neck
+Leg
+Arm
+Stomach
+A
+END_OF_LIST
+BEGIN_OF_QUESTION
+Where is the esophagus located?
+END_OF_QUESTION
+Knee
+Leg
+Chest
+Head
+C
+END_OF_LIST
+BEGIN_OF_QUESTION
+What is the name of the system, in the human body, that transports blood?
+END_OF_QUESTION
+Lymphatic
+Respiratory
+Digestive
+Cardiovascular
+D
+END_OF_LIST
+BEGIN_OF_QUESTION
+Where are red blood corpuscles formed?
+END_OF_QUESTION
+Liver
+Bones
+Heart
+Kidneys
+B
+END_OF_LIST

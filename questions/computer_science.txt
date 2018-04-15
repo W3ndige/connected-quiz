@@ -1,0 +1,56 @@
+BEGIN_OF_QUESTION
+Which is a mean of encoding text in which each symbol is represented by 16 bits?
+END_OF_QUESTION
+ASCII
+UNICODE
+ISO
+LZW
+B
+BEGIN_OF_QUESTION
+Which is a mean of compressing images by blurring the boundaries between different colors while maintaining all brightness information?
+END_OF_QUESTION
+JPEG
+LZW
+GIF
+MIDI
+A
+BEGIN_OF_QUESTION
+Which of the following Operating System does not implement multitasking truly?
+END_OF_QUESTION
+Windows XP
+MS DOS
+Windows 98
+Windows NT
+B
+BEGIN_OF_QUESTION
+IPv4 Address is...
+END_OF_QUESTION
+64 bits
+16 bits
+8 bits
+32 bits
+D
+BEGIN_OF_QUESTION
+In which layer of OSI Reference Model operates Router?
+END_OF_QUESTION
+Application Layer
+Network Layer
+Physical Layer
+Transport Layer
+B
+BEGIN_OF_QUESTION
+In which layer of OSI Reference Model operates Router?
+END_OF_QUESTION
+Application Layer
+Network Layer
+Physical Layer
+Transport Layer
+B
+BEGIN_OF_QUESTION
+DHCP is the abbreviation of...
+END_OF_QUESTION
+Dynamic Host Control Protocol
+Dynamic Hyper Control Protocol
+Dynamic Hyper Configuration Protocol
+Dynamic Host Configuration Protocol
+D

@@ -153,7 +153,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
     prepareStringForSending(category_source, sizeof(category_source) / sizeof(category_source[0]));
     FILE *questions_file = fopen(category_source, "r");
     int rand_question = rand() % calculateNumberOfQuestions(category_source) + 1;
-    char line[100];
+    char line[300];
     if (!questions_file) {
       fprintf(stderr, "Could not open %s: %s\n", category_source, strerror(errno));
       return 0;
@@ -161,15 +161,15 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
     else {
       int tmp = 0;
       while (!feof(questions_file)) {
-        fgets(line, 100, questions_file);
+        fgets(line, 300, questions_file);
         if (strncmp(line, "BEGIN_OF_QUESTION", 17) == 0) {
           tmp++;
         }
         if (tmp == rand_question) {
-          fgets(line, 100, questions_file);
+          fgets(line, 300, questions_file);
           prepareStringForSending(line, sizeof(line) / sizeof(line[0]));
           if (sendAndValidate(client_fd, destination, line)) {
-            fgets(line, 100, questions_file);
+            fgets(line, 300, questions_file);
             for (int i = 0; i < 4; i++) {
               char answers[100];
               fgets(answers, 100, questions_file);
