@@ -38,4 +38,20 @@ Between Jupiter and Saturn
 Between Mars and Jupiter
 Between Mercury and Venus
 C
+BEGIN_OF_QUESTION
+Which is the largest moon in our solar system?
+END_OF_QUESTION
+Titan
+Phobos
+Callisto
+Ganymede
+D
+BEGIN_OF_QUESTION
+Who discovered Uranus?
+END_OF_QUESTION
+Copernicus
+Hans Lippershey
+William Herschel
+Galileo
+C
 END_OF_LIST
