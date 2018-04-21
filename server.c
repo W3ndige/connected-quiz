@@ -61,8 +61,8 @@ int calculateNumberOfQuestions(char *filename) {
   }
 }
 
-void properlyTerminateString(char *string, size_t size) {
-  for (size_t i = 0; i <  size; i++) {
+void properlyTerminateString(char *string) {
+  for (size_t i = 0; i <  strlen(string); i++) {
     if (string[i] == '\n') {
       string[i] = '\0';
     }
@@ -151,7 +151,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
     return 0;
   }
 
-  properlyTerminateString(category_source, sizeof(category_source) / sizeof(category_source[0]));
+  properlyTerminateString(category_source);
   printf("Choosen category: %s\n", category_source);
   FILE *questions_file = fopen(category_source, "r");
 
@@ -175,7 +175,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
     if (counted_line == rand_question) {
       memset(line, 0, MAX_QUESTION_LINE_SIZE);
       fgets(line, MAX_QUESTION_LINE_SIZE, questions_file);
-      properlyTerminateString(line, MAX_QUESTION_LINE_SIZE);
+      properlyTerminateString(line);
       if (!sendAndValidate(client_fd, destination, line)) {
         fclose(questions_file);
         return 0;
@@ -185,14 +185,14 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
       for (int i = 0; i < NUM_OF_ANSWERS; i++) {
         char answer[MAX_ANSWER_LINE_SIZE];
         fgets(answer, MAX_ANSWER_LINE_SIZE, questions_file);
-        properlyTerminateString(answer, MAX_ANSWER_LINE_SIZE);
+        properlyTerminateString(answer);
         if (!sendAndValidate(client_fd, destination, answer)) {
           fclose(questions_file);
           return 0;
         }
       }
       fgets(correct_answer, 2, questions_file);
-      properlyTerminateString(correct_answer, sizeof(correct_answer) / sizeof(correct_answer[0]));
+      properlyTerminateString(correct_answer);
       break;
     }
   }
@@ -207,7 +207,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
 void handleClientConnection(int socket_fd, socklen_t socket_size,struct sockaddr_in destination, int num_of_categories) {
   fork();
   pid_t pid = getpid();
-  srand(time(0) + pid);
+  srand(time(0) + (int)pid);
 
   int client_fd = accept(socket_fd, (struct sockaddr *)&destination, &socket_size);
   printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), pid);
