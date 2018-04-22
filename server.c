@@ -97,7 +97,7 @@ int receiveData(int client_fd, struct sockaddr_in destination, char *buffer) {
     perror("Error receiving data");
     return 0;
   }
-  else if (len == 1 || len == 0) {
+  else if (len == 0) {
     printf("Dropping connection from: %s\n", inet_ntoa(destination.sin_addr));
     return 0;
   }

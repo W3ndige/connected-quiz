@@ -13,8 +13,9 @@
 
 const int PORT = 1337;
 const int MAX_RECEIVE_BUFFER = 500;
-const int WINDOW_WIDTH = 640;
-const int WINDOW_HEIGHT = 480;
+const size_t NUM_OF_ANSWERS = 4;
+const size_t WINDOW_WIDTH = 640;
+const size_t WINDOW_HEIGHT = 480;
 
 void receiveAndVerify(int socket_fd, char *buffer) {
   int len = recv(socket_fd, buffer, MAX_RECEIVE_BUFFER, 0);
@@ -66,44 +67,78 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  SDL_Surface *textSurface;
+  SDL_Surface *text_surface;
   SDL_Color foreground_color = { 255, 255, 255 };
   SDL_Color background_color = { 0, 0, 255 };
   SDL_Rect text_location = { 0, 0, 200, 50};
   SDL_Rect answer_location = {0, 50, 200, 50};
+  SDL_Rect score_location = {0, 4 * 50 + 50, 200, 50};
   SDL_Event event;
   bool running = true;
+  bool get_question = true;
+  bool get_answer = false;
+  int mouse_x = 0;
+  int mouse_y = 0;
 
   while (running) {
-    receiveAndVerify(socket_fd, buffer);
-    textSurface = TTF_RenderText_Shaded(font, buffer, foreground_color, background_color);
-    SDL_BlitSurface(textSurface, NULL, screen, &text_location);
-    for (int i  = 0; i < 4; i++) {
-      receiveAndVerify(socket_fd, buffer);
-      textSurface = TTF_RenderText_Shaded(font, buffer, foreground_color, background_color);
-      answer_location.y += 50;
-      SDL_BlitSurface(textSurface, NULL, screen, &answer_location);
-    }
     if (SDL_PollEvent(&event)) {
+      if (get_question) {
+        SDL_FillRect(screen, NULL, 0x000000);
+        receiveAndVerify(socket_fd, buffer);
+        text_surface = TTF_RenderText_Shaded(font, buffer, foreground_color, background_color);
+        SDL_BlitSurface(text_surface, NULL, screen, &text_location);
+        for (size_t i = 0; i < NUM_OF_ANSWERS; i++) {
+          receiveAndVerify(socket_fd, buffer);
+          text_surface = TTF_RenderText_Shaded(font, buffer, foreground_color, background_color);
+          SDL_BlitSurface(text_surface, NULL, screen, &answer_location);
+          answer_location.y += 50;
+        }
+        answer_location.y = 50;
+        get_question = false;
+      }
+
+      if (get_answer) {
+        receiveAndVerify(socket_fd, buffer);
+        text_surface = TTF_RenderText_Shaded(font, buffer, foreground_color, background_color);
+        SDL_BlitSurface(text_surface, NULL, screen, &score_location);
+        get_answer = false;
+        get_question = true;
+      }
+
       switch (event.type) {
         case SDL_QUIT:
           running = false;
           break;
-        default:
-          //printf("Enter your response:\n");
-          //fgets(buffer, MAX_RECEIVE_BUFFER, stdin);
-          //send(socket_fd, buffer, strlen(buffer), 0);
-
-          //receiveAndVerify(socket_fd, buffer);
-          //printf("%s\n", buffer);
-
-          SDL_Flip(screen);
-
+        case SDL_MOUSEMOTION:
+          mouse_x = event.motion.x;
+          mouse_y = event.motion.y;
+          break;
+        case SDL_MOUSEBUTTONDOWN:
+          switch (event.button.button) {
+            case SDL_BUTTON_LEFT:
+              if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > answer_location.y && mouse_y < (answer_location.y + answer_location.h)) {
+                send(socket_fd, "A", strlen("A"), 0);
+                get_answer = true;
+              }
+              else if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > answer_location.y + 50 && mouse_y < (answer_location.y + 50 + answer_location.h)) {
+                send(socket_fd, "B", strlen("B"), 0);
+                get_answer = true;
+              }
+              else if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > answer_location.y + 100 && mouse_y < (answer_location.y + 100 + answer_location.h)) {
+                send(socket_fd, "C", strlen("C"), 0);
+                get_answer = true;
+              }
+              else if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > answer_location.y + 150 && mouse_y < (answer_location.y + 150 + answer_location.h)) {
+                send(socket_fd, "D", strlen("D"), 0);
+                get_answer = true;
+              }
+          }
       }
     }
+    SDL_Flip(screen);
   }
 
-  SDL_FreeSurface(textSurface);
+  SDL_FreeSurface(text_surface);
   TTF_CloseFont(font);
   TTF_Quit();
   SDL_Quit();
