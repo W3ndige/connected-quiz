@@ -1,5 +1,5 @@
-SERVER_OBJ = server.c
-CLIENT_OBJ = client.c
+SERVER_OBJ = src/server.c
+CLIENT_OBJ = src/client.c
 CC = gcc
 COMPILER_FLAGS = -Wall -Wextra
 CLIENT_LIBS_FLAGS = -lSDL -lSDL_ttf

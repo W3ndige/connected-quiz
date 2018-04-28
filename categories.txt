@@ -1,5 +1,0 @@
-START_OF_LIST
-questions/astronomy.txt
-questions/medicine.txt
-questions/computer_science.txt
-END_OF_LIST

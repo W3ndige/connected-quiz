@@ -16,7 +16,7 @@ const int MAX_RECEIVE_BUFFER = 500;
 const int MAX_ANSWER_LINE_SIZE = 100;
 const int MAX_QUESTION_LINE_SIZE = 300;
 const int MAX_CATEGORY_LINE_SIZE = 100;
-const char *CATEGORIES_FILENAME = "categories.txt";
+const char *CATEGORIES_FILENAME = "server_assets/categories.txt";
 
 int calculateNumberOfCategories(const char *filename) {
   FILE *categories_file = fopen(filename, "r");
