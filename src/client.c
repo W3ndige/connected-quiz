@@ -35,7 +35,6 @@ bool getPrintQuestion(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_sur
     SDL_BlitSurface(text_surface, NULL, screen, &answer_location);
     answer_location.y += 50;
   }
-  answer_location.y = 50;
   return false;
 }
 
@@ -48,21 +47,13 @@ bool getPrintAnswer(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surfa
 }
 
 bool verifySendAnswers(int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_location) {
-  if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > answer_location.y && mouse_y < (answer_location.y + answer_location.h)) {
-    send(socket_fd, "A", strlen("A"), 0);
-    return true;
-  }
-  else if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > answer_location.y + 50 && mouse_y < (answer_location.y + 50 + answer_location.h)) {
-    send(socket_fd, "B", strlen("B"), 0);
-    return true;
-  }
-  else if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > answer_location.y + 100 && mouse_y < (answer_location.y + 100 + answer_location.h)) {
-    send(socket_fd, "C", strlen("C"), 0);
-    return true;
-  }
-  else if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > answer_location.y + 150 && mouse_y < (answer_location.y + 150 + answer_location.h)) {
-    send(socket_fd, "D", strlen("D"), 0);
-    return true;
+  char answer[2] = "\0";
+  for (int i = 0; i < NUM_OF_ANSWERS; i++) {
+    if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > (answer_location.y + 50 * i) && mouse_y < ((answer_location.y + 50 * i) + answer_location.h)) {
+      answer[0] = 'A' + i;
+      send(socket_fd, answer, strlen(answer), 0);
+      return true;
+    }
   }
 
   return false;
@@ -70,7 +61,6 @@ bool verifySendAnswers(int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_
 
 int main(int argc, char *argv[]) {
 
-  char buffer[MAX_RECEIVE_BUFFER];
   struct sockaddr_in destination;
   int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
   memset(&destination, 0, sizeof(struct sockaddr_in));
