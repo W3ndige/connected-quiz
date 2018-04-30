@@ -18,6 +18,11 @@ const int MAX_QUESTION_LINE_SIZE = 300;
 const int MAX_CATEGORY_LINE_SIZE = 100;
 const char *CATEGORIES_FILENAME = "server_assets/categories.txt";
 
+struct user_score {
+  int pid;
+  int score;
+};
+
 int calculateNumberOfCategories(const char *filename) {
   FILE *categories_file = fopen(filename, "r");
   if (!CATEGORIES_FILENAME) {
@@ -107,7 +112,6 @@ int receiveData(int client_fd, struct sockaddr_in destination, char *buffer) {
   }
 }
 
-
 int sendAndValidate(int client_fd, struct sockaddr_in destination, char *message) {
   char confirmation_buffer[3];
   send(client_fd, message, strlen(message), 0);
@@ -135,11 +139,11 @@ int handleClientAnswers(int client_fd, struct sockaddr_in destination, char *cor
     }
     else {
       sendAndValidate(client_fd, destination, "Sorry, this time you were wrong!");
-      return 1;
+      return 0;
     }
   }
   else {
-    return 0;
+    return -1;
   }
 }
 
@@ -178,7 +182,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
       properlyTerminateString(line);
       if (!sendAndValidate(client_fd, destination, line)) {
         fclose(questions_file);
-        return 0;
+        return -1;
       }
 
       fgets(line, MAX_QUESTION_LINE_SIZE, questions_file);
@@ -188,7 +192,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
         properlyTerminateString(answer);
         if (!sendAndValidate(client_fd, destination, answer)) {
           fclose(questions_file);
-          return 0;
+          return -1;
         }
       }
       fgets(correct_answer, 2, questions_file);
@@ -198,28 +202,94 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
   }
   fclose(questions_file);
 
-  if (!handleClientAnswers(client_fd, destination, correct_answer)) {
-    return 0;
-  }
-  return 1;
+  return handleClientAnswers(client_fd, destination, correct_answer);
 }
 
 void handleClientConnection(int socket_fd, socklen_t socket_size,struct sockaddr_in destination, int num_of_categories) {
-  fork();
-  pid_t pid = getpid();
-  srand(time(0) + (int)pid);
+  int pipefd[2];
 
   int client_fd = accept(socket_fd, (struct sockaddr *)&destination, &socket_size);
-  printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), pid);
-
-  while (1) {
-    if (!askRandomQuestion(client_fd, destination, num_of_categories)) {
-      puts("An error occured.");
-      break;
-    }
+  if (pipe(pipefd) == -1) {
+    fprintf(stderr, "Pipe failed\n");
   }
+
+  pid_t pid = fork();
+  if (pid < 0) {
+    fprintf(stderr, "Error in process creation.\n" );
+    return;
+  }
+
+  struct user_score score_table[20];
+  for (int i = 0; i < 20; i++) {
+    score_table[i].pid = 0;
+    score_table[i].score = 0;
+  }
+
+  if (pid == 0) { // Child
+    pid_t pid_num = getpid();
+    srand(time(0) + (int)pid_num);
+    printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), pid_num);
+    close(pipefd[0]);
+
+    while (1) {
+      int points = askRandomQuestion(client_fd, destination, num_of_categories);
+      if (points == -1) {
+        puts("An error occured.");
+        break;
+      }
+      else {
+        char message_to_parent[20];
+        snprintf(message_to_parent, 20, "%d %d", (int)pid_num, points);
+        write(pipefd[1], message_to_parent, strlen(message_to_parent));
+      }
+    }
+    close(pipefd[1]);
+  }
+
+  else { // Parent
+    int client_pid;
+    int points;
+    char message_from_child[20];
+    close(pipefd[1]);
+
+    while (1) {
+      read(pipefd[0], message_from_child, 20);
+      if (message_from_child[0] == '\0') {
+        break;
+      }
+
+      sscanf(message_from_child, "%d %d", &client_pid, &points);
+      // If user already in table, change the score
+      for (int i = 0; i < 20; i++) {
+        if (score_table[i].pid == client_pid) {
+          score_table[i].score += points;
+          break;
+        }
+      }
+      // If not, add it to the first empty place.
+      for (int i = 0; i < 20; i++) {
+        if (score_table[i].pid == 0) {
+          score_table[i].pid = client_pid;
+          score_table[i].score += points;
+          break;
+        }
+      }
+      puts("--------------SCOREBOARD--------------");
+      for (int i = 0; i < 20; i++) {
+        if (score_table[i].pid != 0) {
+          printf("PID: %d SCORE: %d\n", score_table[i].pid, score_table[i].score);
+        }
+      }
+      puts("--------------------------------------");
+      message_from_child[0] = '\0';
+    }
+    close(pipefd[0]);
+  }
+
+  close(pipefd[0]);
+  close(pipefd[1]);
   close(client_fd);
-  signal(SIGCHLD,SIG_IGN);
+  signal(SIGCHLD, SIG_IGN);
 }
 
 int main(int argc, char *argv[]) {

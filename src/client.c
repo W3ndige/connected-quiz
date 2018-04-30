@@ -17,6 +17,8 @@ const size_t NUM_OF_ANSWERS = 4;
 const size_t WINDOW_WIDTH = 640;
 const size_t WINDOW_HEIGHT = 480;
 
+// TODO(W3ndige): Appears to only be refershing during the mouse motion event. 
+
 void receiveAndVerify(int socket_fd, char *buffer) {
   int len = recv(socket_fd, buffer, MAX_RECEIVE_BUFFER, 0);
   buffer[len] = '\0';
@@ -48,7 +50,7 @@ bool getPrintAnswer(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surfa
 
 bool verifySendAnswers(int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_location) {
   char answer[2] = "\0";
-  for (int i = 0; i < NUM_OF_ANSWERS; i++) {
+  for (size_t i = 0; i < NUM_OF_ANSWERS; i++) {
     if (mouse_x > answer_location.x && mouse_x < (answer_location.x + answer_location.w) && mouse_y > (answer_location.y + 50 * i) && mouse_y < ((answer_location.y + 50 * i) + answer_location.h)) {
       answer[0] = 'A' + i;
       send(socket_fd, answer, strlen(answer), 0);
