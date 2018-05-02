@@ -10,12 +10,13 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-const int PORT = 1337;
-const int NUM_OF_ANSWERS = 4;
-const int MAX_RECEIVE_BUFFER = 500;
-const int MAX_ANSWER_LINE_SIZE = 100;
-const int MAX_QUESTION_LINE_SIZE = 300;
-const int MAX_CATEGORY_LINE_SIZE = 100;
+const size_t PORT = 1337;
+const size_t NUM_OF_ANSWERS = 4;
+const size_t MAX_RECEIVE_BUFFER = 500;
+const size_t MAX_ANSWER_LINE_SIZE = 100;
+const size_t MAX_QUESTION_LINE_SIZE = 300;
+const size_t MAX_CATEGORY_LINE_SIZE = 100;
+const size_t MAX_NUMBER_OF_CONNECTIONS = 20;
 const char *CATEGORIES_FILENAME = "server_assets/categories.txt";
 
 struct user_score {
@@ -186,7 +187,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
       }
 
       fgets(line, MAX_QUESTION_LINE_SIZE, questions_file);
-      for (int i = 0; i < NUM_OF_ANSWERS; i++) {
+      for (size_t i = 0; i < NUM_OF_ANSWERS; i++) {
         char answer[MAX_ANSWER_LINE_SIZE];
         fgets(answer, MAX_ANSWER_LINE_SIZE, questions_file);
         properlyTerminateString(answer);
@@ -205,91 +206,108 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
   return handleClientAnswers(client_fd, destination, correct_answer);
 }
 
-void handleClientConnection(int socket_fd, socklen_t socket_size,struct sockaddr_in destination, int num_of_categories) {
+void resetScoreTable(struct user_score score_table[]) {
+  for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
+    score_table[i].pid = 0;
+    score_table[i].score = 0;
+  }
+}
+
+void updateScoreTable(struct user_score score_table[], int client_pid, int points) {
+  // If user already in table, change the score.
+  int in_table = 0;
+  for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
+    if (score_table[i].pid == client_pid) {
+      score_table[i].score += points;
+      in_table = 1;
+      break;
+    }
+  }
+  // If not, add it to the first empty place.
+  if (!in_table) {
+    for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
+      if (score_table[i].pid == 0) {
+        score_table[i].pid = client_pid;
+        score_table[i].score += points;
+        break;
+      }
+    }
+  }
+  puts("--------------SCOREBOARD--------------");
+  for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
+    if (score_table[i].pid != 0) {
+      printf("PID: %d SCORE: %d\n", score_table[i].pid, score_table[i].score);
+    }
+  }
+  puts("--------------------------------------");
+}
+
+void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int pipefd[]) {
+
+  pid_t child_pid = getpid();
+  srand(time(0) + (int)child_pid);
+  int client_fd = accept(socket_fd, (struct sockaddr *)&destination, &socket_size);
+  printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), child_pid);
+  close(pipefd[0]); // Close the read end of pipe, child is only going to write.
+
+  while (1) {
+    int points = askRandomQuestion(client_fd, destination, num_of_categories);
+    if (points == -1) {
+      fprintf(stderr, "Error while asking question.\n");
+      break;
+    }
+    char message_to_parent[20];
+    snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
+    write(pipefd[1], message_to_parent, strlen(message_to_parent));
+  }
+  close(pipefd[1]); // Before function end close the write end of the pipe.
+  close(client_fd);
+}
+
+void handleParentProcess(struct user_score score_table[], int pipefd[]) {
+  close(pipefd[1]); // Close the write end of pipe, parent is only going to read.
+  char message_from_child[20];
+  while (1) {
+    int client_pid;
+    int points;
+    read(pipefd[0], message_from_child, 20);
+    if (message_from_child[0] == '\0') {
+      break;
+    }
+    sscanf(message_from_child, "%d %d", &client_pid, &points);
+    updateScoreTable(score_table, client_pid, points);
+    message_from_child[0] = '\0';
+  }
+
+  close(pipefd[0]);
+  signal(SIGCHLD, SIG_IGN);
+}
+
+void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories) {
   int pipefd[2];
 
-  int client_fd = accept(socket_fd, (struct sockaddr *)&destination, &socket_size);
+  // We're going to create a pipeline between parent and child processes.
   if (pipe(pipefd) == -1) {
     fprintf(stderr, "Pipe failed\n");
   }
 
-  pid_t pid = fork();
-  if (pid < 0) {
-    fprintf(stderr, "Error in process creation.\n" );
-    return;
-  }
+  struct user_score score_table[MAX_NUMBER_OF_CONNECTIONS];
+  resetScoreTable(score_table);
 
-  struct user_score score_table[20];
-  for (int i = 0; i < 20; i++) {
-    score_table[i].pid = 0;
-    score_table[i].score = 0;
-  }
-
-  if (pid == 0) { // Child
-    pid_t pid_num = getpid();
-    srand(time(0) + (int)pid_num);
-    printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), pid_num);
-    close(pipefd[0]);
-
-    while (1) {
-      int points = askRandomQuestion(client_fd, destination, num_of_categories);
-      if (points == -1) {
-        puts("An error occured.");
+  // Handle maximum number of processes connected simultaneously.
+  pid_t children[MAX_NUMBER_OF_CONNECTIONS];
+  for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
+    if ((children[i] = fork()) == 0) {
+      if (children[i] < 0) {
+        fprintf(stderr, "Error in process creation.\n");
         break;
       }
-      else {
-        char message_to_parent[20];
-        snprintf(message_to_parent, 20, "%d %d", (int)pid_num, points);
-        write(pipefd[1], message_to_parent, strlen(message_to_parent));
-      }
+      handleChildProcess(socket_fd, socket_size, destination, num_of_categories, pipefd);
     }
-    close(pipefd[1]);
   }
 
-  else { // Parent
-    int client_pid;
-    int points;
-    char message_from_child[20];
-    close(pipefd[1]);
-
-    while (1) {
-      read(pipefd[0], message_from_child, 20);
-      if (message_from_child[0] == '\0') {
-        break;
-      }
-
-      sscanf(message_from_child, "%d %d", &client_pid, &points);
-      // If user already in table, change the score
-      for (int i = 0; i < 20; i++) {
-        if (score_table[i].pid == client_pid) {
-          score_table[i].score += points;
-          break;
-        }
-      }
-      // If not, add it to the first empty place.
-      for (int i = 0; i < 20; i++) {
-        if (score_table[i].pid == 0) {
-          score_table[i].pid = client_pid;
-          score_table[i].score += points;
-          break;
-        }
-      }
-      puts("--------------SCOREBOARD--------------");
-      for (int i = 0; i < 20; i++) {
-        if (score_table[i].pid != 0) {
-          printf("PID: %d SCORE: %d\n", score_table[i].pid, score_table[i].score);
-        }
-      }
-      puts("--------------------------------------");
-      message_from_child[0] = '\0';
-    }
-    close(pipefd[0]);
-  }
-
-  close(pipefd[0]);
-  close(pipefd[1]);
-  close(client_fd);
-  signal(SIGCHLD, SIG_IGN);
+  // Parent is taking care of this part of the process.
+  handleParentProcess(score_table, pipefd);
 }
 
 int main(int argc, char *argv[]) {
@@ -321,5 +339,5 @@ int main(int argc, char *argv[]) {
   }
 
   close(socket_fd);
-  return 1;
+  return 0;
 }
