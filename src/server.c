@@ -24,6 +24,16 @@ struct user_score {
   int score;
 };
 
+/*
+ * Function: calculateNumberOfCategories
+ * ----------------------------
+ *   Returns the number of categories in categories file.
+ *   or -1 on error.
+ *
+ *   filename: filename of categories file.
+ *
+ */
+
 int calculateNumberOfCategories(const char *filename) {
   FILE *categories_file = fopen(filename, "r");
   if (!CATEGORIES_FILENAME) {
@@ -47,6 +57,16 @@ int calculateNumberOfCategories(const char *filename) {
   }
 }
 
+/*
+ * Function: calculateNumberOfQuestions
+ * ----------------------------
+ *   Returns the number of questions in question file,
+ *   or -1 on error.
+ *
+ *   filename: filename of questions file.
+ *
+ */
+
 int calculateNumberOfQuestions(char *filename) {
   FILE *questions_file = fopen(filename, "r");
   if (!questions_file) {
@@ -67,6 +87,15 @@ int calculateNumberOfQuestions(char *filename) {
   }
 }
 
+/*
+ * Function: properlyTerminateString
+ * ----------------------------
+ *   Replaces the newline character with end of string character.
+ *
+ *   string: pointer to a char array
+ *
+ */
+
 void properlyTerminateString(char *string) {
   for (size_t i = 0; i <  strlen(string); i++) {
     if (string[i] == '\n') {
@@ -74,6 +103,18 @@ void properlyTerminateString(char *string) {
     }
   }
 }
+
+/*
+ * Function: getRandomCategory
+ * ----------------------------
+ *   Chooses the random category and puts it's filename
+ *   into the category_source. Returns 0 on error and 1 on success.
+ *
+ *   category_source: pointer to which a choosen category will be saved.
+ *   size: size of the buffer that fget will get from the line.
+ *   num_of_categories: number of categories.
+ *
+ */
 
 int getRandomCategory(char *category_source, size_t size, size_t num_of_categories) {
   int rand_category = rand() % num_of_categories;
@@ -97,6 +138,18 @@ int getRandomCategory(char *category_source, size_t size, size_t num_of_categori
   return 1;
 }
 
+/*
+ * Function: receiveData
+ * ----------------------------
+ *   Receives data from the client and puts it in buffer. Returns
+ *   0 on failure and 1 on success.
+ *
+ *   client_fd: file descriptor of client that got accepted.
+ *   destination: structure that contains information about client.
+ *   buffer: pointer to buffer variable.
+ *
+ */
+
 int receiveData(int client_fd, struct sockaddr_in destination, char *buffer) {
   int len = recv(client_fd, buffer, MAX_RECEIVE_BUFFER,0);
   if (len == -1) {
@@ -113,6 +166,18 @@ int receiveData(int client_fd, struct sockaddr_in destination, char *buffer) {
   }
 }
 
+/*
+ * Function: sendAndValidate
+ * ----------------------------
+ *   Sends the data and waits for verification from the connected client.
+ *   Returns 0 on failure and 1 on success.
+ *
+ *   client_fd: file descriptor of client that got accepted.
+ *   destination: structure that contains information about client.
+ *   message: pointer to a message to be send.
+ *
+ */
+
 int sendAndValidate(int client_fd, struct sockaddr_in destination, char *message) {
   char confirmation_buffer[3];
   send(client_fd, message, strlen(message), 0);
@@ -128,6 +193,19 @@ int sendAndValidate(int client_fd, struct sockaddr_in destination, char *message
   }
   return 0;
 }
+
+/*
+ * Function: handleClientAnswers
+ * ----------------------------
+ *   Checks the answer that client sends and assign points.
+ *   Returns 0 when the answer is incorrect, 1 when it's correct,
+ *   and -1 on error.
+ *
+ *   client_fd: file descriptor of client that got accepted.
+ *   destination: structure that contains information about client.
+ *   correct_answer: pointer to correct answer.
+ *
+ */
 
 int handleClientAnswers(int client_fd, struct sockaddr_in destination, char *correct_answer) {
   char buffer[MAX_RECEIVE_BUFFER];
@@ -148,6 +226,20 @@ int handleClientAnswers(int client_fd, struct sockaddr_in destination, char *cor
   }
 }
 
+/*
+ * Function: askRandomQuestion
+ * ----------------------------
+ *   Gets the random question from the random category, sens it to the client
+ *   following with the sending of possible answers. Correct answer is being
+ *   saved in a buffer and compared with client answer.
+ *   Returns -1 on error, 0 if anwer is incorrect and 1 if correct.
+ *
+ *   client_fd: file descriptor of client that got accepted.
+ *   destination: structure that contains information about client.
+ *   num_of_categories: number of categories in categories file.
+ *
+ */
+
 int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_categories) {
   char category_source[50];
 
@@ -162,7 +254,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
 
   if (!questions_file) {
     perror("Could not open cateogory file");
-    return 0;
+    return -1;
   }
 
   int counted_line = 0;
@@ -206,12 +298,33 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
   return handleClientAnswers(client_fd, destination, correct_answer);
 }
 
+/*
+ * Function: resetScoreTable
+ * ----------------------------
+ *   Zeroes every element in score table.
+ *
+ *   score_table: array of user_score structures containing pid of user and score.
+ *
+ */
+
 void resetScoreTable(struct user_score score_table[]) {
   for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
     score_table[i].pid = 0;
     score_table[i].score = 0;
   }
 }
+
+/*
+ * Function: resetScoreTable
+ * ----------------------------
+ *   Places the user score in the proper place of the score_table.
+ *   After the process, prints the current scoreboard.
+ *
+ *   score_table: array of user_score structures containing pid of user and score.
+ *   client_pid: PID of the client that score is about to be placed.
+ *   points: number of points to be put.
+ *
+ */
 
 void updateScoreTable(struct user_score score_table[], int client_pid, int points) {
   // If user already in table, change the score.
@@ -241,6 +354,21 @@ void updateScoreTable(struct user_score score_table[], int client_pid, int point
   }
   puts("--------------------------------------");
 }
+
+/*
+ * Function: handleChildProcess
+ * ----------------------------
+ *   Accept a new connection, ask question using askRandomQuestion,
+ *   points are then sent together with PID to the parent process using
+ *   pipe.
+ *
+ *   socket_fd: file descriptor for the open socket.
+ *   socket_size: size of the socket.
+ *   destination: structure that contains information about client.
+ *   num_of_categories: number of categories.
+ *   pipefd: array containing pipe file descriptors.
+ *
+ */
 
 void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int pipefd[]) {
 

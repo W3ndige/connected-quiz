@@ -17,7 +17,7 @@ const size_t NUM_OF_ANSWERS = 4;
 const size_t WINDOW_WIDTH = 640;
 const size_t WINDOW_HEIGHT = 480;
 
-// TODO(W3ndige): Appears to only be refershing during the mouse motion event. 
+// TODO(W3ndige): Appears to only be refershing during the mouse motion event.
 
 void receiveAndVerify(int socket_fd, char *buffer) {
   int len = recv(socket_fd, buffer, MAX_RECEIVE_BUFFER, 0);
