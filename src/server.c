@@ -36,7 +36,7 @@ struct user_score {
 
 int calculateNumberOfCategories(const char *filename) {
   FILE *categories_file = fopen(filename, "r");
-  if (!CATEGORIES_FILENAME) {
+  if (!categories_file) {
     perror("Could not open category file");
     return -1;
   }
@@ -71,6 +71,7 @@ int calculateNumberOfQuestions(char *filename) {
   FILE *questions_file = fopen(filename, "r");
   if (!questions_file) {
     perror("Could not open category file");
+    puts(filename);
     return -1;
   }
   else {
@@ -104,11 +105,36 @@ void properlyTerminateString(char *string) {
   }
 }
 
+int calculateTotalNumberOfQuestions() {
+  int total_number_of_questions = 0;
+  FILE *categories_file = fopen(CATEGORIES_FILENAME, "r");
+  if (!categories_file) {
+    fprintf(stderr, "Could not open %s: %s\n", CATEGORIES_FILENAME, strerror(errno));
+    return -1;
+  }
+  char category_source[MAX_CATEGORY_LINE_SIZE];
+  fgets(category_source, sizeof(category_source) / sizeof(category_source[0]), categories_file);
+  while (!feof(categories_file) ) {
+    fgets(category_source, sizeof(category_source) / sizeof(category_source[0]), categories_file);
+    if (strncmp(category_source,"END_OF_LIST",11) == 0) {
+      break;
+    }
+    properlyTerminateString(category_source);
+    int number_of_questions = calculateNumberOfQuestions(category_source);
+    if (number_of_questions > 0) {
+      total_number_of_questions += number_of_questions;
+    }
+  }
+  fclose(categories_file);
+  return total_number_of_questions;
+}
+
 /*
  * Function: getRandomCategory
  * ----------------------------
  *   Chooses the random category and puts it's filename
- *   into the category_source. Returns 0 on error and 1 on success.
+ *   into the category_source. Returns -1 on error and
+ *   line of choosen category.
  *
  *   category_source: pointer to which a choosen category will be saved.
  *   size: size of the buffer that fget will get from the line.
@@ -116,28 +142,26 @@ void properlyTerminateString(char *string) {
  *
  */
 
-int getRandomCategory(char *category_source, size_t size, size_t num_of_categories) {
+ int getRandomCategory(char *category_source, size_t size, size_t num_of_categories) {
 
-  int rand_category = rand() % num_of_categories;
-  FILE *categories_file = fopen(CATEGORIES_FILENAME, "r");
-  if (!categories_file) {
-    fprintf(stderr, "Could not open %s: %s\n", CATEGORIES_FILENAME, strerror(errno));
-    return 0;
-  }
-  else {
-    int counted_line = 0;
-    while (!feof(categories_file)) {
-      fgets(category_source, size, categories_file);
-      if (counted_line == rand_category) {
-        fgets(category_source, size, categories_file);
-        break;
-      }
+   int rand_category = rand() % num_of_categories;
+   FILE *categories_file = fopen(CATEGORIES_FILENAME, "r");
+   if (!categories_file) {
+     fprintf(stderr, "Could not open %s: %s\n", CATEGORIES_FILENAME, strerror(errno));
+     return -1;
+   }
+   int counted_line = 0;
+   while (!feof(categories_file)) {
+     fgets(category_source, size, categories_file);
+     if (counted_line == rand_category) {
+       fgets(category_source, size, categories_file);
+       break;
+     }
       counted_line++;
     }
-  }
-  fclose(categories_file);
-  return 1;
-}
+   fclose(categories_file);
+   return counted_line;
+ }
 
 /*
  * Function: receiveData
@@ -245,8 +269,9 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
   char category_source[50];
 
   // Firstly check if getRandomCategory() function will run correctly
-  if (!getRandomCategory(category_source, sizeof(category_source) / sizeof(category_source[0]), num_of_categories)) {
-    return 0;
+  int category_number = getRandomCategory(category_source, sizeof(category_source) / sizeof(category_source[0]), num_of_categories);
+  if (category_number == -1) {
+    return -1;
   }
 
   properlyTerminateString(category_source);
@@ -254,7 +279,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
   FILE *questions_file = fopen(category_source, "r");
 
   if (!questions_file) {
-    perror("Could not open cateogory file");
+    perror("Could not open category file");
     return -1;
   }
 
@@ -371,7 +396,7 @@ void updateScoreTable(struct user_score score_table[], int client_pid, int point
  *
  */
 
-void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int pipefd[]) {
+void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int pipefd[], int total_number_of_questions) {
 
   pid_t child_pid = getpid();
   srand(time(0) + (int)child_pid);
@@ -379,15 +404,20 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
   printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), child_pid);
   close(pipefd[0]); // Close the read end of pipe, child is only going to write.
 
+  int possible_questions[total_number_of_questions];
+  memset(possible_questions, 0, total_number_of_questions * sizeof(int));
+
   while (1) {
     int points = askRandomQuestion(client_fd, destination, num_of_categories);
     if (points == -1) {
       fprintf(stderr, "Error while asking question.\n");
       break;
     }
-    char message_to_parent[20];
-    snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
-    write(pipefd[1], message_to_parent, strlen(message_to_parent));
+    else if (points >= 0) {
+      char message_to_parent[20];
+      snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
+      write(pipefd[1], message_to_parent, strlen(message_to_parent));
+    }
   }
   close(pipefd[1]); // Before function end close the write end of the pipe.
   close(client_fd);
@@ -437,7 +467,7 @@ void handleParentProcess(struct user_score score_table[], int pipefd[]) {
  *
  */
 
-void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories) {
+void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int total_number_of_questions) {
   int pipefd[2];
 
   // We're going to create a pipeline between parent and child processes.
@@ -456,7 +486,7 @@ void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockadd
         fprintf(stderr, "Error in process creation.\n");
         break;
       }
-      handleChildProcess(socket_fd, socket_size, destination, num_of_categories, pipefd);
+      handleChildProcess(socket_fd, socket_size, destination, num_of_categories, pipefd, total_number_of_questions);
     }
   }
 
@@ -487,9 +517,11 @@ int main(int argc, char *argv[]) {
   listen(socket_fd, 1);
 
   int num_of_categories = calculateNumberOfCategories(CATEGORIES_FILENAME);
+  int total_number_of_questions = calculateTotalNumberOfQuestions(CATEGORIES_FILENAME);
+  printf("%d questions %d categories\n", total_number_of_questions, num_of_categories);
 
   while (1) {
-    handleClientConnection(socket_fd, socket_size, destination, num_of_categories);
+    handleClientConnection(socket_fd, socket_size, destination, num_of_categories, total_number_of_questions);
   }
 
   close(socket_fd);
