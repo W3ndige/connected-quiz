@@ -117,6 +117,7 @@ void properlyTerminateString(char *string) {
  */
 
 int getRandomCategory(char *category_source, size_t size, size_t num_of_categories) {
+
   int rand_category = rand() % num_of_categories;
   FILE *categories_file = fopen(CATEGORIES_FILENAME, "r");
   if (!categories_file) {
@@ -392,6 +393,17 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
   close(client_fd);
 }
 
+/*
+ * Function: handleParentProcess
+ * ----------------------------
+ *   Reads message from child sent over the pipe,
+ *   updates the score table according to it.
+ *
+ *   score_table: array of user_score structures containing pid of user and score.
+ *   pipefd: array containing pipe file descriptors.
+ *
+ */
+
 void handleParentProcess(struct user_score score_table[], int pipefd[]) {
   close(pipefd[1]); // Close the write end of pipe, parent is only going to read.
   char message_from_child[20];
@@ -410,6 +422,20 @@ void handleParentProcess(struct user_score score_table[], int pipefd[]) {
   close(pipefd[0]);
   signal(SIGCHLD, SIG_IGN);
 }
+
+/*
+ * Function: handleClientConnection
+ * ----------------------------
+ *   Create the pipe, and forks according to global variable
+ *   MAX_NUMBER_OF_CONNECTIONS. Then handleChildProcess and
+ *   handleParentProcess are being called.
+ *
+ *   socket_fd: file descriptor for the open socket.
+ *   socket_size: size of the socket.
+ *   destination: structure that contains information about client.
+ *   num_of_categories: number of categories.
+ *
+ */
 
 void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories) {
   int pipefd[2];

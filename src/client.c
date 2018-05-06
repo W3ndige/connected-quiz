@@ -19,11 +19,37 @@ const size_t WINDOW_HEIGHT = 480;
 
 // TODO(W3ndige): Appears to only be refershing during the mouse motion event.
 
+/*
+ * Function: receiveAndVerify
+ * ----------------------------
+ *   Receive the data from the client and resend confirmation `OK`.
+ *
+ *   socket_fd: file descriptor for the open socket.
+ *   buffer: pointer to buffer variable.
+ *
+ */
+
 void receiveAndVerify(int socket_fd, char *buffer) {
   int len = recv(socket_fd, buffer, MAX_RECEIVE_BUFFER, 0);
   buffer[len] = '\0';
   send(socket_fd, "OK", strlen("OK"), 0);
 }
+
+/*
+ * Function: getPrintQuestion
+ * ----------------------------
+ *   Receive question together with answers and update the SDL screen.
+ *
+ *   screen: pointer to SDL surface of the screen.
+ *   font: pointer to TTF font used in rendering.
+ *   text_surface: pointer to SDL surface of the text area.
+ *   socket_fd: file descriptor for the open socket.
+ *   text_location: coordinates of the text location in SDL_Rect.
+ *   answer_location: coordinates of the answer location in SDL_Rect.
+ *   foreground_color: foreground color used in rendering.
+ *   background_color: background color used in rendering.
+ *
+ */
 
 bool getPrintQuestion(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surface, int socket_fd, SDL_Rect text_location, SDL_Rect answer_location, SDL_Color foreground_color, SDL_Color background_color) {
   char buffer[MAX_RECEIVE_BUFFER];
@@ -40,6 +66,21 @@ bool getPrintQuestion(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_sur
   return false;
 }
 
+/*
+ * Function: getPrintAnswer
+ * ----------------------------
+ *   Print message whether the answer is correct or not.
+ *
+ *   screen: pointer to SDL surface of the screen.
+ *   font: pointer to TTF font used in rendering.
+ *   text_surface: pointer to SDL surface of the text area.
+ *   socket_fd: file descriptor for the open socket.
+ *   score_location: coordinates of the score location in SDL_Rect.
+ *   foreground_color: foreground color used in rendering.
+ *   background_color: background color used in rendering.
+ *
+ */
+
 bool getPrintAnswer(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surface, int socket_fd, SDL_Rect score_location, SDL_Color foreground_color, SDL_Color background_color) {
   char buffer[MAX_RECEIVE_BUFFER];
   receiveAndVerify(socket_fd, buffer);
@@ -47,6 +88,18 @@ bool getPrintAnswer(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surfa
   SDL_BlitSurface(text_surface, NULL, screen, &score_location);
   return false;
 }
+
+/*
+ * Function: verifySendAnswers
+ * ----------------------------
+ *  Send the answer that user submitted.
+ *
+ *   socket_fd: file descriptor for the open socket.
+ *   mouse_x: position of mouse in X axis.
+ *   mouse_y: position of mouse in Y axis.
+ *   answer_location: coordinates of the answers location in SDL_Rect.
+ *
+ */
 
 bool verifySendAnswers(int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_location) {
   char answer[2] = "\0";
