@@ -130,7 +130,7 @@ int calculateTotalNumberOfQuestions() {
 }
 
 /*
- * Function: getRandomCategory
+ * Function: getCategory
  * ----------------------------
  *   Chooses the random category and puts it's filename
  *   into the category_source. Returns -1 on error and
@@ -142,9 +142,12 @@ int calculateTotalNumberOfQuestions() {
  *
  */
 
- int getRandomCategory(char *category_source, size_t size, size_t num_of_categories) {
+ int getCategory(char *category_source, size_t size, size_t num_of_categories, int category_number) {
 
-   int rand_category = rand() % num_of_categories;
+   if (category_number < 0) {
+     category_number = rand() % num_of_categories;
+   }
+
    FILE *categories_file = fopen(CATEGORIES_FILENAME, "r");
    if (!categories_file) {
      fprintf(stderr, "Could not open %s: %s\n", CATEGORIES_FILENAME, strerror(errno));
@@ -153,7 +156,7 @@ int calculateTotalNumberOfQuestions() {
    int counted_line = 0;
    while (!feof(categories_file)) {
      fgets(category_source, size, categories_file);
-     if (counted_line == rand_category) {
+     if (counted_line == category_number) {
        fgets(category_source, size, categories_file);
        break;
      }
@@ -212,9 +215,6 @@ int sendAndValidate(int client_fd, struct sockaddr_in destination, char *message
     if (!strncmp(confirmation_buffer, "OK", 2)) {
       return 1;
     }
-    else {
-      return 0;
-    }
   }
   return 0;
 }
@@ -265,11 +265,18 @@ int handleClientAnswers(int client_fd, struct sockaddr_in destination, char *cor
  *
  */
 
-int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_categories) {
+int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_categories, int mode) {
   char category_source[50];
+  int category_number;
 
-  // Firstly check if getRandomCategory() function will run correctly
-  int category_number = getRandomCategory(category_source, sizeof(category_source) / sizeof(category_source[0]), num_of_categories);
+  if (mode == -1) {
+    category_number = getCategory(category_source, sizeof(category_source) / sizeof(category_source[0]), num_of_categories, -1);
+  }
+  else {
+    category_number = getCategory(category_source, sizeof(category_source) / sizeof(category_source[0]), num_of_categories, mode);
+  }
+
+  // Firstly check if getCategory() function will run correctly
   if (category_number == -1) {
     return -1;
   }
@@ -404,21 +411,36 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
   printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), child_pid);
   close(pipefd[0]); // Close the read end of pipe, child is only going to write.
 
+  int mode;
+  char game_mode[2];
   int possible_questions[total_number_of_questions];
   memset(possible_questions, 0, total_number_of_questions * sizeof(int));
 
+  if (receiveData(client_fd, destination, game_mode)) {
+    printf("Game mode: %s\n", game_mode);
+    if (!strncmp(game_mode, "1", 1)) {
+      mode = -1;
+    }
+    else {
+      mode = rand() % num_of_categories;
+    }
+  }
+
   while (1) {
-    int points = askRandomQuestion(client_fd, destination, num_of_categories);
+    int points = askRandomQuestion(client_fd, destination, num_of_categories, mode);
+    char message_to_parent[20];
     if (points == -1) {
+      snprintf(message_to_parent, 20, "%d %d", 0, 0); //
+      write(pipefd[1], message_to_parent, strlen(message_to_parent));
       fprintf(stderr, "Error while asking question.\n");
       break;
     }
     else if (points >= 0) {
-      char message_to_parent[20];
       snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
       write(pipefd[1], message_to_parent, strlen(message_to_parent));
     }
   }
+
   close(pipefd[1]); // Before function end close the write end of the pipe.
   close(client_fd);
 }
@@ -445,8 +467,10 @@ void handleParentProcess(struct user_score score_table[], int pipefd[]) {
       break;
     }
     sscanf(message_from_child, "%d %d", &client_pid, &points);
-    updateScoreTable(score_table, client_pid, points);
-    message_from_child[0] = '\0';
+    if (client_pid != 0 && points != 0) {
+      updateScoreTable(score_table, client_pid, points);
+      message_from_child[0] = '\0';
+    }
   }
 
   close(pipefd[0]);
