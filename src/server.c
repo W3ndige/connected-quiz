@@ -542,7 +542,7 @@ int main(int argc, char *argv[]) {
 
   int num_of_categories = calculateNumberOfCategories(CATEGORIES_FILENAME);
   int total_number_of_questions = calculateTotalNumberOfQuestions(CATEGORIES_FILENAME);
-  printf("%d questions %d categories\n", total_number_of_questions, num_of_categories);
+  printf("Total: %d questions in %d categories\n", total_number_of_questions, num_of_categories);
 
   while (1) {
     handleClientConnection(socket_fd, socket_size, destination, num_of_categories, total_number_of_questions);

@@ -17,6 +17,8 @@ const int NUM_OF_ANSWERS = 4;
 const size_t WINDOW_WIDTH = 640;
 const size_t WINDOW_HEIGHT = 480;
 
+SDL_Rect background_location = {0, 0, 640, 480};
+
 /*
  * Function: receiveAndVerify
  * ----------------------------
@@ -79,9 +81,9 @@ int sendAndValidate(int client_fd, char *message) {
  *
  */
 
-bool getPrintQuestion(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surface, int socket_fd, SDL_Rect text_location, SDL_Rect answer_location, SDL_Color foreground_color, SDL_Color background_color) {
+bool getPrintQuestion(SDL_Surface *screen, SDL_Surface *background, TTF_Font *font, SDL_Surface *text_surface, int socket_fd, SDL_Rect text_location, SDL_Rect answer_location, SDL_Color foreground_color, SDL_Color background_color) {
   char buffer[MAX_RECEIVE_BUFFER];
-  SDL_FillRect(screen, NULL, 0x000000);
+  SDL_BlitSurface(background, NULL, screen, &background_location);
   receiveAndVerify(socket_fd, buffer);
   text_surface = TTF_RenderText_Shaded(font, buffer, foreground_color, background_color);
   SDL_BlitSurface(text_surface, NULL, screen, &text_location);
@@ -94,13 +96,16 @@ bool getPrintQuestion(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_sur
   return false;
 }
 
-bool printGameMode(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surface, SDL_Rect text_location, SDL_Color foreground_color, SDL_Color background_color) {
+bool printGameMode(SDL_Surface *screen, SDL_Surface *background, TTF_Font *font, TTF_Font *header_font, SDL_Surface *text_surface, SDL_Rect category_location, SDL_Color foreground_color, SDL_Color background_color) {
+  SDL_Rect welcome_message = { WINDOW_WIDTH / 4, WINDOW_HEIGHT / 5, WINDOW_WIDTH / 4 + 100, WINDOW_HEIGHT / 5 + 50};
   const char *game_options[] = {"Give me all you got!", "Only one category please!"};
-  SDL_FillRect(screen, NULL, 0x000000);
+  SDL_BlitSurface(background, NULL, screen, &background_location);
+  text_surface = TTF_RenderText_Shaded(header_font, "Welcome to Connected Quiz!", foreground_color, background_color);
+  SDL_BlitSurface(text_surface, NULL, screen, &welcome_message);
   for (size_t i = 0; i < 2; i++) {
     text_surface = TTF_RenderText_Shaded(font, game_options[i], foreground_color, background_color);
-    SDL_BlitSurface(text_surface, NULL, screen, &text_location);
-    text_location.y += 50;
+    SDL_BlitSurface(text_surface, NULL, screen, &category_location);
+    category_location.y += 50;
   }
   return false;
 }
@@ -208,7 +213,18 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  TTF_Font *font = TTF_OpenFont("client_assets/arial.ttf", 16);
+  SDL_Surface *image = SDL_LoadBMP("client_assets/background.bmp");
+
+  if (image == NULL) {
+    printf("Unable to load bitmap! SDL_Error: %s\n", SDL_GetError());
+    SDL_Quit();
+    return 1;
+  }
+
+  SDL_Surface *background = SDL_DisplayFormat(image);
+  SDL_FreeSurface(image);
+
+  TTF_Font *font = TTF_OpenFont("client_assets/arial.ttf", 19);
 
   if (font == NULL) {
     printf("TTF Font could not initialize! TTF_Error: %s\n", TTF_GetError());
@@ -216,12 +232,23 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  TTF_Font *header_font = TTF_OpenFont("client_assets/arial.ttf", 21);
+
+  if (header_font == NULL) {
+    printf("TTF Font could not initialize! TTF_Error: %s\n", TTF_GetError());
+    SDL_Quit();
+    return 1;
+  }
+
+  SDL_WM_SetCaption("Connected Quiz", 0);
+
   SDL_Surface *text_surface = NULL;
-  SDL_Color foreground_color = { 255, 255, 255, 255 };
-  SDL_Color background_color = { 0, 0, 255, 255 };
-  SDL_Rect text_location = { 0, 0, 200, 50};
-  SDL_Rect answer_location = {0, 50, 200, 50};
-  SDL_Rect score_location = {0, 4 * 50 + 50, 200, 50};
+  SDL_Color foreground_color = {0, 0, 0, 0};
+  SDL_Color background_color = {240, 240, 240, 94};
+  SDL_Rect text_location = {WINDOW_WIDTH / 5, WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5 + 100, WINDOW_HEIGHT / 5 + 50};
+  SDL_Rect category_location = {WINDOW_WIDTH / 5, WINDOW_HEIGHT / 3, WINDOW_WIDTH / 5 + 100, WINDOW_HEIGHT / 3 + 50};
+  SDL_Rect answer_location = {WINDOW_WIDTH / 5, WINDOW_HEIGHT / 5 + 50, WINDOW_WIDTH / 5 + 100, WINDOW_HEIGHT / 5 + 100};
+  SDL_Rect score_location = {WINDOW_WIDTH / 4, WINDOW_HEIGHT / 3 + 4 * 50, WINDOW_WIDTH / 4 + 100, WINDOW_HEIGHT / 3 + 5 * 50};
   SDL_Event event;
   bool running = true;
   bool game_mode = true;
@@ -233,10 +260,10 @@ int main(int argc, char *argv[]) {
 
   while (running) {
     if (game_mode) {
-      printGameMode(screen, font, text_surface, text_location, foreground_color, background_color);
+      printGameMode(screen, background, font, header_font, text_surface, category_location, foreground_color, background_color);
     }
     if (get_question) {
-      get_question = getPrintQuestion(screen, font, text_surface, socket_fd, text_location, answer_location, foreground_color, background_color);
+      get_question = getPrintQuestion(screen, background, font, text_surface, socket_fd, text_location, answer_location, foreground_color, background_color);
     }
     if (get_answer) {
       get_answer = getPrintAnswer(screen, font, text_surface, socket_fd, score_location, foreground_color, background_color);
@@ -255,7 +282,7 @@ int main(int argc, char *argv[]) {
           switch (event.button.button) {
             case SDL_BUTTON_LEFT:
               if (game_mode) {
-                game_mode = chooseGameMode(socket_fd, mouse_x, mouse_y, text_location);
+                game_mode = chooseGameMode(socket_fd, mouse_x, mouse_y, category_location);
                 if (!game_mode) {
                   get_question = true;
                   game_mode = false;
@@ -270,6 +297,7 @@ int main(int argc, char *argv[]) {
     SDL_Flip(screen);
   }
 
+  SDL_FreeSurface(background);
   SDL_FreeSurface(text_surface);
   TTF_CloseFont(font);
   TTF_Quit();
