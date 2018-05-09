@@ -269,7 +269,7 @@ int askRandomQuestion(int client_fd, struct sockaddr_in destination, int num_of_
   char category_source[50];
   int category_number;
 
-  if (mode == -1) {
+  if (mode < 0) {
     category_number = getCategory(category_source, sizeof(category_source) / sizeof(category_source[0]), num_of_categories, -1);
   }
   else {
@@ -421,8 +421,12 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
     if (!strncmp(game_mode, "1", 1)) {
       mode = -1;
     }
-    else {
+    else if (!strncmp(game_mode, "2", 1)) {
       mode = rand() % num_of_categories;
+    }
+    else {
+      mode = -3;
+
     }
   }
 
@@ -435,9 +439,21 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
       fprintf(stderr, "Error while asking question.\n");
       break;
     }
-    else if (points >= 0) {
-      snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
-      write(pipefd[1], message_to_parent, strlen(message_to_parent));
+    if (mode == -3) {
+      if (points == 1) {
+        snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
+        write(pipefd[1], message_to_parent, strlen(message_to_parent));
+      }
+      else if (points == 0) {
+        printf("Player %d failed in hotshot game mode!\n", child_pid);
+        break;
+      }
+    }
+    else {
+      if (points >= 0) {
+        snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
+        write(pipefd[1], message_to_parent, strlen(message_to_parent));
+      }
     }
   }
 
@@ -460,8 +476,7 @@ void handleParentProcess(struct user_score score_table[], int pipefd[]) {
   close(pipefd[1]); // Close the write end of pipe, parent is only going to read.
   char message_from_child[20];
   while (1) {
-    int client_pid;
-    int points;
+    int client_pid, points;
     read(pipefd[0], message_from_child, 20);
     if (message_from_child[0] == '\0') {
       break;

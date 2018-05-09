@@ -54,4 +54,12 @@ Hans Lippershey
 William Herschel
 Galileo
 C
+BEGIN_OF_QUESTION
+Every ... years Halley comet is visible from Earth.
+END_OF_QUESTION
+74-79
+100-105
+65-70
+80-100
+A
 END_OF_LIST

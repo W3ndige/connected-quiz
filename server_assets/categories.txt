@@ -2,4 +2,5 @@ START_OF_LIST
 server_assets/questions/astronomy.txt
 server_assets/questions/medicine.txt
 server_assets/questions/computer_science.txt
+server_assets/questions/games.txt
 END_OF_LIST

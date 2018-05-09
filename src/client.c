@@ -14,10 +14,11 @@
 const int PORT = 1337;
 const int MAX_RECEIVE_BUFFER = 500;
 const int NUM_OF_ANSWERS = 4;
+const int NUM_OF_MODES = 3;
 const size_t WINDOW_WIDTH = 640;
 const size_t WINDOW_HEIGHT = 480;
 
-SDL_Rect background_location = {0, 0, 640, 480};
+SDL_Rect background_location = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
 
 /*
  * Function: receiveAndVerify
@@ -96,16 +97,16 @@ bool getPrintQuestion(SDL_Surface *screen, SDL_Surface *background, TTF_Font *fo
   return false;
 }
 
-bool printGameMode(SDL_Surface *screen, SDL_Surface *background, TTF_Font *font, TTF_Font *header_font, SDL_Surface *text_surface, SDL_Rect category_location, SDL_Color foreground_color, SDL_Color background_color) {
-  SDL_Rect welcome_message = { WINDOW_WIDTH / 4, WINDOW_HEIGHT / 5, WINDOW_WIDTH / 4 + 100, WINDOW_HEIGHT / 5 + 50};
-  const char *game_options[] = {"Give me all you got!", "Only one category please!"};
+bool printGameMode(SDL_Surface *screen, SDL_Surface *background, TTF_Font *font, TTF_Font *header_font, SDL_Surface *text_surface, SDL_Rect mode_location, SDL_Color foreground_color, SDL_Color background_color) {
+  SDL_Rect welcome_message = {128, 100, 228, 150};
+  const char *game_options[] = {"Give me all you got!", "Only one category please!", "Hotshot!"};
   SDL_BlitSurface(background, NULL, screen, &background_location);
   text_surface = TTF_RenderText_Shaded(header_font, "Welcome to Connected Quiz!", foreground_color, background_color);
   SDL_BlitSurface(text_surface, NULL, screen, &welcome_message);
-  for (size_t i = 0; i < 2; i++) {
+  for (int i = 0; i < NUM_OF_MODES; i++) {
     text_surface = TTF_RenderText_Shaded(font, game_options[i], foreground_color, background_color);
-    SDL_BlitSurface(text_surface, NULL, screen, &category_location);
-    category_location.y += 50;
+    SDL_BlitSurface(text_surface, NULL, screen, &mode_location);
+    mode_location.y += 50;
   }
   return false;
 }
@@ -164,11 +165,11 @@ bool verifySendAnswers(int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_
 
 bool chooseGameMode(int socket_fd, int mouse_x, int mouse_y, SDL_Rect text_location) {
   char choosen_mode[2] = "\0";
-  for (int i = 0; i < 2; i++) {
+  for (int i = 0; i < NUM_OF_MODES; i++) {
     if (mouse_x > text_location.x &&
-      mouse_x < (text_location.x + text_location.w) &&
-      mouse_y > (text_location.y + 50 * i) &&
-      mouse_y < ((text_location.y + 50 * i) + text_location.h))
+        mouse_x < (text_location.x + text_location.w) &&
+        mouse_y > (text_location.y + 50 * i) &&
+        mouse_y < ((text_location.y + 50 * i) + text_location.h))
     {
       choosen_mode[0] = '1' + i;
       send(socket_fd, choosen_mode, strlen(choosen_mode), 0);
@@ -245,22 +246,23 @@ int main(int argc, char *argv[]) {
   SDL_Surface *text_surface = NULL;
   SDL_Color foreground_color = {0, 0, 0, 0};
   SDL_Color background_color = {240, 240, 240, 94};
-  SDL_Rect text_location = {WINDOW_WIDTH / 5, WINDOW_HEIGHT / 5, WINDOW_WIDTH / 5 + 100, WINDOW_HEIGHT / 5 + 50};
-  SDL_Rect category_location = {WINDOW_WIDTH / 5, WINDOW_HEIGHT / 3, WINDOW_WIDTH / 5 + 100, WINDOW_HEIGHT / 3 + 50};
-  SDL_Rect answer_location = {WINDOW_WIDTH / 5, WINDOW_HEIGHT / 5 + 50, WINDOW_WIDTH / 5 + 100, WINDOW_HEIGHT / 5 + 100};
-  SDL_Rect score_location = {WINDOW_WIDTH / 4, WINDOW_HEIGHT / 3 + 4 * 50, WINDOW_WIDTH / 4 + 100, WINDOW_HEIGHT / 3 + 5 * 50};
+  SDL_Rect text_location = {108, 150, 200, 50};
+  SDL_Rect mode_location = {108, 150, 200, 50};
+  SDL_Rect answer_location = {108, 200, 200, 50};
+  SDL_Rect score_location = {168, 150 + 4 * 50 + 50, 200, 50};
   SDL_Event event;
   bool running = true;
   bool game_mode = true;
   bool get_question = false;
   bool get_answer = false;
+  bool sleep = false;
   int mouse_x = 0;
   int mouse_y = 0;
 
 
   while (running) {
     if (game_mode) {
-      printGameMode(screen, background, font, header_font, text_surface, category_location, foreground_color, background_color);
+      printGameMode(screen, background, font, header_font, text_surface, mode_location, foreground_color, background_color);
     }
     if (get_question) {
       get_question = getPrintQuestion(screen, background, font, text_surface, socket_fd, text_location, answer_location, foreground_color, background_color);
@@ -268,6 +270,7 @@ int main(int argc, char *argv[]) {
     if (get_answer) {
       get_answer = getPrintAnswer(screen, font, text_surface, socket_fd, score_location, foreground_color, background_color);
       get_question = true;
+      sleep = true;
     }
     if (SDL_PollEvent(&event)) {
       switch (event.type) {
@@ -282,7 +285,7 @@ int main(int argc, char *argv[]) {
           switch (event.button.button) {
             case SDL_BUTTON_LEFT:
               if (game_mode) {
-                game_mode = chooseGameMode(socket_fd, mouse_x, mouse_y, category_location);
+                game_mode = chooseGameMode(socket_fd, mouse_x, mouse_y, mode_location);
                 if (!game_mode) {
                   get_question = true;
                   game_mode = false;
@@ -293,6 +296,11 @@ int main(int argc, char *argv[]) {
               }
           }
       }
+    }
+    if (sleep) {
+      SDL_Flip(screen);
+      SDL_Delay(1000);
+      sleep = false;
     }
     SDL_Flip(screen);
   }
