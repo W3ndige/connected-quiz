@@ -18,7 +18,7 @@ const int NUM_OF_MODES = 3;
 const size_t WINDOW_WIDTH = 640;
 const size_t WINDOW_HEIGHT = 480;
 
-SDL_Rect background_location = {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+SDL_Rect background_location = {0, 0, 640, 480};
 
 /*
  * Function: receiveAndVerify
@@ -53,17 +53,9 @@ int receiveAndVerify(int client_fd, char *buffer) {
  *
  */
 
-int sendAndValidate(int client_fd, char *message) {
-  char confirmation_buffer[3];
+void sendData(int client_fd, char *message) {
   send(client_fd, message, strlen(message), 0);
   printf("Sending data: %s\nWaiting for confirmation...\n", message);
-  if (receiveAndVerify(client_fd, confirmation_buffer)) {
-    printf("Got confirmation: %s\n", confirmation_buffer);
-    if (!strncmp(confirmation_buffer, "OK", 2)) {
-      return 1;
-    }
-  }
-  return 0;
 }
 
 /*
@@ -179,7 +171,7 @@ bool chooseGameMode(int socket_fd, int mouse_x, int mouse_y, SDL_Rect text_locat
   return true;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused))) {
 
   struct sockaddr_in destination;
   int socket_fd = socket(AF_INET, SOCK_STREAM, 0);

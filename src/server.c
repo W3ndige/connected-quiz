@@ -388,6 +388,22 @@ void updateScoreTable(struct user_score score_table[], int client_pid, int point
   puts("--------------------------------------");
 }
 
+int sendToProcessAndVerify(int *pipefd_to_child, int *pipefd_to_parent, char *message) {
+  char verification[2];
+  write(pipefd_to_parent[1], message, strlen(message));
+  read(pipefd_to_child[0], verification, 2);
+  if (strncmp(verification, "OK", 2)) {
+    fprintf(stderr, "Error in interprocess verification.\n");
+    return 0;
+  }
+  return 1;
+}
+
+void readFromProcessAndVerify(int *pipefd_to_child, int *pipefd_to_parent, char *message, int message_size) {
+  read(pipefd_to_parent[0], message, message_size);
+  write(pipefd_to_child[1], "OK", strlen("OK"));
+}
+
 /*
  * Function: handleChildProcess
  * ----------------------------
@@ -403,16 +419,17 @@ void updateScoreTable(struct user_score score_table[], int client_pid, int point
  *
  */
 
-void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int pipefd[], int total_number_of_questions) {
-
+void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, int total_number_of_questions) {
+  close(pipefd_to_parent[0]); // Close the read end of pipe, child is only going to write.
+  close(pipefd_to_child[1]);
   pid_t child_pid = getpid();
   srand(time(0) + (int)child_pid);
   int client_fd = accept(socket_fd, (struct sockaddr *)&destination, &socket_size);
   printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), child_pid);
-  close(pipefd[0]); // Close the read end of pipe, child is only going to write.
 
   int mode;
   char game_mode[2];
+  char message_to_parent[20];
   int possible_questions[total_number_of_questions];
   memset(possible_questions, 0, total_number_of_questions * sizeof(int));
 
@@ -426,23 +443,28 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
     }
     else {
       mode = -3;
-
     }
   }
 
   while (1) {
     int points = askRandomQuestion(client_fd, destination, num_of_categories, mode);
-    char message_to_parent[20];
     if (points == -1) {
-      snprintf(message_to_parent, 20, "%d %d", 0, 0); //
-      write(pipefd[1], message_to_parent, strlen(message_to_parent));
       fprintf(stderr, "Error while asking question.\n");
       break;
     }
     if (mode == -3) {
       if (points == 1) {
-        snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
-        write(pipefd[1], message_to_parent, strlen(message_to_parent));
+        if (sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, "PTSCORE")) {
+          snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
+          if (!sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_to_parent)) {
+            fprintf(stderr, "Error in interprocess communication 1.\n");
+            break;
+          }
+        }
+        else {
+          fprintf(stderr, "Error in interprocess communication 1.\n");
+          break;
+        }
       }
       else if (points == 0) {
         printf("Player %d failed in hotshot game mode!\n", child_pid);
@@ -451,13 +473,33 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
     }
     else {
       if (points >= 0) {
-        snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
-        write(pipefd[1], message_to_parent, strlen(message_to_parent));
+        if (sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, "PTSCORE")) {
+          snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
+          if (!sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_to_parent)) {
+            fprintf(stderr, "Error in interprocess communication 1.\n");
+            break;
+          }
+        }
+        else {
+          fprintf(stderr, "Error in interprocess communication 1.\n");
+          break;
+        }
       }
     }
   }
 
-  close(pipefd[1]); // Before function end close the write end of the pipe.
+  if (sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, "GTSCORE")) {
+    snprintf(message_to_parent, 20, "%d", (int)child_pid);
+    if (!sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_to_parent)) {
+      fprintf(stderr, "Error in interprocess communication 1.\n");
+    }
+    char score[20];
+    read(pipefd_to_child[0], score, 20);
+    printf("Score: %s\n", score);
+  }
+
+  close(pipefd_to_parent[1]); // Before function end close the write end of the pipe.
+  close(pipefd_to_child[0]);
   close(client_fd);
 }
 
@@ -472,23 +514,38 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
  *
  */
 
-void handleParentProcess(struct user_score score_table[], int pipefd[]) {
-  close(pipefd[1]); // Close the write end of pipe, parent is only going to read.
+void handleParentProcess(struct user_score score_table[], int *pipefd_to_child, int *pipefd_to_parent) {
+  close(pipefd_to_parent[1]);
+  close(pipefd_to_child[0]);
   char message_from_child[20];
   while (1) {
     int client_pid, points;
-    read(pipefd[0], message_from_child, 20);
-    if (message_from_child[0] == '\0') {
-      break;
-    }
-    sscanf(message_from_child, "%d %d", &client_pid, &points);
-    if (client_pid != 0 && points != 0) {
+    readFromProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_from_child, 7);
+    if (!strncmp(message_from_child, "PTSCORE", 7)) {
+      readFromProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_from_child, 20);
+      if (message_from_child[0] == '\0') {
+        break;
+      }
+      sscanf(message_from_child, "%d %d", &client_pid, &points);
       updateScoreTable(score_table, client_pid, points);
       message_from_child[0] = '\0';
     }
+    if (!strncmp(message_from_child, "GTSCORE", 7)) {
+      readFromProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_from_child, 20);
+      sscanf(message_from_child, "%d", &client_pid);
+      for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
+        if (score_table[i].pid == client_pid) {
+          points = score_table[i].score;
+        }
+      }
+      char score[20];
+      snprintf(score, 20, "%d", (int)points);
+      write(pipefd_to_child[1], score, strlen(score));
+    }
   }
 
-  close(pipefd[0]);
+  close(pipefd_to_child[1]);
+  close(pipefd_to_parent[0]);
   signal(SIGCHLD, SIG_IGN);
 }
 
@@ -507,11 +564,15 @@ void handleParentProcess(struct user_score score_table[], int pipefd[]) {
  */
 
 void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int total_number_of_questions) {
-  int pipefd[2];
+  int pipefd_to_child[2];
+  int pipefd_to_parent[2];
 
   // We're going to create a pipeline between parent and child processes.
-  if (pipe(pipefd) == -1) {
-    fprintf(stderr, "Pipe failed\n");
+  if (pipe(pipefd_to_child) == -1) {
+    fprintf(stderr, "Pipe to child failed\n");
+  }
+  if (pipe(pipefd_to_parent) == -1) {
+    fprintf(stderr, "Pipe to parent failed\n");
   }
 
   struct user_score score_table[MAX_NUMBER_OF_CONNECTIONS];
@@ -525,15 +586,15 @@ void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockadd
         fprintf(stderr, "Error in process creation.\n");
         break;
       }
-      handleChildProcess(socket_fd, socket_size, destination, num_of_categories, pipefd, total_number_of_questions);
+      handleChildProcess(socket_fd, socket_size, destination, num_of_categories, pipefd_to_child, pipefd_to_parent , total_number_of_questions);
     }
   }
 
   // Parent is taking care of this part of the process.
-  handleParentProcess(score_table, pipefd);
+  handleParentProcess(score_table, pipefd_to_child, pipefd_to_parent);
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused))) {
 
   struct sockaddr_in destination;
   struct sockaddr_in server;
