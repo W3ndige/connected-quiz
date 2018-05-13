@@ -14,10 +14,14 @@ To-Do List
 ----------
 
 * Menu for client allowing to change IP address of the client.
-* Score is also passed to clients.
 * Code review.
 * Some sort of the verification, is the client proper version?
 * More scalable solution to multi client server, probably events?
+
+Done
+----
+
+* Pass the score to the client.
 
 Usage
 -----

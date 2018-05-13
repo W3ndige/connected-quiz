@@ -42,13 +42,11 @@ int receiveAndVerify(int client_fd, char *buffer) {
 }
 
 /*
- * Function: sendAndValidate
+ * Function: sendData
  * ----------------------------
- *   Sends the data and waits for verification from the connected client.
- *   Returns 0 on failure and 1 on success.
+ *   Sends the data.
  *
  *   client_fd: file descriptor of client that got accepted.
- *   destination: structure that contains information about client.
  *   message: pointer to a message to be send.
  *
  */
@@ -126,6 +124,16 @@ bool getPrintAnswer(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surfa
   return false;
 }
 
+void getScore(int socket_fd, char *score) {
+  receiveAndVerify(socket_fd, score);
+}
+
+void printUserScore(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surface, SDL_Color foreground_color, char *score) {
+  SDL_Color background_color = {235, 174, 5, 94};
+  SDL_Rect score_location = {500, 10, 10, 20};
+  text_surface = TTF_RenderText_Shaded(font, score, foreground_color, background_color);
+  SDL_BlitSurface(text_surface, NULL, screen, &score_location);
+}
 /*
  * Function: verifySendAnswers
  * ----------------------------
@@ -138,7 +146,7 @@ bool getPrintAnswer(SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surfa
  *
  */
 
-bool verifySendAnswers(int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_location) {
+bool sendClickedAnswer(int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_location) {
   char answer[2] = "\0";
   for (int i = 0; i < NUM_OF_ANSWERS; i++) {
     if (mouse_x > answer_location.x &&
@@ -250,9 +258,10 @@ int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)
   bool sleep = false;
   int mouse_x = 0;
   int mouse_y = 0;
-
+  char score[20] = "0\0";
 
   while (running) {
+    printUserScore(screen, font, text_surface, foreground_color, score);
     if (game_mode) {
       printGameMode(screen, background, font, header_font, text_surface, mode_location, foreground_color, background_color);
     }
@@ -261,6 +270,7 @@ int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)
     }
     if (get_answer) {
       get_answer = getPrintAnswer(screen, font, text_surface, socket_fd, score_location, foreground_color, background_color);
+      getScore(socket_fd, score);
       get_question = true;
       sleep = true;
     }
@@ -284,7 +294,7 @@ int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)
                 }
               }
               else {
-                get_answer = verifySendAnswers(socket_fd, mouse_x, mouse_y, answer_location);
+                get_answer = sendClickedAnswer(socket_fd, mouse_x, mouse_y, answer_location);
               }
           }
       }

@@ -428,6 +428,7 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
   printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), child_pid);
 
   int mode;
+  int category = -1;
   char game_mode[2];
   char message_to_parent[20];
   int possible_questions[total_number_of_questions];
@@ -436,33 +437,35 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
   if (receiveData(client_fd, destination, game_mode)) {
     printf("Game mode: %s\n", game_mode);
     if (!strncmp(game_mode, "1", 1)) {
-      mode = -1;
+      mode = 1;
     }
     else if (!strncmp(game_mode, "2", 1)) {
-      mode = rand() % num_of_categories;
+      mode = 2;
+      category = rand() % num_of_categories;
     }
     else {
-      mode = -3;
+      mode = 3;
     }
   }
 
   while (1) {
-    int points = askRandomQuestion(client_fd, destination, num_of_categories, mode);
+    int points = askRandomQuestion(client_fd, destination, num_of_categories, category);
     if (points == -1) {
       fprintf(stderr, "Error while asking question.\n");
       break;
     }
-    if (mode == -3) {
+
+    if (mode == 3) {
       if (points == 1) {
         if (sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, "PTSCORE")) {
           snprintf(message_to_parent, 20, "%d %d", (int)child_pid, points);
           if (!sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_to_parent)) {
-            fprintf(stderr, "Error in interprocess communication 1.\n");
+            fprintf(stderr, "Error in interprocess communication.\n");
             break;
           }
         }
         else {
-          fprintf(stderr, "Error in interprocess communication 1.\n");
+          fprintf(stderr, "Error in interprocess communication.\n");
           break;
         }
       }
@@ -486,16 +489,16 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
         }
       }
     }
-  }
-
-  if (sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, "GTSCORE")) {
-    snprintf(message_to_parent, 20, "%d", (int)child_pid);
-    if (!sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_to_parent)) {
-      fprintf(stderr, "Error in interprocess communication 1.\n");
+    // Now we are able to send the score to the user.
+    if (sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, "GTSCORE")) {
+      snprintf(message_to_parent, 20, "%d", (int)child_pid);
+      if (!sendToProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_to_parent)) {
+        fprintf(stderr, "Error in interprocess communication 1.\n");
+      }
+      char score[20];
+      read(pipefd_to_child[0], score, 20);
+      sendAndValidate(client_fd, destination, score);
     }
-    char score[20];
-    read(pipefd_to_child[0], score, 20);
-    printf("Score: %s\n", score);
   }
 
   close(pipefd_to_parent[1]); // Before function end close the write end of the pipe.
