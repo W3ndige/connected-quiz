@@ -88,41 +88,48 @@ void readFromProcessAndVerify(int *pipefd_to_child, int *pipefd_to_parent, char 
  *
  */
 
-void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, int total_number_of_questions) {
+void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, struct question_info questions[], int total_number_of_questions) {
   close(pipefd_to_parent[0]); // Close the read end of pipe, child is only going to write.
   close(pipefd_to_child[1]);
   pid_t child_pid = getpid();
   srand(time(0) + (int)child_pid);
   int client_fd = accept(socket_fd, (struct sockaddr *)&destination, &socket_size);
   printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), child_pid);
+  shuffleQuestions(questions, total_number_of_questions);
 
-  int mode;
-  int category = -1;
+  int mode, category;
+  int questions_asked = 0;
   char game_mode[2];
   char message_to_parent[20];
-  int possible_questions[total_number_of_questions];
-  memset(possible_questions, 0, total_number_of_questions * sizeof(int));
 
   if (receiveData(client_fd, destination, game_mode)) {
     printf("Game mode: %s\n", game_mode);
     if (!strncmp(game_mode, "1", 1)) {
-      mode = 1;
+      shuffleQuestions(questions, total_number_of_questions);
     }
-    else if (!strncmp(game_mode, "2", 1)) {
+    if (!strncmp(game_mode, "2", 1)) {
       mode = 2;
       category = rand() % num_of_categories;
     }
     else {
+      shuffleQuestions(questions, total_number_of_questions);
       mode = 3;
     }
   }
 
   while (1) {
-    int points = askRandomQuestion(client_fd, destination, num_of_categories, category);
+    if (questions_asked == total_number_of_questions) {
+      if (sendAndValidate(client_fd, destination, "END_OF_QUESTIONS")) {
+        printf("Questions ended.\n");
+        break;
+      }
+    }
+    int points = askQuestion(client_fd, destination, questions, questions_asked);
     if (points == -1) {
       fprintf(stderr, "Error while asking question.\n");
       break;
     }
+    questions_asked++;
 
     if (mode == 3) {
       if (points == 1) {

@@ -1,6 +1,5 @@
 BEGIN_OF_QUESTION
 What is the longest bone in human body?
-END_OF_QUESTION
 Femur, located in thigh.
 Tibia, located in lower leg.
 Humerus, located in arm.
@@ -9,7 +8,6 @@ A
 END_OF_LIST
 BEGIN_OF_QUESTION
 Where is the pharynx located?
-END_OF_QUESTION
 Neck
 Leg
 Arm
@@ -18,7 +16,6 @@ A
 END_OF_LIST
 BEGIN_OF_QUESTION
 Where is the esophagus located?
-END_OF_QUESTION
 Knee
 Leg
 Chest
@@ -27,7 +24,6 @@ C
 END_OF_LIST
 BEGIN_OF_QUESTION
 What is the name of the system, in the human body, that transports blood?
-END_OF_QUESTION
 Lymphatic
 Respiratory
 Digestive
@@ -36,7 +32,6 @@ D
 END_OF_LIST
 BEGIN_OF_QUESTION
 Where are red blood corpuscles formed?
-END_OF_QUESTION
 Liver
 Bones
 Heart

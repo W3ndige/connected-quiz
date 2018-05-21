@@ -1,6 +1,5 @@
 BEGIN_OF_QUESTION
 What is the approximate diameter of the Earth?
-END_OF_QUESTION
 40.000 KM
 25.200 KM
 6.350 KM
@@ -8,7 +7,6 @@ END_OF_QUESTION
 D
 BEGIN_OF_QUESTION
 What is the center of a black hole called?
-END_OF_QUESTION
 Core
 Singularity
 Event horizon
@@ -16,7 +14,6 @@ Mantle
 B
 BEGIN_OF_QUESTION
 What is an Astronomical Unit?
-END_OF_QUESTION
 The distance from the Earth to the Sun.
 The distance from the Earth to the Pluto.
 The distance from the Sun to the center of Milky Way.
@@ -24,7 +21,6 @@ The distance that light will travel in one minute.
 A
 BEGIN_OF_QUESTION
 What is the distance of a parsec?
-END_OF_QUESTION
 3.26 light years
 3.14 light years
 2.28 light years
@@ -32,7 +28,6 @@ END_OF_QUESTION
 A
 BEGIN_OF_QUESTION
 Where is the asteroid belt located?
-END_OF_QUESTION
 Between Earth and Mars
 Between Jupiter and Saturn
 Between Mars and Jupiter
@@ -40,7 +35,6 @@ Between Mercury and Venus
 C
 BEGIN_OF_QUESTION
 Which is the largest moon in our solar system?
-END_OF_QUESTION
 Titan
 Phobos
 Callisto
@@ -48,7 +42,6 @@ Ganymede
 D
 BEGIN_OF_QUESTION
 Who discovered Uranus?
-END_OF_QUESTION
 Copernicus
 Hans Lippershey
 William Herschel
@@ -56,7 +49,6 @@ Galileo
 C
 BEGIN_OF_QUESTION
 Every ... years Halley comet is visible from Earth.
-END_OF_QUESTION
 74-79
 100-105
 65-70

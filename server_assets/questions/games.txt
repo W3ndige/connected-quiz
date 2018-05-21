@@ -1,6 +1,5 @@
 BEGIN_OF_QUESTION
 In which year was Pacman firstly distributed?
-END_OF_QUESTION
 1975
 1980
 1997
@@ -8,7 +7,6 @@ END_OF_QUESTION
 B
 BEGIN_OF_QUESTION
 What color is the Blinky ghost in Pacman?
-END_OF_QUESTION
 Red
 Pink
 Blue
@@ -16,7 +14,6 @@ Orange
 A
 BEGIN_OF_QUESTION
 What is the maximum score in Pacman?
-END_OF_QUESTION
 4 000 000
 3 666 280
 2 670 360
@@ -24,7 +21,6 @@ END_OF_QUESTION
 D
 BEGIN_OF_QUESTION
 When was Quake created?
-END_OF_QUESTION
 1996
 1997
 1995
@@ -32,7 +28,6 @@ END_OF_QUESTION
 A
 BEGIN_OF_QUESTION
 When was Quake for PC created?
-END_OF_QUESTION
 1996
 1997
 1995
@@ -40,7 +35,6 @@ END_OF_QUESTION
 A
 BEGIN_OF_QUESTION
 When was Quake for Amiga created?
-END_OF_QUESTION
 1996
 1997
 1995
@@ -48,7 +42,6 @@ END_OF_QUESTION
 D
 BEGIN_OF_QUESTION
 When was Mission Pack 1: Scourge of Armagon addon for Quake added?
-END_OF_QUESTION
 1996
 1997
 1995
@@ -56,7 +49,6 @@ END_OF_QUESTION
 B
 BEGIN_OF_QUESTION
 On what computer was the first Tetris presented?
-END_OF_QUESTION
 Amiga
 Elektronika 60
 Commodore 64

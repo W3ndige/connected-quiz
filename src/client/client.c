@@ -106,6 +106,10 @@ int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)
     }
     if (get_question) {
       get_question = getPrintQuestion(screen, background, font, text_surface, socket_fd, text_location, answer_location, foreground_color);
+      if (get_question) {
+        SDL_Delay(1000);
+        break;
+      }
     }
     if (get_answer) {
       get_answer = getPrintAnswer(screen, font, text_surface, socket_fd, score_location, foreground_color);

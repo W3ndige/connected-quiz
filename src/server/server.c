@@ -23,7 +23,7 @@ const char *CATEGORIES_FILENAME = "server_assets/categories.txt";
  *
  */
 
-void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int total_number_of_questions) {
+void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, struct question_info questions[], int total_number_of_questions) {
   int pipefd_to_child[2];
   int pipefd_to_parent[2];
 
@@ -46,7 +46,7 @@ void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockadd
         fprintf(stderr, "Error in process creation.\n");
         break;
       }
-      handleChildProcess(socket_fd, socket_size, destination, num_of_categories, pipefd_to_child, pipefd_to_parent , total_number_of_questions);
+      handleChildProcess(socket_fd, socket_size, destination, num_of_categories, pipefd_to_child, pipefd_to_parent, questions, total_number_of_questions);
     }
   }
 
@@ -80,8 +80,11 @@ int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)
   int total_number_of_questions = calculateTotalNumberOfQuestions(CATEGORIES_FILENAME);
   printf("Total: %d questions in %d categories\n", total_number_of_questions, num_of_categories);
 
+  struct question_info questions[total_number_of_questions];
+  populateQuestions(questions, num_of_categories);
+
   while (1) {
-    handleClientConnection(socket_fd, socket_size, destination, num_of_categories, total_number_of_questions);
+    handleClientConnection(socket_fd, socket_size, destination, num_of_categories, questions, total_number_of_questions);
   }
 
   close(socket_fd);
