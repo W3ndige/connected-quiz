@@ -17,7 +17,7 @@ void resetScoreTable(struct user_score score_table[]) {
 }
 
 /*
- * Function: resetScoreTable
+ * Function: updateScoreTable
  * ----------------------------
  *   Places the user score in the proper place of the score_table.
  *   After the process, prints the current scoreboard.
@@ -95,21 +95,45 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
   srand(time(0) + (int)child_pid);
   int client_fd = accept(socket_fd, (struct sockaddr *)&destination, &socket_size);
   printf("New connection from: %s at PID: %d\n", inet_ntoa(destination.sin_addr), child_pid);
-  shuffleQuestions(questions, total_number_of_questions);
 
-  int mode, category;
+  int mode;
   int questions_asked = 0;
   char game_mode[2];
+  int num_of_questions = 0;
   char message_to_parent[20];
+  struct question_info *tmp_questions;
+
 
   if (receiveData(client_fd, destination, game_mode)) {
     printf("Game mode: %s\n", game_mode);
     if (!strncmp(game_mode, "1", 1)) {
       shuffleQuestions(questions, total_number_of_questions);
     }
-    if (!strncmp(game_mode, "2", 1)) {
+    else if (!strncmp(game_mode, "2", 1)) {
+
       mode = 2;
-      category = rand() % num_of_categories;
+      int category = rand() % num_of_categories;
+      int question_offset = 0;
+      for (int i = 0; i < total_number_of_questions; i++) {
+        if (questions[i].category_number == category) {
+          num_of_questions++;
+        }
+      }
+      tmp_questions = malloc(num_of_questions * sizeof(struct question_info));
+
+      if (category == 0) {
+        memcpy(tmp_questions, questions, num_of_questions * sizeof(struct question_info));
+      }
+      else {
+        for (int i = 0; i < total_number_of_questions; i++) {
+          if (questions[i].category_number == category) {
+            question_offset = i;
+            break;
+          }
+        }
+        memcpy(tmp_questions, questions + question_offset, num_of_questions * sizeof(struct question_info));
+      }
+      shuffleQuestions(tmp_questions, num_of_questions);
     }
     else {
       shuffleQuestions(questions, total_number_of_questions);
@@ -118,13 +142,19 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
   }
 
   while (1) {
-    if (questions_asked == total_number_of_questions) {
+    if (questions_asked == total_number_of_questions || (mode == 2 && questions_asked == num_of_questions)) {
       if (sendAndValidate(client_fd, destination, "END_OF_QUESTIONS")) {
         printf("Questions ended.\n");
         break;
       }
     }
-    int points = askQuestion(client_fd, destination, questions, questions_asked);
+    int points;
+    if (mode == 2) {
+      points = askQuestion(client_fd, destination, tmp_questions, questions_asked);
+    }
+    else {
+      points = askQuestion(client_fd, destination, questions, questions_asked);
+    }
     if (points == -1) {
       fprintf(stderr, "Error while asking question.\n");
       break;

@@ -87,6 +87,7 @@ int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)
     handleClientConnection(socket_fd, socket_size, destination, num_of_categories, questions, total_number_of_questions);
   }
 
+  free(questions);
   close(socket_fd);
   return 0;
 }
