@@ -1,18 +1,6 @@
 #include "interaction.h"
 #include "networking.h"
 
-/*
- * Function: verifySendAnswers
- * ----------------------------
- *  Send the answer that user submitted.
- *
- *   socket_fd: file descriptor for the open socket.
- *   mouse_x: position of mouse in X axis.
- *   mouse_y: position of mouse in Y axis.
- *   answer_location: coordinates of the answers location in SDL_Rect.
- *
- */
-
 bool sendClickedAnswer(int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_location) {
   char answer[2] = "\0";
   for (int i = 0; i < NUM_OF_ANSWERS; i++) {

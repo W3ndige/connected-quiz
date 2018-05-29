@@ -1,0 +1,120 @@
+.TH "src/client/interaction.h" 3 "Tue May 29 2018" "Connected Quiz" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/client/interaction.h \- File contains functions used in interactions between user and client\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdbool\&.h>\fP
+.br
+\fC#include <SDL/SDL\&.h>\fP
+.br
+\fC#include <SDL/SDL_ttf\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBsendClickedAnswer\fP (int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_location)"
+.br
+.RI "Send code of the answer clicked by the user into the server\&. "
+.ti -1c
+.RI "bool \fBchooseGameMode\fP (int socket_fd, int mouse_x, int mouse_y, SDL_Rect text_location)"
+.br
+.RI "Parse user input in order to choose game mode, send value to server\&. "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const int \fBMAX_RECEIVE_BUFFER\fP"
+.br
+.ti -1c
+.RI "const int \fBNUM_OF_ANSWERS\fP"
+.br
+.ti -1c
+.RI "const int \fBNUM_OF_MODES\fP"
+.br
+.ti -1c
+.RI "SDL_Rect \fBbackground_location\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+File contains functions used in interactions between user and client\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+W3ndige 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+29 May 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "bool chooseGameMode (int socket_fd, int mouse_x, int mouse_y, SDL_Rect text_location)"
+
+.PP
+Parse user input in order to choose game mode, send value to server\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsocket_fd\fP File desciptor of the socked used to send the data to server\&. 
+.br
+\fImouse_x\fP Value of X axis of the mouse\&. 
+.br
+\fImouse_y\fP Value of Y axis of the mouse\&. 
+.br
+\fIanswer_location\fP Coordinates of the text rectangle\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+False if the function ended correctly, otherwise true\&. 
+.RE
+.PP
+
+.SS "bool sendClickedAnswer (int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_location)"
+
+.PP
+Send code of the answer clicked by the user into the server\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsocket_fd\fP File desciptor of the socked used to send the data to server\&. 
+.br
+\fImouse_x\fP Value of X axis of the mouse\&. 
+.br
+\fImouse_y\fP Value of Y axis of the mouse\&. 
+.br
+\fIanswer_location\fP Coordinates of the answer rectangle\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+True if the function ended correctly, otherwise false\&. 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "SDL_Rect background_location"
+Coordinates of background rectangle\&. 
+.SS "const int MAX_RECEIVE_BUFFER"
+Maximum buffer that the client can receive\&. 
+.SS "const int NUM_OF_ANSWERS"
+Number of available answers\&. 
+.SS "const int NUM_OF_MODES"
+Number of available modes\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Connected Quiz from the source code\&.

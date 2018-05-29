@@ -1,0 +1,110 @@
+\hypertarget{client_2networking_8h}{}\section{src/client/networking.h File Reference}
+\label{client_2networking_8h}\index{src/client/networking.\+h@{src/client/networking.\+h}}
+
+
+File contains functions used in interactions between server and client sending and receiving data over the network.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$arpa/inet.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/in.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{client_2networking_8h_a8c169c8ec48a21c5ca41028a571ec91d}{receive\+And\+Verify}} (int client\+\_\+fd, char $\ast$buffer)
+\begin{DoxyCompactList}\small\item\em Receive the data from the client and resend confirmation {\ttfamily OK}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{client_2networking_8h_a62db16c0fe36420580d131a61c2aa258}{send\+Data}} (int client\+\_\+fd, char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Send the data to the server. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{client_2networking_8h_a17f192a3d4bc7e3fe8c3db873a40a42f}{get\+Score}} (int client\+\_\+fd, char $\ast$score)
+\begin{DoxyCompactList}\small\item\em Send the data to the server. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{client_2networking_8h_a11717c934f77ad5167dac5d28562d85a}{P\+O\+RT}}
+\item 
+const int \mbox{\hyperlink{client_2networking_8h_af90e8b509b0303da49ac051835d25a85}{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+File contains functions used in interactions between server and client sending and receiving data over the network. 
+
+\begin{DoxyAuthor}{Author}
+W3ndige 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+29 May 2018 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{client_2networking_8h_a17f192a3d4bc7e3fe8c3db873a40a42f}\label{client_2networking_8h_a17f192a3d4bc7e3fe8c3db873a40a42f}} 
+\index{client/networking.\+h@{client/networking.\+h}!get\+Score@{get\+Score}}
+\index{get\+Score@{get\+Score}!client/networking.\+h@{client/networking.\+h}}
+\subsubsection{\texorpdfstring{get\+Score()}{getScore()}}
+{\footnotesize\ttfamily void get\+Score (\begin{DoxyParamCaption}\item[{int}]{client\+\_\+fd,  }\item[{char $\ast$}]{score }\end{DoxyParamCaption})}
+
+
+
+Send the data to the server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+fd} & File descriptor for the open socket. \\
+\hline
+{\em message} & Pointer to score variable. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{client_2networking_8h_a8c169c8ec48a21c5ca41028a571ec91d}\label{client_2networking_8h_a8c169c8ec48a21c5ca41028a571ec91d}} 
+\index{client/networking.\+h@{client/networking.\+h}!receive\+And\+Verify@{receive\+And\+Verify}}
+\index{receive\+And\+Verify@{receive\+And\+Verify}!client/networking.\+h@{client/networking.\+h}}
+\subsubsection{\texorpdfstring{receive\+And\+Verify()}{receiveAndVerify()}}
+{\footnotesize\ttfamily int receive\+And\+Verify (\begin{DoxyParamCaption}\item[{int}]{client\+\_\+fd,  }\item[{char $\ast$}]{buffer }\end{DoxyParamCaption})}
+
+
+
+Receive the data from the client and resend confirmation {\ttfamily OK}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+fd} & File descriptor for the open socket. \\
+\hline
+{\em buffer} & Pointer to buffer variable. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{client_2networking_8h_a62db16c0fe36420580d131a61c2aa258}\label{client_2networking_8h_a62db16c0fe36420580d131a61c2aa258}} 
+\index{client/networking.\+h@{client/networking.\+h}!send\+Data@{send\+Data}}
+\index{send\+Data@{send\+Data}!client/networking.\+h@{client/networking.\+h}}
+\subsubsection{\texorpdfstring{send\+Data()}{sendData()}}
+{\footnotesize\ttfamily void send\+Data (\begin{DoxyParamCaption}\item[{int}]{client\+\_\+fd,  }\item[{char $\ast$}]{message }\end{DoxyParamCaption})}
+
+
+
+Send the data to the server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+fd} & File descriptor for the open socket. \\
+\hline
+{\em message} & Pointer to message variable. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{client_2networking_8h_af90e8b509b0303da49ac051835d25a85}\label{client_2networking_8h_af90e8b509b0303da49ac051835d25a85}} 
+\index{client/networking.\+h@{client/networking.\+h}!M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\index{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}!client/networking.\+h@{client/networking.\+h}}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}{MAX\_RECEIVE\_BUFFER}}
+{\footnotesize\ttfamily const int M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}
+
+Maximum buffer that the client can receive. \mbox{\Hypertarget{client_2networking_8h_a11717c934f77ad5167dac5d28562d85a}\label{client_2networking_8h_a11717c934f77ad5167dac5d28562d85a}} 
+\index{client/networking.\+h@{client/networking.\+h}!P\+O\+RT@{P\+O\+RT}}
+\index{P\+O\+RT@{P\+O\+RT}!client/networking.\+h@{client/networking.\+h}}
+\subsubsection{\texorpdfstring{P\+O\+RT}{PORT}}
+{\footnotesize\ttfamily const int P\+O\+RT}
+
+Port used in server -\/ client communication. 

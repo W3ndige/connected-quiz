@@ -1,0 +1,203 @@
+\hypertarget{printing_8h}{}\section{src/client/printing.h File Reference}
+\label{printing_8h}\index{src/client/printing.\+h@{src/client/printing.\+h}}
+
+
+File contains functions used in printing information for the user.  
+
+
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$S\+D\+L/\+S\+D\+L.\+h$>$}\newline
+{\ttfamily \#include $<$S\+D\+L/\+S\+D\+L\+\_\+ttf.\+h$>$}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{printing_8h_af1961f6e4e612d58a957a68bb3ea36de}{convert\+Question\+To\+Multiple\+Lines}} (char $\ast$buffer, char $\ast$first\+\_\+line, size\+\_\+t first\+\_\+line\+\_\+size, char $\ast$second\+\_\+line, size\+\_\+t second\+\_\+line\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Converts the longer question into the one consisting of 2 lines. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{printing_8h_a8735bffdb21a3ecf0ce267813b078bbc}{get\+Print\+Question}} (S\+D\+L\+\_\+\+Surface $\ast$screen, S\+D\+L\+\_\+\+Surface $\ast$background, T\+T\+F\+\_\+\+Font $\ast$font, S\+D\+L\+\_\+\+Surface $\ast$text\+\_\+surface, int socket\+\_\+fd, S\+D\+L\+\_\+\+Rect text\+\_\+location, S\+D\+L\+\_\+\+Rect answer\+\_\+location, S\+D\+L\+\_\+\+Color foreground\+\_\+color)
+\begin{DoxyCompactList}\small\item\em Get the current question from the server, print it, get the answers and print them. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{printing_8h_abfe8a83186cb1e308ebac3940861f3d1}{print\+Game\+Mode}} (S\+D\+L\+\_\+\+Surface $\ast$screen, S\+D\+L\+\_\+\+Surface $\ast$background, T\+T\+F\+\_\+\+Font $\ast$font, T\+T\+F\+\_\+\+Font $\ast$header\+\_\+font, S\+D\+L\+\_\+\+Surface $\ast$text\+\_\+surface, S\+D\+L\+\_\+\+Rect mode\+\_\+location, S\+D\+L\+\_\+\+Color foreground\+\_\+color)
+\begin{DoxyCompactList}\small\item\em Print all available game modes during startup of client. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{printing_8h_ab6b7fed2ac7e376c9070a7cb65a7c6ea}{get\+Print\+Answer}} (S\+D\+L\+\_\+\+Surface $\ast$screen, T\+T\+F\+\_\+\+Font $\ast$font, S\+D\+L\+\_\+\+Surface $\ast$text\+\_\+surface, int socket\+\_\+fd, S\+D\+L\+\_\+\+Rect score\+\_\+location, S\+D\+L\+\_\+\+Color foreground\+\_\+color)
+\begin{DoxyCompactList}\small\item\em Print the information whether the answer was correct. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{printing_8h_a921c1daf109dc0f54a2b19f51136990e}{print\+User\+Score}} (S\+D\+L\+\_\+\+Surface $\ast$screen, T\+T\+F\+\_\+\+Font $\ast$font, S\+D\+L\+\_\+\+Surface $\ast$text\+\_\+surface, S\+D\+L\+\_\+\+Color foreground\+\_\+color, char $\ast$score)
+\begin{DoxyCompactList}\small\item\em Print current user score. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{printing_8h_af90e8b509b0303da49ac051835d25a85}{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\item 
+const int \mbox{\hyperlink{printing_8h_ac803c14a55e5a5c7b1b9920b307b43bd}{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}}
+\item 
+const int \mbox{\hyperlink{printing_8h_a95af6626e3896e6fa71ea20d5362137d}{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}}
+\item 
+S\+D\+L\+\_\+\+Rect \mbox{\hyperlink{printing_8h_a21ed40eceeeb90cea906e17787f25b60}{background\+\_\+location}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+File contains functions used in printing information for the user. 
+
+\begin{DoxyAuthor}{Author}
+W3ndige 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+29 May 2018 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{printing_8h_af1961f6e4e612d58a957a68bb3ea36de}\label{printing_8h_af1961f6e4e612d58a957a68bb3ea36de}} 
+\index{printing.\+h@{printing.\+h}!convert\+Question\+To\+Multiple\+Lines@{convert\+Question\+To\+Multiple\+Lines}}
+\index{convert\+Question\+To\+Multiple\+Lines@{convert\+Question\+To\+Multiple\+Lines}!printing.\+h@{printing.\+h}}
+\subsubsection{\texorpdfstring{convert\+Question\+To\+Multiple\+Lines()}{convertQuestionToMultipleLines()}}
+{\footnotesize\ttfamily void convert\+Question\+To\+Multiple\+Lines (\begin{DoxyParamCaption}\item[{char $\ast$}]{buffer,  }\item[{char $\ast$}]{first\+\_\+line,  }\item[{size\+\_\+t}]{first\+\_\+line\+\_\+size,  }\item[{char $\ast$}]{second\+\_\+line,  }\item[{size\+\_\+t}]{second\+\_\+line\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Converts the longer question into the one consisting of 2 lines. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em buffer} & Pointer to buffer variable that contains question. \\
+\hline
+{\em first\+\_\+line} & Pointer to first\+\_\+line variable that will contain first part of question. \\
+\hline
+{\em first\+\_\+line\+\_\+size} & Size of first\+\_\+line buffer. \\
+\hline
+{\em second\+\_\+line} & Pointer to second\+\_\+line variable that will contain second part of question. \\
+\hline
+{\em second\+\_\+line\+\_\+size} & Size of second\+\_\+line buffer. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{printing_8h_ab6b7fed2ac7e376c9070a7cb65a7c6ea}\label{printing_8h_ab6b7fed2ac7e376c9070a7cb65a7c6ea}} 
+\index{printing.\+h@{printing.\+h}!get\+Print\+Answer@{get\+Print\+Answer}}
+\index{get\+Print\+Answer@{get\+Print\+Answer}!printing.\+h@{printing.\+h}}
+\subsubsection{\texorpdfstring{get\+Print\+Answer()}{getPrintAnswer()}}
+{\footnotesize\ttfamily bool get\+Print\+Answer (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{screen,  }\item[{T\+T\+F\+\_\+\+Font $\ast$}]{font,  }\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{text\+\_\+surface,  }\item[{int}]{socket\+\_\+fd,  }\item[{S\+D\+L\+\_\+\+Rect}]{score\+\_\+location,  }\item[{S\+D\+L\+\_\+\+Color}]{foreground\+\_\+color }\end{DoxyParamCaption})}
+
+
+
+Print the information whether the answer was correct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen} & pointer to S\+DL surface of the screen. \\
+\hline
+{\em font} & pointer to T\+TF font used in rendering. \\
+\hline
+{\em text\+\_\+surface} & pointer to S\+DL surface of the text area. \\
+\hline
+{\em socket\+\_\+fd} & file descriptor for the open socket. \\
+\hline
+{\em score\+\_\+location} & coordinates of the score location in S\+D\+L\+\_\+\+Rect. \\
+\hline
+{\em foreground\+\_\+color} & foreground color used in rendering. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{printing_8h_a8735bffdb21a3ecf0ce267813b078bbc}\label{printing_8h_a8735bffdb21a3ecf0ce267813b078bbc}} 
+\index{printing.\+h@{printing.\+h}!get\+Print\+Question@{get\+Print\+Question}}
+\index{get\+Print\+Question@{get\+Print\+Question}!printing.\+h@{printing.\+h}}
+\subsubsection{\texorpdfstring{get\+Print\+Question()}{getPrintQuestion()}}
+{\footnotesize\ttfamily bool get\+Print\+Question (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{screen,  }\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{background,  }\item[{T\+T\+F\+\_\+\+Font $\ast$}]{font,  }\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{text\+\_\+surface,  }\item[{int}]{socket\+\_\+fd,  }\item[{S\+D\+L\+\_\+\+Rect}]{text\+\_\+location,  }\item[{S\+D\+L\+\_\+\+Rect}]{answer\+\_\+location,  }\item[{S\+D\+L\+\_\+\+Color}]{foreground\+\_\+color }\end{DoxyParamCaption})}
+
+
+
+Get the current question from the server, print it, get the answers and print them. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen} & pointer to S\+DL surface of the screen. \\
+\hline
+{\em font} & pointer to T\+TF font used in rendering. \\
+\hline
+{\em text\+\_\+surface} & pointer to S\+DL surface of the text area. \\
+\hline
+{\em socket\+\_\+fd} & file descriptor for the open socket. \\
+\hline
+{\em text\+\_\+location} & coordinates of the text location in S\+D\+L\+\_\+\+Rect. \\
+\hline
+{\em answer\+\_\+location} & coordinates of the answer location in S\+D\+L\+\_\+\+Rect. \\
+\hline
+{\em foreground\+\_\+color} & foreground color used in rendering. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{printing_8h_abfe8a83186cb1e308ebac3940861f3d1}\label{printing_8h_abfe8a83186cb1e308ebac3940861f3d1}} 
+\index{printing.\+h@{printing.\+h}!print\+Game\+Mode@{print\+Game\+Mode}}
+\index{print\+Game\+Mode@{print\+Game\+Mode}!printing.\+h@{printing.\+h}}
+\subsubsection{\texorpdfstring{print\+Game\+Mode()}{printGameMode()}}
+{\footnotesize\ttfamily bool print\+Game\+Mode (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{screen,  }\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{background,  }\item[{T\+T\+F\+\_\+\+Font $\ast$}]{font,  }\item[{T\+T\+F\+\_\+\+Font $\ast$}]{header\+\_\+font,  }\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{text\+\_\+surface,  }\item[{S\+D\+L\+\_\+\+Rect}]{mode\+\_\+location,  }\item[{S\+D\+L\+\_\+\+Color}]{foreground\+\_\+color }\end{DoxyParamCaption})}
+
+
+
+Print all available game modes during startup of client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen} & pointer to S\+DL surface of the screen. \\
+\hline
+{\em font} & pointer to T\+TF font used in rendering. \\
+\hline
+{\em header\+\_\+font} & pointer to T\+TF header font used in rendering of headers. \\
+\hline
+{\em text\+\_\+surface} & pointer to S\+DL surface of the text area. \\
+\hline
+{\em socket\+\_\+fd} & file descriptor for the open socket. \\
+\hline
+{\em mode\+\_\+location} & coordinates of the modes location in S\+D\+L\+\_\+\+Rect. \\
+\hline
+{\em foreground\+\_\+color} & foreground color used in rendering. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{printing_8h_a921c1daf109dc0f54a2b19f51136990e}\label{printing_8h_a921c1daf109dc0f54a2b19f51136990e}} 
+\index{printing.\+h@{printing.\+h}!print\+User\+Score@{print\+User\+Score}}
+\index{print\+User\+Score@{print\+User\+Score}!printing.\+h@{printing.\+h}}
+\subsubsection{\texorpdfstring{print\+User\+Score()}{printUserScore()}}
+{\footnotesize\ttfamily void print\+User\+Score (\begin{DoxyParamCaption}\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{screen,  }\item[{T\+T\+F\+\_\+\+Font $\ast$}]{font,  }\item[{S\+D\+L\+\_\+\+Surface $\ast$}]{text\+\_\+surface,  }\item[{S\+D\+L\+\_\+\+Color}]{foreground\+\_\+color,  }\item[{char $\ast$}]{score }\end{DoxyParamCaption})}
+
+
+
+Print current user score. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em screen} & pointer to S\+DL surface of the screen. \\
+\hline
+{\em font} & pointer to T\+TF font used in rendering. \\
+\hline
+{\em text\+\_\+surface} & pointer to S\+DL surface of the text area. \\
+\hline
+{\em socket\+\_\+fd} & file descriptor for the open socket. \\
+\hline
+{\em foreground\+\_\+color} & foreground color used in rendering. \\
+\hline
+{\em score} & Pointer to variable containing current score. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{printing_8h_a21ed40eceeeb90cea906e17787f25b60}\label{printing_8h_a21ed40eceeeb90cea906e17787f25b60}} 
+\index{printing.\+h@{printing.\+h}!background\+\_\+location@{background\+\_\+location}}
+\index{background\+\_\+location@{background\+\_\+location}!printing.\+h@{printing.\+h}}
+\subsubsection{\texorpdfstring{background\+\_\+location}{background\_location}}
+{\footnotesize\ttfamily S\+D\+L\+\_\+\+Rect background\+\_\+location}
+
+Coordinates of background rectangle. \mbox{\Hypertarget{printing_8h_af90e8b509b0303da49ac051835d25a85}\label{printing_8h_af90e8b509b0303da49ac051835d25a85}} 
+\index{printing.\+h@{printing.\+h}!M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\index{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}!printing.\+h@{printing.\+h}}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}{MAX\_RECEIVE\_BUFFER}}
+{\footnotesize\ttfamily const int M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}
+
+Maximum buffer that the client can receive. \mbox{\Hypertarget{printing_8h_ac803c14a55e5a5c7b1b9920b307b43bd}\label{printing_8h_ac803c14a55e5a5c7b1b9920b307b43bd}} 
+\index{printing.\+h@{printing.\+h}!N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}}
+\index{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}!printing.\+h@{printing.\+h}}
+\subsubsection{\texorpdfstring{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}{NUM\_OF\_ANSWERS}}
+{\footnotesize\ttfamily const int N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}
+
+Number of available answers. \mbox{\Hypertarget{printing_8h_a95af6626e3896e6fa71ea20d5362137d}\label{printing_8h_a95af6626e3896e6fa71ea20d5362137d}} 
+\index{printing.\+h@{printing.\+h}!N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES@{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}}
+\index{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES@{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}!printing.\+h@{printing.\+h}}
+\subsubsection{\texorpdfstring{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}{NUM\_OF\_MODES}}
+{\footnotesize\ttfamily const int N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}
+
+Number of available modes. 

@@ -1,0 +1,118 @@
+\hypertarget{interaction_8h}{}\section{src/client/interaction.h File Reference}
+\label{interaction_8h}\index{src/client/interaction.\+h@{src/client/interaction.\+h}}
+
+
+File contains functions used in interactions between user and client.  
+
+
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$S\+D\+L/\+S\+D\+L.\+h$>$}\newline
+{\ttfamily \#include $<$S\+D\+L/\+S\+D\+L\+\_\+ttf.\+h$>$}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{interaction_8h_a16bf9ddc5f20deceac88a43ec529c16a}{send\+Clicked\+Answer}} (int socket\+\_\+fd, int mouse\+\_\+x, int mouse\+\_\+y, S\+D\+L\+\_\+\+Rect answer\+\_\+location)
+\begin{DoxyCompactList}\small\item\em Send code of the answer clicked by the user into the server. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{interaction_8h_a40c1e27165834435dbbad9d782a32b05}{choose\+Game\+Mode}} (int socket\+\_\+fd, int mouse\+\_\+x, int mouse\+\_\+y, S\+D\+L\+\_\+\+Rect text\+\_\+location)
+\begin{DoxyCompactList}\small\item\em Parse user input in order to choose game mode, send value to server. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{interaction_8h_af90e8b509b0303da49ac051835d25a85}{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\item 
+const int \mbox{\hyperlink{interaction_8h_ac803c14a55e5a5c7b1b9920b307b43bd}{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}}
+\item 
+const int \mbox{\hyperlink{interaction_8h_a95af6626e3896e6fa71ea20d5362137d}{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}}
+\item 
+S\+D\+L\+\_\+\+Rect \mbox{\hyperlink{interaction_8h_a21ed40eceeeb90cea906e17787f25b60}{background\+\_\+location}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+File contains functions used in interactions between user and client. 
+
+\begin{DoxyAuthor}{Author}
+W3ndige 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+29 May 2018 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{interaction_8h_a40c1e27165834435dbbad9d782a32b05}\label{interaction_8h_a40c1e27165834435dbbad9d782a32b05}} 
+\index{interaction.\+h@{interaction.\+h}!choose\+Game\+Mode@{choose\+Game\+Mode}}
+\index{choose\+Game\+Mode@{choose\+Game\+Mode}!interaction.\+h@{interaction.\+h}}
+\subsubsection{\texorpdfstring{choose\+Game\+Mode()}{chooseGameMode()}}
+{\footnotesize\ttfamily bool choose\+Game\+Mode (\begin{DoxyParamCaption}\item[{int}]{socket\+\_\+fd,  }\item[{int}]{mouse\+\_\+x,  }\item[{int}]{mouse\+\_\+y,  }\item[{S\+D\+L\+\_\+\+Rect}]{text\+\_\+location }\end{DoxyParamCaption})}
+
+
+
+Parse user input in order to choose game mode, send value to server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket\+\_\+fd} & File desciptor of the socked used to send the data to server. \\
+\hline
+{\em mouse\+\_\+x} & Value of X axis of the mouse. \\
+\hline
+{\em mouse\+\_\+y} & Value of Y axis of the mouse. \\
+\hline
+{\em answer\+\_\+location} & Coordinates of the text rectangle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+False if the function ended correctly, otherwise true. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{interaction_8h_a16bf9ddc5f20deceac88a43ec529c16a}\label{interaction_8h_a16bf9ddc5f20deceac88a43ec529c16a}} 
+\index{interaction.\+h@{interaction.\+h}!send\+Clicked\+Answer@{send\+Clicked\+Answer}}
+\index{send\+Clicked\+Answer@{send\+Clicked\+Answer}!interaction.\+h@{interaction.\+h}}
+\subsubsection{\texorpdfstring{send\+Clicked\+Answer()}{sendClickedAnswer()}}
+{\footnotesize\ttfamily bool send\+Clicked\+Answer (\begin{DoxyParamCaption}\item[{int}]{socket\+\_\+fd,  }\item[{int}]{mouse\+\_\+x,  }\item[{int}]{mouse\+\_\+y,  }\item[{S\+D\+L\+\_\+\+Rect}]{answer\+\_\+location }\end{DoxyParamCaption})}
+
+
+
+Send code of the answer clicked by the user into the server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em socket\+\_\+fd} & File desciptor of the socked used to send the data to server. \\
+\hline
+{\em mouse\+\_\+x} & Value of X axis of the mouse. \\
+\hline
+{\em mouse\+\_\+y} & Value of Y axis of the mouse. \\
+\hline
+{\em answer\+\_\+location} & Coordinates of the answer rectangle. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the function ended correctly, otherwise false. 
+\end{DoxyReturn}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{interaction_8h_a21ed40eceeeb90cea906e17787f25b60}\label{interaction_8h_a21ed40eceeeb90cea906e17787f25b60}} 
+\index{interaction.\+h@{interaction.\+h}!background\+\_\+location@{background\+\_\+location}}
+\index{background\+\_\+location@{background\+\_\+location}!interaction.\+h@{interaction.\+h}}
+\subsubsection{\texorpdfstring{background\+\_\+location}{background\_location}}
+{\footnotesize\ttfamily S\+D\+L\+\_\+\+Rect background\+\_\+location}
+
+Coordinates of background rectangle. \mbox{\Hypertarget{interaction_8h_af90e8b509b0303da49ac051835d25a85}\label{interaction_8h_af90e8b509b0303da49ac051835d25a85}} 
+\index{interaction.\+h@{interaction.\+h}!M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\index{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}!interaction.\+h@{interaction.\+h}}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}{MAX\_RECEIVE\_BUFFER}}
+{\footnotesize\ttfamily const int M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}
+
+Maximum buffer that the client can receive. \mbox{\Hypertarget{interaction_8h_ac803c14a55e5a5c7b1b9920b307b43bd}\label{interaction_8h_ac803c14a55e5a5c7b1b9920b307b43bd}} 
+\index{interaction.\+h@{interaction.\+h}!N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}}
+\index{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}!interaction.\+h@{interaction.\+h}}
+\subsubsection{\texorpdfstring{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}{NUM\_OF\_ANSWERS}}
+{\footnotesize\ttfamily const int N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}
+
+Number of available answers. \mbox{\Hypertarget{interaction_8h_a95af6626e3896e6fa71ea20d5362137d}\label{interaction_8h_a95af6626e3896e6fa71ea20d5362137d}} 
+\index{interaction.\+h@{interaction.\+h}!N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES@{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}}
+\index{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES@{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}!interaction.\+h@{interaction.\+h}}
+\subsubsection{\texorpdfstring{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}{NUM\_OF\_MODES}}
+{\footnotesize\ttfamily const int N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}
+
+Number of available modes. 

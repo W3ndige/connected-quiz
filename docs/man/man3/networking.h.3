@@ -1,0 +1,115 @@
+.TH "src/client/networking.h" 3 "Tue May 29 2018" "Connected Quiz" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/client/networking.h \- File contains functions used in interactions between server and client sending and receiving data over the network\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <arpa/inet\&.h>\fP
+.br
+\fC#include <sys/types\&.h>\fP
+.br
+\fC#include <netinet/in\&.h>\fP
+.br
+\fC#include <sys/socket\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBreceiveAndVerify\fP (int client_fd, char *buffer)"
+.br
+.RI "Receive the data from the client and resend confirmation \fCOK\fP\&. "
+.ti -1c
+.RI "void \fBsendData\fP (int client_fd, char *message)"
+.br
+.RI "Send the data to the server\&. "
+.ti -1c
+.RI "void \fBgetScore\fP (int client_fd, char *score)"
+.br
+.RI "Send the data to the server\&. "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const int \fBPORT\fP"
+.br
+.ti -1c
+.RI "const int \fBMAX_RECEIVE_BUFFER\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+File contains functions used in interactions between server and client sending and receiving data over the network\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+W3ndige 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+29 May 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "void getScore (int client_fd, char * score)"
+
+.PP
+Send the data to the server\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclient_fd\fP File descriptor for the open socket\&. 
+.br
+\fImessage\fP Pointer to score variable\&. 
+.RE
+.PP
+
+.SS "int receiveAndVerify (int client_fd, char * buffer)"
+
+.PP
+Receive the data from the client and resend confirmation \fCOK\fP\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclient_fd\fP File descriptor for the open socket\&. 
+.br
+\fIbuffer\fP Pointer to buffer variable\&. 
+.RE
+.PP
+
+.SS "void sendData (int client_fd, char * message)"
+
+.PP
+Send the data to the server\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclient_fd\fP File descriptor for the open socket\&. 
+.br
+\fImessage\fP Pointer to message variable\&. 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "const int MAX_RECEIVE_BUFFER"
+Maximum buffer that the client can receive\&. 
+.SS "const int PORT"
+Port used in server - client communication\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Connected Quiz from the source code\&.

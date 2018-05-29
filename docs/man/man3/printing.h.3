@@ -1,0 +1,195 @@
+.TH "src/client/printing.h" 3 "Tue May 29 2018" "Connected Quiz" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/client/printing.h \- File contains functions used in printing information for the user\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdbool\&.h>\fP
+.br
+\fC#include <SDL/SDL\&.h>\fP
+.br
+\fC#include <SDL/SDL_ttf\&.h>\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBconvertQuestionToMultipleLines\fP (char *buffer, char *first_line, size_t first_line_size, char *second_line, size_t second_line_size)"
+.br
+.RI "Converts the longer question into the one consisting of 2 lines\&. "
+.ti -1c
+.RI "bool \fBgetPrintQuestion\fP (SDL_Surface *screen, SDL_Surface *background, TTF_Font *font, SDL_Surface *text_surface, int socket_fd, SDL_Rect text_location, SDL_Rect answer_location, SDL_Color foreground_color)"
+.br
+.RI "Get the current question from the server, print it, get the answers and print them\&. "
+.ti -1c
+.RI "bool \fBprintGameMode\fP (SDL_Surface *screen, SDL_Surface *background, TTF_Font *font, TTF_Font *header_font, SDL_Surface *text_surface, SDL_Rect mode_location, SDL_Color foreground_color)"
+.br
+.RI "Print all available game modes during startup of client\&. "
+.ti -1c
+.RI "bool \fBgetPrintAnswer\fP (SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surface, int socket_fd, SDL_Rect score_location, SDL_Color foreground_color)"
+.br
+.RI "Print the information whether the answer was correct\&. "
+.ti -1c
+.RI "void \fBprintUserScore\fP (SDL_Surface *screen, TTF_Font *font, SDL_Surface *text_surface, SDL_Color foreground_color, char *score)"
+.br
+.RI "Print current user score\&. "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const int \fBMAX_RECEIVE_BUFFER\fP"
+.br
+.ti -1c
+.RI "const int \fBNUM_OF_ANSWERS\fP"
+.br
+.ti -1c
+.RI "const int \fBNUM_OF_MODES\fP"
+.br
+.ti -1c
+.RI "SDL_Rect \fBbackground_location\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+File contains functions used in printing information for the user\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+W3ndige 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+29 May 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "void convertQuestionToMultipleLines (char * buffer, char * first_line, size_t first_line_size, char * second_line, size_t second_line_size)"
+
+.PP
+Converts the longer question into the one consisting of 2 lines\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIbuffer\fP Pointer to buffer variable that contains question\&. 
+.br
+\fIfirst_line\fP Pointer to first_line variable that will contain first part of question\&. 
+.br
+\fIfirst_line_size\fP Size of first_line buffer\&. 
+.br
+\fIsecond_line\fP Pointer to second_line variable that will contain second part of question\&. 
+.br
+\fIsecond_line_size\fP Size of second_line buffer\&. 
+.RE
+.PP
+
+.SS "bool getPrintAnswer (SDL_Surface * screen, TTF_Font * font, SDL_Surface * text_surface, int socket_fd, SDL_Rect score_location, SDL_Color foreground_color)"
+
+.PP
+Print the information whether the answer was correct\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscreen\fP pointer to SDL surface of the screen\&. 
+.br
+\fIfont\fP pointer to TTF font used in rendering\&. 
+.br
+\fItext_surface\fP pointer to SDL surface of the text area\&. 
+.br
+\fIsocket_fd\fP file descriptor for the open socket\&. 
+.br
+\fIscore_location\fP coordinates of the score location in SDL_Rect\&. 
+.br
+\fIforeground_color\fP foreground color used in rendering\&. 
+.RE
+.PP
+
+.SS "bool getPrintQuestion (SDL_Surface * screen, SDL_Surface * background, TTF_Font * font, SDL_Surface * text_surface, int socket_fd, SDL_Rect text_location, SDL_Rect answer_location, SDL_Color foreground_color)"
+
+.PP
+Get the current question from the server, print it, get the answers and print them\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscreen\fP pointer to SDL surface of the screen\&. 
+.br
+\fIfont\fP pointer to TTF font used in rendering\&. 
+.br
+\fItext_surface\fP pointer to SDL surface of the text area\&. 
+.br
+\fIsocket_fd\fP file descriptor for the open socket\&. 
+.br
+\fItext_location\fP coordinates of the text location in SDL_Rect\&. 
+.br
+\fIanswer_location\fP coordinates of the answer location in SDL_Rect\&. 
+.br
+\fIforeground_color\fP foreground color used in rendering\&. 
+.RE
+.PP
+
+.SS "bool printGameMode (SDL_Surface * screen, SDL_Surface * background, TTF_Font * font, TTF_Font * header_font, SDL_Surface * text_surface, SDL_Rect mode_location, SDL_Color foreground_color)"
+
+.PP
+Print all available game modes during startup of client\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscreen\fP pointer to SDL surface of the screen\&. 
+.br
+\fIfont\fP pointer to TTF font used in rendering\&. 
+.br
+\fIheader_font\fP pointer to TTF header font used in rendering of headers\&. 
+.br
+\fItext_surface\fP pointer to SDL surface of the text area\&. 
+.br
+\fIsocket_fd\fP file descriptor for the open socket\&. 
+.br
+\fImode_location\fP coordinates of the modes location in SDL_Rect\&. 
+.br
+\fIforeground_color\fP foreground color used in rendering\&. 
+.RE
+.PP
+
+.SS "void printUserScore (SDL_Surface * screen, TTF_Font * font, SDL_Surface * text_surface, SDL_Color foreground_color, char * score)"
+
+.PP
+Print current user score\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscreen\fP pointer to SDL surface of the screen\&. 
+.br
+\fIfont\fP pointer to TTF font used in rendering\&. 
+.br
+\fItext_surface\fP pointer to SDL surface of the text area\&. 
+.br
+\fIsocket_fd\fP file descriptor for the open socket\&. 
+.br
+\fIforeground_color\fP foreground color used in rendering\&. 
+.br
+\fIscore\fP Pointer to variable containing current score\&. 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "SDL_Rect background_location"
+Coordinates of background rectangle\&. 
+.SS "const int MAX_RECEIVE_BUFFER"
+Maximum buffer that the client can receive\&. 
+.SS "const int NUM_OF_ANSWERS"
+Number of available answers\&. 
+.SS "const int NUM_OF_MODES"
+Number of available modes\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Connected Quiz from the source code\&.

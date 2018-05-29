@@ -20,22 +20,6 @@ void convertQuestionToMultipleLines(char *buffer, char *first_line,
   second_line[41] = '\0';
 }
 
-/*
- * Function: getPrintQuestion
- * ----------------------------
- *   Receive question together with answers and update the SDL screen.
- *
- *   screen: pointer to SDL surface of the screen.
- *   font: pointer to TTF font used in rendering.
- *   text_surface: pointer to SDL surface of the text area.
- *   socket_fd: file descriptor for the open socket.
- *   text_location: coordinates of the text location in SDL_Rect.
- *   answer_location: coordinates of the answer location in SDL_Rect.
- *   foreground_color: foreground color used in rendering.
- *   background_color: background color used in rendering.
- *
- */
-
 bool getPrintQuestion(SDL_Surface *screen, SDL_Surface *background,
                       TTF_Font *font, SDL_Surface *text_surface, int socket_fd,
                       SDL_Rect text_location, SDL_Rect answer_location,
@@ -113,10 +97,6 @@ bool getPrintAnswer(SDL_Surface *screen, TTF_Font *font,
   text_surface = TTF_RenderText_Blended(font, buffer, foreground_color);
   SDL_BlitSurface(text_surface, NULL, screen, &score_location);
   return false;
-}
-
-void getScore(int socket_fd, char *score) {
-  receiveAndVerify(socket_fd, score);
 }
 
 void printUserScore(SDL_Surface *screen, TTF_Font *font,
