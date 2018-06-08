@@ -1,32 +1,11 @@
 #include "processes.h"
 
-/*
- * Function: resetScoreTable
- * ----------------------------
- *   Zeroes every element in score table.
- *
- *   score_table: array of user_score structures containing pid of user and score.
- *
- */
-
 void resetScoreTable(struct user_score score_table[]) {
   for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
     score_table[i].pid = 0;
     score_table[i].score = 0;
   }
 }
-
-/*
- * Function: updateScoreTable
- * ----------------------------
- *   Places the user score in the proper place of the score_table.
- *   After the process, prints the current scoreboard.
- *
- *   score_table: array of user_score structures containing pid of user and score.
- *   client_pid: PID of the client that score is about to be placed.
- *   points: number of points to be put.
- *
- */
 
 void updateScoreTable(struct user_score score_table[], int client_pid, int points) {
   // If user already in table, change the score.
@@ -88,7 +67,7 @@ void readFromProcessAndVerify(int *pipefd_to_child, int *pipefd_to_parent, char 
  *
  */
 
-void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, struct question_info questions[], int total_number_of_questions) {
+void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, struct question_info *questions, int total_number_of_questions) {
   close(pipefd_to_parent[0]); // Close the read end of pipe, child is only going to write.
   close(pipefd_to_child[1]);
   pid_t child_pid = getpid();
@@ -120,6 +99,10 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
         }
       }
       tmp_questions = malloc(num_of_questions * sizeof(struct question_info));
+      if (tmp_questions == NULL) {
+        fprintf(stderr, "Error during memory allocation.\n");
+        return;
+      }
 
       if (category == 0) {
         memcpy(tmp_questions, questions, num_of_questions * sizeof(struct question_info));

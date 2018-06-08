@@ -1,17 +1,7 @@
 #include "files.h"
 
-/*
- * Function: calculateNumberOfCategories
- * ----------------------------
- *   Returns the number of categories in categories file.
- *   or -1 on error.
- *
- *   filename: filename of categories file.
- *
- */
-
-int calculateNumberOfCategories(const char *filename) {
-  FILE *categories_file = fopen(filename, "r");
+int calculateNumberOfCategories() {
+  FILE *categories_file = fopen(CATEGORIES_FILENAME, "r");
   if (!categories_file) {
     perror("Could not open category file");
     return -1;
@@ -32,16 +22,6 @@ int calculateNumberOfCategories(const char *filename) {
     return num_of_categories - 1;
   }
 }
-
-/*
- * Function: calculateNumberOfQuestions
- * ----------------------------
- *   Returns the number of questions in question file,
- *   or -1 on error.
- *
- *   filename: filename of questions file.
- *
- */
 
 int calculateNumberOfQuestions(char *filename) {
   FILE *questions_file = fopen(filename, "r");
@@ -88,19 +68,6 @@ int calculateTotalNumberOfQuestions() {
   return total_number_of_questions;
 }
 
-/*
- * Function: getCategory
- * ----------------------------
- *   Chooses the random category and puts it's filename
- *   into the category_source. Returns -1 on error and
- *   line of choosen category.
- *
- *   category_source: pointer to which a choosen category will be saved.
- *   size: size of the buffer that fget will get from the line.
- *   num_of_categories: number of categories.
- *
- */
-
  int getCategory(char *category_source, size_t size, int category_number) {
 
    FILE *categories_file = fopen(CATEGORIES_FILENAME, "r");
@@ -121,7 +88,7 @@ int calculateTotalNumberOfQuestions() {
    return counted_line;
  }
 
-void populateQuestions(struct question_info questions[], size_t num_of_categories) {
+void populateQuestions(struct question_info *questions, size_t num_of_categories) {
   char category_source[50];
   int question_number = 0;
   for (size_t i = 0; i < num_of_categories; i++) {

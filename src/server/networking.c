@@ -1,17 +1,5 @@
 #include "networking.h"
 
-/*
- * Function: receiveData
- * ----------------------------
- *   Receives data from the client and puts it in buffer. Returns
- *   0 on failure and 1 on success.
- *
- *   client_fd: file descriptor of client that got accepted.
- *   destination: structure that contains information about client.
- *   buffer: pointer to buffer variable.
- *
- */
-
 int receiveData(int client_fd, struct sockaddr_in destination, char *buffer) {
   int len = recv(client_fd, buffer, MAX_RECEIVE_BUFFER,0);
   if (len == -1) {
@@ -27,18 +15,6 @@ int receiveData(int client_fd, struct sockaddr_in destination, char *buffer) {
     return 1;
   }
 }
-
-/*
- * Function: sendAndValidate
- * ----------------------------
- *   Sends the data and waits for verification from the connected client.
- *   Returns 0 on failure and 1 on success.
- *
- *   client_fd: file descriptor of client that got accepted.
- *   destination: structure that contains information about client.
- *   message: pointer to a message to be send.
- *
- */
 
 int sendAndValidate(int client_fd, struct sockaddr_in destination, char *message) {
   char confirmation_buffer[3];

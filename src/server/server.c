@@ -23,7 +23,7 @@ const char *CATEGORIES_FILENAME = "server_assets/categories.txt";
  *
  */
 
-void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, struct question_info questions[], int total_number_of_questions) {
+void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, struct question_info *questions, int total_number_of_questions) {
   int pipefd_to_child[2];
   int pipefd_to_parent[2];
 
@@ -80,7 +80,12 @@ int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)
   int total_number_of_questions = calculateTotalNumberOfQuestions(CATEGORIES_FILENAME);
   printf("Total: %d questions in %d categories\n", total_number_of_questions, num_of_categories);
 
-  struct question_info questions[total_number_of_questions];
+  //struct question_info questions[total_number_of_questions];
+  struct question_info *questions = malloc(sizeof(struct question_info) * total_number_of_questions);
+  if (questions == NULL) {
+    perror("Couldn't create questions array");
+    return 1;
+  }
   populateQuestions(questions, num_of_categories);
 
   while (1) {
