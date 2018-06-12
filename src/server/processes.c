@@ -1,5 +1,11 @@
 #include "processes.h"
 
+static volatile int running = 1;
+
+void interruptHandler(int sig __attribute__ ((unused))) {
+  running = 0;
+}
+
 void resetScoreTable(struct user_score score_table[]) {
   for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
     score_table[i].pid = 0;
@@ -52,22 +58,10 @@ void readFromProcessAndVerify(int *pipefd_to_child, int *pipefd_to_parent, char 
   write(pipefd_to_child[1], "OK", strlen("OK"));
 }
 
-/*
- * Function: handleChildProcess
- * ----------------------------
- *   Accept a new connection, ask question using askRandomQuestion,
- *   points are then sent together with PID to the parent process using
- *   pipe.
- *
- *   socket_fd: file descriptor for the open socket.
- *   socket_size: size of the socket.
- *   destination: structure that contains information about client.
- *   num_of_categories: number of categories.
- *   pipefd: array containing pipe file descriptors.
- *
- */
+void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination,
+                        int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent,
+                        struct question_info *questions, int total_number_of_questions) {
 
-void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, struct question_info *questions, int total_number_of_questions) {
   close(pipefd_to_parent[0]); // Close the read end of pipe, child is only going to write.
   close(pipefd_to_child[1]);
   pid_t child_pid = getpid();
@@ -114,7 +108,8 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
             break;
           }
         }
-        memcpy(tmp_questions, questions + question_offset, num_of_questions * sizeof(struct question_info));
+        memcpy(tmp_questions, questions + question_offset,
+              num_of_questions * sizeof(struct question_info));
       }
       shuffleQuestions(tmp_questions, num_of_questions);
     }
@@ -124,8 +119,10 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
     }
   }
 
-  while (1) {
-    if (questions_asked == total_number_of_questions || (mode == 2 && questions_asked == num_of_questions)) {
+  signal(SIGINT, interruptHandler);
+  while (running) {
+    if (questions_asked == total_number_of_questions ||
+       (mode == 2 && questions_asked == num_of_questions)) {
       if (sendAndValidate(client_fd, destination, "END_OF_QUESTIONS")) {
         printf("Questions ended.\n");
         break;
@@ -190,27 +187,18 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
     }
   }
 
+  free(tmp_questions);
   close(pipefd_to_parent[1]); // Before function end close the write end of the pipe.
   close(pipefd_to_child[0]);
   close(client_fd);
 }
 
-/*
- * Function: handleParentProcess
- * ----------------------------
- *   Reads message from child sent over the pipe,
- *   updates the score table according to it.
- *
- *   score_table: array of user_score structures containing pid of user and score.
- *   pipefd: array containing pipe file descriptors.
- *
- */
-
 void handleParentProcess(struct user_score score_table[], int *pipefd_to_child, int *pipefd_to_parent) {
   close(pipefd_to_parent[1]);
   close(pipefd_to_child[0]);
   char message_from_child[20];
-  while (1) {
+  signal(SIGINT, interruptHandler);
+  while (running) {
     int client_pid, points;
     readFromProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_from_child, 7);
     if (!strncmp(message_from_child, "PTSCORE", 7)) {
@@ -235,8 +223,44 @@ void handleParentProcess(struct user_score score_table[], int *pipefd_to_child, 
       write(pipefd_to_child[1], score, strlen(score));
     }
   }
-
   close(pipefd_to_child[1]);
   close(pipefd_to_parent[0]);
   signal(SIGCHLD, SIG_IGN);
+}
+
+void handleClientConnection(int socket_fd, socklen_t socket_size, struct sockaddr_in destination,
+                            int num_of_categories, struct question_info *questions,
+                            int total_number_of_questions) {
+
+ int pipefd_to_child[2];
+ int pipefd_to_parent[2];
+
+ // We're going to create a pipeline between parent and child processes.
+ if (pipe(pipefd_to_child) == -1) {
+   fprintf(stderr, "Pipe to child failed\n");
+   return;
+ }
+ if (pipe(pipefd_to_parent) == -1) {
+   fprintf(stderr, "Pipe to parent failed\n");
+   return;
+ }
+
+ struct user_score score_table[MAX_NUMBER_OF_CONNECTIONS];
+ resetScoreTable(score_table);
+
+ // Handle maximum number of processes connected simultaneously.
+ pid_t children[MAX_NUMBER_OF_CONNECTIONS];
+ for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
+   if ((children[i] = fork()) == 0) {
+     if (children[i] < 0) {
+       fprintf(stderr, "Error in process creation.\n");
+       break;
+     }
+     handleChildProcess(socket_fd, socket_size, destination, num_of_categories,
+                        pipefd_to_child, pipefd_to_parent, questions, total_number_of_questions);
+   }
+ }
+
+ // Parent is taking care of this part of the process.
+ handleParentProcess(score_table, pipefd_to_child, pipefd_to_parent);
 }

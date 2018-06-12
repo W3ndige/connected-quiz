@@ -10,6 +10,7 @@ int calculateNumberOfCategories() {
     int num_of_categories = 0;
     while (!feof(categories_file)) {
       char line[MAX_CATEGORY_LINE_SIZE];
+      memset(line, 0, sizeof(line));
       fgets(line, MAX_CATEGORY_LINE_SIZE, categories_file);
       if (strncmp(line,"END_OF_LIST",11) == 0) {
         break;
@@ -34,6 +35,7 @@ int calculateNumberOfQuestions(char *filename) {
     int num_of_questions = 0;
     while (!feof(questions_file)) {
       char line[MAX_QUESTION_LINE_SIZE];
+      memset(line, 0, sizeof(line));
       fgets(line, MAX_QUESTION_LINE_SIZE, questions_file);
       if (strncmp(line,"BEGIN_OF_QUESTION",17) == 0) {
         num_of_questions++;
@@ -45,27 +47,31 @@ int calculateNumberOfQuestions(char *filename) {
 }
 
 int calculateTotalNumberOfQuestions() {
-  int total_number_of_questions = 0;
   FILE *categories_file = fopen(CATEGORIES_FILENAME, "r");
+  int total_number_of_questions = 0;
   if (!categories_file) {
-    fprintf(stderr, "Could not open %s: %s\n", CATEGORIES_FILENAME, strerror(errno));
+    perror("Could not open category file");
     return -1;
   }
-  char category_source[MAX_CATEGORY_LINE_SIZE];
-  fgets(category_source, sizeof(category_source) / sizeof(category_source[0]), categories_file);
-  while (!feof(categories_file) ) {
-    fgets(category_source, sizeof(category_source) / sizeof(category_source[0]), categories_file);
-    if (strncmp(category_source,"END_OF_LIST",11) == 0) {
-      break;
+  else {
+    while (!feof(categories_file)) {
+      char line[MAX_CATEGORY_LINE_SIZE];
+      memset(line, 0, sizeof(line));
+      fgets(line, MAX_CATEGORY_LINE_SIZE, categories_file);
+      if (strncmp(line,"END_OF_LIST",11) == 0) {
+        break;
+      }
+      else {
+        properlyTerminateString(line);
+        int num_of_questions = calculateNumberOfQuestions(line);
+        if (num_of_questions > 0) {
+          total_number_of_questions += num_of_questions;
+        }
+      }
     }
-    properlyTerminateString(category_source);
-    int number_of_questions = calculateNumberOfQuestions(category_source);
-    if (number_of_questions > 0) {
-      total_number_of_questions += number_of_questions;
-    }
+    fclose(categories_file);
+    return total_number_of_questions;
   }
-  fclose(categories_file);
-  return total_number_of_questions;
 }
 
  int getCategory(char *category_source, size_t size, int category_number) {
