@@ -13,7 +13,7 @@ File contains functions used in order to get the question data from files.
 \item 
 int \mbox{\hyperlink{game_8h_a3376001de554991197c0c6208e887969}{ask\+Question}} (int client\+\_\+fd, struct sockaddr\+\_\+in destination, struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$questions, int question\+\_\+number)
 \begin{DoxyCompactList}\small\item\em Sends the question data to the client. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{game_8h_a1d3e967359883c44f28492279079c67d}{shuffle\+Questions}} (struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} questions\mbox{[}$\,$\mbox{]}, int total\+\_\+number\+\_\+of\+\_\+questions)
+void \mbox{\hyperlink{game_8h_a8eb810cd7e99d23e94e25fbc18b93bb0}{shuffle\+Questions}} (struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$questions, int total\+\_\+number\+\_\+of\+\_\+questions)
 \begin{DoxyCompactList}\small\item\em Shuffle the questions in order to make order random. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -30,9 +30,6 @@ const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+A\+N\+S\+W\+E\+R\+\_\+\+L\+I\+N\+E\+
 \subsection{Detailed Description}
 File contains functions used in order to get the question data from files. 
 
-\begin{DoxyAuthor}{Author}
-W3ndige 
-\end{DoxyAuthor}
 \begin{DoxyDate}{Date}
 29 May 2018 
 \end{DoxyDate}
@@ -51,23 +48,23 @@ Sends the question data to the client.
 
 
 \begin{DoxyParams}{Parameters}
-{\em client\+\_\+fd} & File descriptor of client that got accepted. \\
+{\em int} & client\+\_\+fd File descriptor of client that got accepted. \\
 \hline
-{\em destination} & Structure that contains information about client. \\
+{\em struct} & sockaddr\+\_\+in destination Structure that contains information about client. \\
 \hline
-{\em questions} & Array containing questions. \\
+{\em struct} & \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$questions Array containing questions. \\
 \hline
-{\em question\+\_\+number} & Number of current question. \\
+{\em int} & question\+\_\+number Number of current question. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 User score or -\/1 on error. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{game_8h_a1d3e967359883c44f28492279079c67d}\label{game_8h_a1d3e967359883c44f28492279079c67d}} 
+\mbox{\Hypertarget{game_8h_a8eb810cd7e99d23e94e25fbc18b93bb0}\label{game_8h_a8eb810cd7e99d23e94e25fbc18b93bb0}} 
 \index{game.\+h@{game.\+h}!shuffle\+Questions@{shuffle\+Questions}}
 \index{shuffle\+Questions@{shuffle\+Questions}!game.\+h@{game.\+h}}
 \subsubsection{\texorpdfstring{shuffle\+Questions()}{shuffleQuestions()}}
-{\footnotesize\ttfamily void shuffle\+Questions (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}}}]{questions\mbox{[}$\,$\mbox{]},  }\item[{int}]{total\+\_\+number\+\_\+of\+\_\+questions }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void shuffle\+Questions (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$}]{questions,  }\item[{int}]{total\+\_\+number\+\_\+of\+\_\+questions }\end{DoxyParamCaption})}
 
 
 
@@ -75,9 +72,9 @@ Shuffle the questions in order to make order random.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt out}  & {\em questions} & Array containing questions. \\
+\mbox{\tt out}  & {\em struct} & \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$questions Pointer to rray containing questions. \\
 \hline
- & {\em total\+\_\+number\+\_\+of\+\_\+questions} & Total number of available questions. \\
+ & {\em int} & total\+\_\+number\+\_\+of\+\_\+questions Total number of available questions. \\
 \hline
 \end{DoxyParams}
 

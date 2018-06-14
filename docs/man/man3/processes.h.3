@@ -41,7 +41,7 @@ src/server/processes.h \- File contains functions in interaction between process
 .br
 .RI "Read data sent from another process and send confirmation\&. "
 .ti -1c
-.RI "void \fBhandleChildProcess\fP (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, struct \fBquestion_info\fP questions[], int total_number_of_questions)"
+.RI "void \fBhandleChildProcess\fP (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, struct \fBquestion_info\fP *questions, int total_number_of_questions)"
 .br
 .RI "Accept a new connection, ask question using askRandomQuestion, points are then sent together with PID to the parent process using pipe\&. "
 .ti -1c
@@ -59,11 +59,6 @@ File contains functions in interaction between processes\&.
 
 
 .PP
-\fBAuthor:\fP
-.RS 4
-W3ndige 
-.RE
-.PP
 \fBDate:\fP
 .RS 4
 29 May 2018 
@@ -72,22 +67,22 @@ W3ndige
 
 .SH "Function Documentation"
 .PP 
-.SS "void handleChildProcess (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int * pipefd_to_child, int * pipefd_to_parent, struct \fBquestion_info\fP questions[], int total_number_of_questions)"
+.SS "void handleChildProcess (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int * pipefd_to_child, int * pipefd_to_parent, struct \fBquestion_info\fP * questions, int total_number_of_questions)"
 
 .PP
 Accept a new connection, ask question using askRandomQuestion, points are then sent together with PID to the parent process using pipe\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIsocket_fd\fP file descriptor for the open socket\&. 
+\fIint\fP socket_fd: file descriptor for the open socket\&. 
 .br
-\fIsocket_size\fP size of the socket\&. 
+\fIint\fP socket_size: size of the socket\&. 
 .br
-\fIdestination\fP structure that contains information about client\&. 
+\fIstruct\fP sockaddr_in destination: structure that contains information about client\&. 
 .br
-\fInum_of_categories\fP number of categories\&. 
+\fIstruct\fP \fBquestion_info\fP num_of_categories: number of categories\&. 
 .br
-\fIpipefd\fP array containing pipe file descriptors\&. 
+\fIint\fP pipefd: array containing pipe file descriptors\&. 
 .RE
 .PP
 
@@ -98,13 +93,13 @@ Create the pipe, and forks according to global variable MAX_NUMBER_OF_CONNECTION
 .PP
 \fBParameters:\fP
 .RS 4
-\fIsocket_fd\fP file descriptor for the open socket\&. 
+\fIint\fP socket_fd: file descriptor for the open socket\&. 
 .br
-\fIsocket_size\fP size of the socket\&. 
+\fIint\fP socket_size: size of the socket\&. 
 .br
-\fIdestination\fP structure that contains information about client\&. 
+\fIstruct\fP \fBuser_score\fP destination: structure that contains information about client\&. 
 .br
-\fInum_of_categories\fP number of categories\&. 
+\fIint\fP num_of_categories: number of categories\&. 
 .RE
 .PP
 
@@ -115,9 +110,9 @@ Reads message from child sent over the pipe, updates the score table according t
 .PP
 \fBParameters:\fP
 .RS 4
-\fIscore_table\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+\fIstruct\fP \fBuser_score\fP score_table: array of \fBuser_score\fP structures containing pid of user and score\&. 
 .br
-\fIpipefd\fP array containing pipe file descriptors\&. 
+\fIint\fP pipefd: array containing pipe file descriptors\&. 
 .RE
 .PP
 
@@ -128,11 +123,13 @@ Read data sent from another process and send confirmation\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpipefd_to_child\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+\fIint\fP *pipefd_to_child: array of \fBuser_score\fP structures containing pid of user and score\&. 
 .br
-\fIpipefd_to_parent\fP PID of the client that score is about to be placed\&. 
+\fIint\fP *pipefd_to_parent: PID of the client that score is about to be placed\&. 
 .br
-\fImessage\fP number of points to be put\&. 
+\fIchar\fP *message: number of points to be put\&. 
+.br
+\fIint\fP message_size Size of the message\&. 
 .RE
 .PP
 
@@ -143,7 +140,7 @@ Places the user score in the proper place of the score_table and prints scoreboa
 .PP
 \fBParameters:\fP
 .RS 4
-\fIscore_table\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+\fIstruct\fP \fBuser_score\fP score_table: array of \fBuser_score\fP structures containing pid of user and score\&. 
 .RE
 .PP
 
@@ -154,11 +151,11 @@ Send to process and verify if the information was received\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIpipefd_to_child\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+\fIint\fP *pipefd_to_child: array of \fBuser_score\fP structures containing pid of user and score\&. 
 .br
-\fIpipefd_to_parent\fP PID of the client that score is about to be placed\&. 
+\fIint\fP *pipefd_to_parent: PID of the client that score is about to be placed\&. 
 .br
-\fImessage\fP number of points to be put\&. 
+\fIchar\fP *message: number of points to be put\&. 
 .RE
 .PP
 \fBReturns:\fP
@@ -174,11 +171,11 @@ Places the user score in the proper place of the score_table and prints scoreboa
 .PP
 \fBParameters:\fP
 .RS 4
-\fIscore_table\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+\fIstruct\fP \fBuser_score\fP score_table: array of \fBuser_score\fP structures containing pid of user and score\&. 
 .br
-\fIclient_pid\fP PID of the client that score is about to be placed\&. 
+\fIint\fP client_pid: PID of the client that score is about to be placed\&. 
 .br
-\fIpoints\fP number of points to be put\&. 
+\fIint\fP points: number of points to be put\&. 
 .RE
 .PP
 

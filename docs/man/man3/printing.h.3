@@ -75,15 +75,15 @@ Converts the longer question into the one consisting of 2 lines\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIbuffer\fP Pointer to buffer variable that contains question\&. 
+\fIchar\fP *buffer Pointer to buffer variable that contains question\&. 
 .br
-\fIfirst_line\fP Pointer to first_line variable that will contain first part of question\&. 
+\fIchar\fP *first_line Pointer to first_line variable that will contain first part of question\&. 
 .br
-\fIfirst_line_size\fP Size of first_line buffer\&. 
+\fIsize_t\fP first_line_size Size of first_line buffer\&. 
 .br
-\fIsecond_line\fP Pointer to second_line variable that will contain second part of question\&. 
+\fIchar\fP *second_line Pointer to second_line variable that will contain second part of question\&. 
 .br
-\fIsecond_line_size\fP Size of second_line buffer\&. 
+\fIsize_t\fP second_line_size Size of second_line buffer\&. 
 .RE
 .PP
 
@@ -94,17 +94,21 @@ Print the information whether the answer was correct\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIscreen\fP pointer to SDL surface of the screen\&. 
+\fISDL_Surface\fP *screen: pointer to SDL surface of the screen\&. 
 .br
-\fIfont\fP pointer to TTF font used in rendering\&. 
+\fISDL_Surface\fP *background: pointer to SDL surface of the background image\&. 
 .br
-\fItext_surface\fP pointer to SDL surface of the text area\&. 
+\fITTF_Font\fP *font: pointer to TTF font used in rendering\&. 
 .br
-\fIsocket_fd\fP file descriptor for the open socket\&. 
+\fITTF_Font\fP *header_font: pointer to TTF header font used in rendering of headers\&. 
 .br
-\fIscore_location\fP coordinates of the score location in SDL_Rect\&. 
+\fISDL_Surface\fP *text_surface: pointer to SDL surface of the text area\&. 
 .br
-\fIforeground_color\fP foreground color used in rendering\&. 
+\fIint\fP socket_fd: file descriptor for the open socket\&. 
+.br
+\fISDL_Rect\fP score_location: coordinates of the score location in SDL_Rect\&. 
+.br
+\fISDL_Color\fP foreground_color: foreground color used in rendering\&. 
 .RE
 .PP
 
@@ -115,19 +119,21 @@ Get the current question from the server, print it, get the answers and print th
 .PP
 \fBParameters:\fP
 .RS 4
-\fIscreen\fP pointer to SDL surface of the screen\&. 
+\fISDL_Surface\fP *screen: pointer to SDL surface of the screen\&. 
 .br
-\fIfont\fP pointer to TTF font used in rendering\&. 
+\fISDL_Surface\fP *background: pointer to SDL surface of the background image\&. 
 .br
-\fItext_surface\fP pointer to SDL surface of the text area\&. 
+\fITTF_Font\fP *font: pointer to TTF font used in rendering\&. 
 .br
-\fIsocket_fd\fP file descriptor for the open socket\&. 
+\fISDL_Surface\fP text_surface: pointer to SDL surface of the text area\&. 
 .br
-\fItext_location\fP coordinates of the text location in SDL_Rect\&. 
+\fIint\fP socket_fd: file descriptor for the open socket\&. 
 .br
-\fIanswer_location\fP coordinates of the answer location in SDL_Rect\&. 
+\fISDL_Rect\fP text_location: coordinates of the text location in SDL_Rect\&. 
 .br
-\fIforeground_color\fP foreground color used in rendering\&. 
+\fISDL_Rect\fP answer_location: coordinates of the answer location in SDL_Rect\&. 
+.br
+\fISDL_Color\fP foreground_color: foreground color used in rendering\&. 
 .RE
 .PP
 
@@ -138,19 +144,21 @@ Print all available game modes during startup of client\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIscreen\fP pointer to SDL surface of the screen\&. 
+\fISDL_Surface\fP *screen: pointer to SDL surface of the screen\&. 
 .br
-\fIfont\fP pointer to TTF font used in rendering\&. 
+\fISDL_Surface\fP *background: pointer to SDL surface of the background image\&. 
 .br
-\fIheader_font\fP pointer to TTF header font used in rendering of headers\&. 
+\fITTF_Font\fP *font: pointer to TTF font used in rendering\&. 
 .br
-\fItext_surface\fP pointer to SDL surface of the text area\&. 
+\fITTF_Font\fP *header_font: pointer to TTF header font used in rendering of headers\&. 
 .br
-\fIsocket_fd\fP file descriptor for the open socket\&. 
+\fISDL_Surface\fP *text_surface: pointer to SDL surface of the text area\&. 
 .br
-\fImode_location\fP coordinates of the modes location in SDL_Rect\&. 
+\fIint\fP socket_fd: file descriptor for the open socket\&. 
 .br
-\fIforeground_color\fP foreground color used in rendering\&. 
+\fISDL_Rect\fP mode_location: coordinates of the modes location in SDL_Rect\&. 
+.br
+\fISDL_Color\fP foreground_color: foreground color used in rendering\&. 
 .RE
 .PP
 
@@ -161,17 +169,15 @@ Print current user score\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIscreen\fP pointer to SDL surface of the screen\&. 
+\fISDL_Surface\fP *screen: pointer to SDL surface of the screen\&. 
 .br
-\fIfont\fP pointer to TTF font used in rendering\&. 
+\fITTF_Font\fP *font: pointer to TTF font used in rendering\&. 
 .br
-\fItext_surface\fP pointer to SDL surface of the text area\&. 
+\fISDL_Surface\fP *text_surface: pointer to SDL surface of the text area\&. 
 .br
-\fIsocket_fd\fP file descriptor for the open socket\&. 
+\fISDL_Color\fP foreground_color: foreground color used in rendering\&. 
 .br
-\fIforeground_color\fP foreground color used in rendering\&. 
-.br
-\fIscore\fP Pointer to variable containing current score\&. 
+\fIchar\fP *score: Pointer to variable containing current score\&. 
 .RE
 .PP
 

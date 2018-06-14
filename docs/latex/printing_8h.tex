@@ -55,15 +55,15 @@ Converts the longer question into the one consisting of 2 lines.
 
 
 \begin{DoxyParams}{Parameters}
-{\em buffer} & Pointer to buffer variable that contains question. \\
+{\em char} & $\ast$buffer Pointer to buffer variable that contains question. \\
 \hline
-{\em first\+\_\+line} & Pointer to first\+\_\+line variable that will contain first part of question. \\
+{\em char} & $\ast$first\+\_\+line Pointer to first\+\_\+line variable that will contain first part of question. \\
 \hline
-{\em first\+\_\+line\+\_\+size} & Size of first\+\_\+line buffer. \\
+{\em size\+\_\+t} & first\+\_\+line\+\_\+size Size of first\+\_\+line buffer. \\
 \hline
-{\em second\+\_\+line} & Pointer to second\+\_\+line variable that will contain second part of question. \\
+{\em char} & $\ast$second\+\_\+line Pointer to second\+\_\+line variable that will contain second part of question. \\
 \hline
-{\em second\+\_\+line\+\_\+size} & Size of second\+\_\+line buffer. \\
+{\em size\+\_\+t} & second\+\_\+line\+\_\+size Size of second\+\_\+line buffer. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{printing_8h_ab6b7fed2ac7e376c9070a7cb65a7c6ea}\label{printing_8h_ab6b7fed2ac7e376c9070a7cb65a7c6ea}} 
@@ -78,17 +78,21 @@ Print the information whether the answer was correct.
 
 
 \begin{DoxyParams}{Parameters}
-{\em screen} & pointer to S\+DL surface of the screen. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$screen\+: pointer to S\+DL surface of the screen. \\
 \hline
-{\em font} & pointer to T\+TF font used in rendering. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$background\+: pointer to S\+DL surface of the background image. \\
 \hline
-{\em text\+\_\+surface} & pointer to S\+DL surface of the text area. \\
+{\em T\+T\+F\+\_\+\+Font} & $\ast$font\+: pointer to T\+TF font used in rendering. \\
 \hline
-{\em socket\+\_\+fd} & file descriptor for the open socket. \\
+{\em T\+T\+F\+\_\+\+Font} & $\ast$header\+\_\+font\+: pointer to T\+TF header font used in rendering of headers. \\
 \hline
-{\em score\+\_\+location} & coordinates of the score location in S\+D\+L\+\_\+\+Rect. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$text\+\_\+surface\+: pointer to S\+DL surface of the text area. \\
 \hline
-{\em foreground\+\_\+color} & foreground color used in rendering. \\
+{\em int} & socket\+\_\+fd\+: file descriptor for the open socket. \\
+\hline
+{\em S\+D\+L\+\_\+\+Rect} & score\+\_\+location\+: coordinates of the score location in S\+D\+L\+\_\+\+Rect. \\
+\hline
+{\em S\+D\+L\+\_\+\+Color} & foreground\+\_\+color\+: foreground color used in rendering. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{printing_8h_a8735bffdb21a3ecf0ce267813b078bbc}\label{printing_8h_a8735bffdb21a3ecf0ce267813b078bbc}} 
@@ -103,19 +107,21 @@ Get the current question from the server, print it, get the answers and print th
 
 
 \begin{DoxyParams}{Parameters}
-{\em screen} & pointer to S\+DL surface of the screen. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$screen\+: pointer to S\+DL surface of the screen. \\
 \hline
-{\em font} & pointer to T\+TF font used in rendering. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$background\+: pointer to S\+DL surface of the background image. \\
 \hline
-{\em text\+\_\+surface} & pointer to S\+DL surface of the text area. \\
+{\em T\+T\+F\+\_\+\+Font} & $\ast$font\+: pointer to T\+TF font used in rendering. \\
 \hline
-{\em socket\+\_\+fd} & file descriptor for the open socket. \\
+{\em S\+D\+L\+\_\+\+Surface} & text\+\_\+surface\+: pointer to S\+DL surface of the text area. \\
 \hline
-{\em text\+\_\+location} & coordinates of the text location in S\+D\+L\+\_\+\+Rect. \\
+{\em int} & socket\+\_\+fd\+: file descriptor for the open socket. \\
 \hline
-{\em answer\+\_\+location} & coordinates of the answer location in S\+D\+L\+\_\+\+Rect. \\
+{\em S\+D\+L\+\_\+\+Rect} & text\+\_\+location\+: coordinates of the text location in S\+D\+L\+\_\+\+Rect. \\
 \hline
-{\em foreground\+\_\+color} & foreground color used in rendering. \\
+{\em S\+D\+L\+\_\+\+Rect} & answer\+\_\+location\+: coordinates of the answer location in S\+D\+L\+\_\+\+Rect. \\
+\hline
+{\em S\+D\+L\+\_\+\+Color} & foreground\+\_\+color\+: foreground color used in rendering. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{printing_8h_abfe8a83186cb1e308ebac3940861f3d1}\label{printing_8h_abfe8a83186cb1e308ebac3940861f3d1}} 
@@ -130,19 +136,21 @@ Print all available game modes during startup of client.
 
 
 \begin{DoxyParams}{Parameters}
-{\em screen} & pointer to S\+DL surface of the screen. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$screen\+: pointer to S\+DL surface of the screen. \\
 \hline
-{\em font} & pointer to T\+TF font used in rendering. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$background\+: pointer to S\+DL surface of the background image. \\
 \hline
-{\em header\+\_\+font} & pointer to T\+TF header font used in rendering of headers. \\
+{\em T\+T\+F\+\_\+\+Font} & $\ast$font\+: pointer to T\+TF font used in rendering. \\
 \hline
-{\em text\+\_\+surface} & pointer to S\+DL surface of the text area. \\
+{\em T\+T\+F\+\_\+\+Font} & $\ast$header\+\_\+font\+: pointer to T\+TF header font used in rendering of headers. \\
 \hline
-{\em socket\+\_\+fd} & file descriptor for the open socket. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$text\+\_\+surface\+: pointer to S\+DL surface of the text area. \\
 \hline
-{\em mode\+\_\+location} & coordinates of the modes location in S\+D\+L\+\_\+\+Rect. \\
+{\em int} & socket\+\_\+fd\+: file descriptor for the open socket. \\
 \hline
-{\em foreground\+\_\+color} & foreground color used in rendering. \\
+{\em S\+D\+L\+\_\+\+Rect} & mode\+\_\+location\+: coordinates of the modes location in S\+D\+L\+\_\+\+Rect. \\
+\hline
+{\em S\+D\+L\+\_\+\+Color} & foreground\+\_\+color\+: foreground color used in rendering. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{printing_8h_a921c1daf109dc0f54a2b19f51136990e}\label{printing_8h_a921c1daf109dc0f54a2b19f51136990e}} 
@@ -157,17 +165,15 @@ Print current user score.
 
 
 \begin{DoxyParams}{Parameters}
-{\em screen} & pointer to S\+DL surface of the screen. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$screen\+: pointer to S\+DL surface of the screen. \\
 \hline
-{\em font} & pointer to T\+TF font used in rendering. \\
+{\em T\+T\+F\+\_\+\+Font} & $\ast$font\+: pointer to T\+TF font used in rendering. \\
 \hline
-{\em text\+\_\+surface} & pointer to S\+DL surface of the text area. \\
+{\em S\+D\+L\+\_\+\+Surface} & $\ast$text\+\_\+surface\+: pointer to S\+DL surface of the text area. \\
 \hline
-{\em socket\+\_\+fd} & file descriptor for the open socket. \\
+{\em S\+D\+L\+\_\+\+Color} & foreground\+\_\+color\+: foreground color used in rendering. \\
 \hline
-{\em foreground\+\_\+color} & foreground color used in rendering. \\
-\hline
-{\em score} & Pointer to variable containing current score. \\
+{\em char} & $\ast$score\+: Pointer to variable containing current score. \\
 \hline
 \end{DoxyParams}
 

@@ -162,11 +162,11 @@ Variables</h2></td></tr>
 <p>Converts the longer question into the one consisting of 2 lines. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">buffer</td><td>Pointer to buffer variable that contains question. </td></tr>
-    <tr><td class="paramname">first_line</td><td>Pointer to first_line variable that will contain first part of question. </td></tr>
-    <tr><td class="paramname">first_line_size</td><td>Size of first_line buffer. </td></tr>
-    <tr><td class="paramname">second_line</td><td>Pointer to second_line variable that will contain second part of question. </td></tr>
-    <tr><td class="paramname">second_line_size</td><td>Size of second_line buffer. </td></tr>
+    <tr><td class="paramname">char</td><td>*buffer Pointer to buffer variable that contains question. </td></tr>
+    <tr><td class="paramname">char</td><td>*first_line Pointer to first_line variable that will contain first part of question. </td></tr>
+    <tr><td class="paramname">size_t</td><td>first_line_size Size of first_line buffer. </td></tr>
+    <tr><td class="paramname">char</td><td>*second_line Pointer to second_line variable that will contain second part of question. </td></tr>
+    <tr><td class="paramname">size_t</td><td>second_line_size Size of second_line buffer. </td></tr>
   </table>
   </dd>
 </dl>
@@ -226,12 +226,14 @@ Variables</h2></td></tr>
 <p>Print the information whether the answer was correct. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">screen</td><td>pointer to SDL surface of the screen. </td></tr>
-    <tr><td class="paramname">font</td><td>pointer to TTF font used in rendering. </td></tr>
-    <tr><td class="paramname">text_surface</td><td>pointer to SDL surface of the text area. </td></tr>
-    <tr><td class="paramname">socket_fd</td><td>file descriptor for the open socket. </td></tr>
-    <tr><td class="paramname">score_location</td><td>coordinates of the score location in SDL_Rect. </td></tr>
-    <tr><td class="paramname">foreground_color</td><td>foreground color used in rendering. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*screen: pointer to SDL surface of the screen. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*background: pointer to SDL surface of the background image. </td></tr>
+    <tr><td class="paramname">TTF_Font</td><td>*font: pointer to TTF font used in rendering. </td></tr>
+    <tr><td class="paramname">TTF_Font</td><td>*header_font: pointer to TTF header font used in rendering of headers. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*text_surface: pointer to SDL surface of the text area. </td></tr>
+    <tr><td class="paramname">int</td><td>socket_fd: file descriptor for the open socket. </td></tr>
+    <tr><td class="paramname">SDL_Rect</td><td>score_location: coordinates of the score location in SDL_Rect. </td></tr>
+    <tr><td class="paramname">SDL_Color</td><td>foreground_color: foreground color used in rendering. </td></tr>
   </table>
   </dd>
 </dl>
@@ -303,13 +305,14 @@ Variables</h2></td></tr>
 <p>Get the current question from the server, print it, get the answers and print them. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">screen</td><td>pointer to SDL surface of the screen. </td></tr>
-    <tr><td class="paramname">font</td><td>pointer to TTF font used in rendering. </td></tr>
-    <tr><td class="paramname">text_surface</td><td>pointer to SDL surface of the text area. </td></tr>
-    <tr><td class="paramname">socket_fd</td><td>file descriptor for the open socket. </td></tr>
-    <tr><td class="paramname">text_location</td><td>coordinates of the text location in SDL_Rect. </td></tr>
-    <tr><td class="paramname">answer_location</td><td>coordinates of the answer location in SDL_Rect. </td></tr>
-    <tr><td class="paramname">foreground_color</td><td>foreground color used in rendering. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*screen: pointer to SDL surface of the screen. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*background: pointer to SDL surface of the background image. </td></tr>
+    <tr><td class="paramname">TTF_Font</td><td>*font: pointer to TTF font used in rendering. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>text_surface: pointer to SDL surface of the text area. </td></tr>
+    <tr><td class="paramname">int</td><td>socket_fd: file descriptor for the open socket. </td></tr>
+    <tr><td class="paramname">SDL_Rect</td><td>text_location: coordinates of the text location in SDL_Rect. </td></tr>
+    <tr><td class="paramname">SDL_Rect</td><td>answer_location: coordinates of the answer location in SDL_Rect. </td></tr>
+    <tr><td class="paramname">SDL_Color</td><td>foreground_color: foreground color used in rendering. </td></tr>
   </table>
   </dd>
 </dl>
@@ -375,13 +378,14 @@ Variables</h2></td></tr>
 <p>Print all available game modes during startup of client. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">screen</td><td>pointer to SDL surface of the screen. </td></tr>
-    <tr><td class="paramname">font</td><td>pointer to TTF font used in rendering. </td></tr>
-    <tr><td class="paramname">header_font</td><td>pointer to TTF header font used in rendering of headers. </td></tr>
-    <tr><td class="paramname">text_surface</td><td>pointer to SDL surface of the text area. </td></tr>
-    <tr><td class="paramname">socket_fd</td><td>file descriptor for the open socket. </td></tr>
-    <tr><td class="paramname">mode_location</td><td>coordinates of the modes location in SDL_Rect. </td></tr>
-    <tr><td class="paramname">foreground_color</td><td>foreground color used in rendering. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*screen: pointer to SDL surface of the screen. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*background: pointer to SDL surface of the background image. </td></tr>
+    <tr><td class="paramname">TTF_Font</td><td>*font: pointer to TTF font used in rendering. </td></tr>
+    <tr><td class="paramname">TTF_Font</td><td>*header_font: pointer to TTF header font used in rendering of headers. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*text_surface: pointer to SDL surface of the text area. </td></tr>
+    <tr><td class="paramname">int</td><td>socket_fd: file descriptor for the open socket. </td></tr>
+    <tr><td class="paramname">SDL_Rect</td><td>mode_location: coordinates of the modes location in SDL_Rect. </td></tr>
+    <tr><td class="paramname">SDL_Color</td><td>foreground_color: foreground color used in rendering. </td></tr>
   </table>
   </dd>
 </dl>
@@ -435,12 +439,11 @@ Variables</h2></td></tr>
 <p>Print current user score. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">screen</td><td>pointer to SDL surface of the screen. </td></tr>
-    <tr><td class="paramname">font</td><td>pointer to TTF font used in rendering. </td></tr>
-    <tr><td class="paramname">text_surface</td><td>pointer to SDL surface of the text area. </td></tr>
-    <tr><td class="paramname">socket_fd</td><td>file descriptor for the open socket. </td></tr>
-    <tr><td class="paramname">foreground_color</td><td>foreground color used in rendering. </td></tr>
-    <tr><td class="paramname">score</td><td>Pointer to variable containing current score. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*screen: pointer to SDL surface of the screen. </td></tr>
+    <tr><td class="paramname">TTF_Font</td><td>*font: pointer to TTF font used in rendering. </td></tr>
+    <tr><td class="paramname">SDL_Surface</td><td>*text_surface: pointer to SDL surface of the text area. </td></tr>
+    <tr><td class="paramname">SDL_Color</td><td>foreground_color: foreground color used in rendering. </td></tr>
+    <tr><td class="paramname">char</td><td>*score: Pointer to variable containing current score. </td></tr>
   </table>
   </dd>
 </dl>

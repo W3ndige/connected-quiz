@@ -49,9 +49,6 @@ const char $\ast$ {\bfseries C\+A\+T\+E\+G\+O\+R\+I\+E\+S\+\_\+\+F\+I\+L\+E\+N\+
 \subsection{Detailed Description}
 File contains functions used in order to send question data and manipulate questions array. 
 
-\begin{DoxyAuthor}{Author}
-W3ndige 
-\end{DoxyAuthor}
 \begin{DoxyDate}{Date}
 29 May 2018 
 \end{DoxyDate}
@@ -68,11 +65,6 @@ W3ndige
 
 Calculate number of categories in categories file. 
 
-
-\begin{DoxyParams}{Parameters}
-{\em filename} & String containing filename. \\
-\hline
-\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Number of categories or -\/1 on error. 
 \end{DoxyReturn}
@@ -106,7 +98,7 @@ Calculate total number of questions in all categories.
 
 
 \begin{DoxyParams}{Parameters}
-{\em filename} & String containing filename. \\
+{\em char} & $\ast$filename String containing filename. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -124,11 +116,11 @@ Chooses the random category and puts it\textquotesingle{}s filename into the cat
 
 
 \begin{DoxyParams}{Parameters}
-{\em category\+\_\+source} & Pointer to which a choosen category will be saved. \\
+{\em char} & $\ast$category\+\_\+source Pointer to which a choosen category will be saved. \\
 \hline
 {\em size} & Size of the buffer that fget will get from the line. \\
 \hline
-{\em num\+\_\+of\+\_\+categories} & Number of categories. \\
+{\em int} & num\+\_\+of\+\_\+categories Number of categories. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -146,8 +138,8 @@ Fill the questions array with information about questions.
 
 
 \begin{DoxyParams}{Parameters}
-{\em questions} & Array of structs \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} that will be filled with question info. \\
+{\em struct} & \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$questions Array of structs \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} that will be filled with question info. \\
 \hline
-{\em num\+\_\+of\+\_\+categories} & Number of categories. \\
+{\em size\+\_\+t} & num\+\_\+of\+\_\+categories Number of categories. \\
 \hline
 \end{DoxyParams}

@@ -106,7 +106,6 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File contains functions in sending data between client and server. </p>
-<dl class="section author"><dt>Author</dt><dd>W3ndige </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>29 May 2018 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a31063795a8fb332020e3bfc514659d9a"></a>
@@ -144,9 +143,9 @@ Variables</h2></td></tr>
 <p>Checks the answer that client sends and assign points. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">client_fd</td><td>File descriptor of client that got accepted. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">destination</td><td>Structure that contains information about client. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">correct_answer</td><td>pointer to correct answer. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>client_fd File descriptor of client that got accepted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">struct</td><td>sockaddr_in destination Structure that contains information about client. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">char</td><td>*correct_answer: pointer to correct answer. </td></tr>
   </table>
   </dd>
 </dl>
@@ -189,9 +188,9 @@ Variables</h2></td></tr>
 <p>Receives data from the client and puts it in buffer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">client_fd</td><td>File descriptor of client that got accepted. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">destination</td><td>Structure that contains information about client. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">buffer</td><td>pointer to buffer variable. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>client_fd File descriptor of client that got accepted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">struct</td><td>sockaddr_in destination destination Structure that contains information about client. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">char</td><td>*buffer: pointer to buffer variable. </td></tr>
   </table>
   </dd>
 </dl>
@@ -234,9 +233,9 @@ Variables</h2></td></tr>
 <p>Sends the data and waits for verification from the connected client. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">client_fd</td><td>File descriptor of client that got accepted. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">destination</td><td>Structure that contains information about client. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">message</td><td>pointer to message that is meant to be sent. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>client_fd File descriptor of client that got accepted. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">struct</td><td>sockaddr_in destination Structure that contains information about client. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">char</td><td>*message: pointer to message that is meant to be sent. </td></tr>
   </table>
   </dd>
 </dl>

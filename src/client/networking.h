@@ -22,8 +22,8 @@ extern const int MAX_RECEIVE_BUFFER;  /**< Maximum buffer that the client can re
 /**
 * @brief Get the IP address of the server from the config file.
 *
-* @param ip_address Pointer to buffer that will get the IP address.
-* @param ip_address_size Maximum size of the ip address buffer.
+* @param char *ip_address Pointer to buffer that will get the IP address.
+* @param size_t ip_address_size Maximum size of the ip address buffer.
 */
 
 int loadTheConfig(char *ip_address, size_t ip_address_size);
@@ -31,8 +31,8 @@ int loadTheConfig(char *ip_address, size_t ip_address_size);
 /**
 * @brief Receive the data from the client and resend confirmation `OK`.
 *
-* @param client_fd File descriptor for the open socket.
-* @param buffer Pointer to buffer variable.
+* @param int client_fd File descriptor for the open socket.
+* @param char *buffer Pointer to buffer variable.
 */
 
 int receiveAndVerify(int client_fd, char *buffer);
@@ -40,8 +40,8 @@ int receiveAndVerify(int client_fd, char *buffer);
 /**
 * @brief Send the data to the server.
 *
-* @param client_fd File descriptor for the open socket.
-* @param message Pointer to message variable.
+* @param int client_fd File descriptor for the open socket.
+* @param char *message Pointer to message variable.
 */
 
 void sendData(int client_fd, char *message);
@@ -49,8 +49,8 @@ void sendData(int client_fd, char *message);
 /**
 * @brief Send the data to the server.
 *
-* @param client_fd File descriptor for the open socket.
-* @param message Pointer to score variable.
+* @param int client_fd File descriptor for the open socket.
+* @param char *message Pointer to score variable.
 */
 
 void getScore(int client_fd, char *score);

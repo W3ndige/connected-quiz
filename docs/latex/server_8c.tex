@@ -1,0 +1,72 @@
+\hypertarget{server_8c}{}\section{src/server/server.c File Reference}
+\label{server_8c}\index{src/server/server.\+c@{src/server/server.\+c}}
+
+
+File contains main functions used behind the server logic.  
+
+
+{\ttfamily \#include \char`\"{}processes.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{server_8c_a5cebc23be8801049945939c850147278}\label{server_8c_a5cebc23be8801049945939c850147278}} 
+int {\bfseries main} (int argc \+\_\+\+\_\+attribute\+\_\+\+\_\+((unused)), char $\ast$argv\mbox{[}$\,$\mbox{]} \+\_\+\+\_\+attribute\+\_\+\+\_\+((unused)))
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const size\+\_\+t \mbox{\hyperlink{server_8c_af63c66a57aa7df7a0473f9bdfc6126e9}{P\+O\+RT}} = 1337
+\item 
+const size\+\_\+t \mbox{\hyperlink{server_8c_a064da5095338d9bb9854b471177dc326}{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}} = 4
+\item 
+const size\+\_\+t \mbox{\hyperlink{server_8c_aff8dbcbf70f426d8f6a3384b8e2ff28f}{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}} = 500
+\item 
+\mbox{\Hypertarget{server_8c_a7b58048b940defee2745ccf7e47d3bc6}\label{server_8c_a7b58048b940defee2745ccf7e47d3bc6}} 
+const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+A\+N\+S\+W\+E\+R\+\_\+\+L\+I\+N\+E\+\_\+\+S\+I\+ZE} = 100
+\item 
+\mbox{\Hypertarget{server_8c_aa8532b5d0cfc4096e1cd8f95f3468bf1}\label{server_8c_aa8532b5d0cfc4096e1cd8f95f3468bf1}} 
+const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+Q\+U\+E\+S\+T\+I\+O\+N\+\_\+\+L\+I\+N\+E\+\_\+\+S\+I\+ZE} = 300
+\item 
+\mbox{\Hypertarget{server_8c_a63abdaad0d085b20947eae7664703f80}\label{server_8c_a63abdaad0d085b20947eae7664703f80}} 
+const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+C\+A\+T\+E\+G\+O\+R\+Y\+\_\+\+L\+I\+N\+E\+\_\+\+S\+I\+ZE} = 100
+\item 
+\mbox{\Hypertarget{server_8c_a25301aafb350bd7c81bb64582a60f383}\label{server_8c_a25301aafb350bd7c81bb64582a60f383}} 
+const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+O\+NS} = 20
+\item 
+\mbox{\Hypertarget{server_8c_a22281740786eb9eb123c145a66a28f6f}\label{server_8c_a22281740786eb9eb123c145a66a28f6f}} 
+const char $\ast$ {\bfseries C\+A\+T\+E\+G\+O\+R\+I\+E\+S\+\_\+\+F\+I\+L\+E\+N\+A\+ME} = \char`\"{}server\+\_\+assets/categories.\+txt\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+File contains main functions used behind the server logic. 
+
+\begin{DoxyDate}{Date}
+29 May 2018 
+\end{DoxyDate}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{server_8c_aff8dbcbf70f426d8f6a3384b8e2ff28f}\label{server_8c_aff8dbcbf70f426d8f6a3384b8e2ff28f}} 
+\index{server.\+c@{server.\+c}!M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\index{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}!server.\+c@{server.\+c}}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}{MAX\_RECEIVE\_BUFFER}}
+{\footnotesize\ttfamily const size\+\_\+t M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER = 500}
+
+Maximum buffer that the client can receive. \mbox{\Hypertarget{server_8c_a064da5095338d9bb9854b471177dc326}\label{server_8c_a064da5095338d9bb9854b471177dc326}} 
+\index{server.\+c@{server.\+c}!N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}}
+\index{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}!server.\+c@{server.\+c}}
+\subsubsection{\texorpdfstring{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}{NUM\_OF\_ANSWERS}}
+{\footnotesize\ttfamily const size\+\_\+t N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS = 4}
+
+Number of available answers.
+
+Number of answers for every question \mbox{\Hypertarget{server_8c_af63c66a57aa7df7a0473f9bdfc6126e9}\label{server_8c_af63c66a57aa7df7a0473f9bdfc6126e9}} 
+\index{server.\+c@{server.\+c}!P\+O\+RT@{P\+O\+RT}}
+\index{P\+O\+RT@{P\+O\+RT}!server.\+c@{server.\+c}}
+\subsubsection{\texorpdfstring{P\+O\+RT}{PORT}}
+{\footnotesize\ttfamily const size\+\_\+t P\+O\+RT = 1337}
+
+Port used in server -\/ client communication.
+
+Port number of the server client. 

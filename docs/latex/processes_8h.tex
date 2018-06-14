@@ -24,7 +24,7 @@ int \mbox{\hyperlink{processes_8h_abb59927213e4333ca5998cf2c46fc5e5}{send\+To\+P
 \begin{DoxyCompactList}\small\item\em Send to process and verify if the information was received. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{processes_8h_a91def4abb81d30f2b5a2f4672362ca5d}{read\+From\+Process\+And\+Verify}} (int $\ast$pipefd\+\_\+to\+\_\+child, int $\ast$pipefd\+\_\+to\+\_\+parent, char $\ast$message, int message\+\_\+size)
 \begin{DoxyCompactList}\small\item\em Read data sent from another process and send confirmation. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{processes_8h_abe43ba856c2f0dfd402a41022cd3f492}{handle\+Child\+Process}} (int socket\+\_\+fd, socklen\+\_\+t socket\+\_\+size, struct sockaddr\+\_\+in destination, int num\+\_\+of\+\_\+categories, int $\ast$pipefd\+\_\+to\+\_\+child, int $\ast$pipefd\+\_\+to\+\_\+parent, struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} questions\mbox{[}$\,$\mbox{]}, int total\+\_\+number\+\_\+of\+\_\+questions)
+void \mbox{\hyperlink{processes_8h_a6af1d9874291402facea43a3c8ac0ef3}{handle\+Child\+Process}} (int socket\+\_\+fd, socklen\+\_\+t socket\+\_\+size, struct sockaddr\+\_\+in destination, int num\+\_\+of\+\_\+categories, int $\ast$pipefd\+\_\+to\+\_\+child, int $\ast$pipefd\+\_\+to\+\_\+parent, struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$questions, int total\+\_\+number\+\_\+of\+\_\+questions)
 \begin{DoxyCompactList}\small\item\em Accept a new connection, ask question using ask\+Random\+Question, points are then sent together with P\+ID to the parent process using pipe. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{processes_8h_aa71b51e18ca7b84212b4cce1ffc8c9e4}{handle\+Parent\+Process}} (struct \mbox{\hyperlink{structuser__score}{user\+\_\+score}} score\+\_\+table\mbox{[}$\,$\mbox{]}, int $\ast$pipefd\+\_\+to\+\_\+child, int $\ast$pipefd\+\_\+to\+\_\+parent)
 \begin{DoxyCompactList}\small\item\em Reads message from child sent over the pipe, updates the score table according to it. \end{DoxyCompactList}\item 
@@ -35,20 +35,17 @@ void \mbox{\hyperlink{processes_8h_a7d01e62c92c0266931d3a5bbeab3fe1c}{handle\+Cl
 \subsection{Detailed Description}
 File contains functions in interaction between processes. 
 
-\begin{DoxyAuthor}{Author}
-W3ndige 
-\end{DoxyAuthor}
 \begin{DoxyDate}{Date}
 29 May 2018 
 \end{DoxyDate}
 
 
 \subsection{Function Documentation}
-\mbox{\Hypertarget{processes_8h_abe43ba856c2f0dfd402a41022cd3f492}\label{processes_8h_abe43ba856c2f0dfd402a41022cd3f492}} 
+\mbox{\Hypertarget{processes_8h_a6af1d9874291402facea43a3c8ac0ef3}\label{processes_8h_a6af1d9874291402facea43a3c8ac0ef3}} 
 \index{processes.\+h@{processes.\+h}!handle\+Child\+Process@{handle\+Child\+Process}}
 \index{handle\+Child\+Process@{handle\+Child\+Process}!processes.\+h@{processes.\+h}}
 \subsubsection{\texorpdfstring{handle\+Child\+Process()}{handleChildProcess()}}
-{\footnotesize\ttfamily void handle\+Child\+Process (\begin{DoxyParamCaption}\item[{int}]{socket\+\_\+fd,  }\item[{socklen\+\_\+t}]{socket\+\_\+size,  }\item[{struct sockaddr\+\_\+in}]{destination,  }\item[{int}]{num\+\_\+of\+\_\+categories,  }\item[{int $\ast$}]{pipefd\+\_\+to\+\_\+child,  }\item[{int $\ast$}]{pipefd\+\_\+to\+\_\+parent,  }\item[{struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}}}]{questions\mbox{[}$\,$\mbox{]},  }\item[{int}]{total\+\_\+number\+\_\+of\+\_\+questions }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void handle\+Child\+Process (\begin{DoxyParamCaption}\item[{int}]{socket\+\_\+fd,  }\item[{socklen\+\_\+t}]{socket\+\_\+size,  }\item[{struct sockaddr\+\_\+in}]{destination,  }\item[{int}]{num\+\_\+of\+\_\+categories,  }\item[{int $\ast$}]{pipefd\+\_\+to\+\_\+child,  }\item[{int $\ast$}]{pipefd\+\_\+to\+\_\+parent,  }\item[{struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$}]{questions,  }\item[{int}]{total\+\_\+number\+\_\+of\+\_\+questions }\end{DoxyParamCaption})}
 
 
 
@@ -56,15 +53,15 @@ Accept a new connection, ask question using ask\+Random\+Question, points are th
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em socket\+\_\+fd} & file descriptor for the open socket. \\
+\mbox{\tt in}  & {\em int} & socket\+\_\+fd\+: file descriptor for the open socket. \\
 \hline
-\mbox{\tt in}  & {\em socket\+\_\+size} & size of the socket. \\
+\mbox{\tt in}  & {\em int} & socket\+\_\+size\+: size of the socket. \\
 \hline
-\mbox{\tt in}  & {\em destination} & structure that contains information about client. \\
+\mbox{\tt in}  & {\em struct} & sockaddr\+\_\+in destination\+: structure that contains information about client. \\
 \hline
-\mbox{\tt in}  & {\em num\+\_\+of\+\_\+categories} & number of categories. \\
+\mbox{\tt in}  & {\em struct} & \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} num\+\_\+of\+\_\+categories\+: number of categories. \\
 \hline
-\mbox{\tt in}  & {\em pipefd} & array containing pipe file descriptors. \\
+\mbox{\tt in}  & {\em int} & pipefd\+: array containing pipe file descriptors. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{processes_8h_a7d01e62c92c0266931d3a5bbeab3fe1c}\label{processes_8h_a7d01e62c92c0266931d3a5bbeab3fe1c}} 
@@ -79,13 +76,13 @@ Create the pipe, and forks according to global variable M\+A\+X\+\_\+\+N\+U\+M\+
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em socket\+\_\+fd} & file descriptor for the open socket. \\
+\mbox{\tt in}  & {\em int} & socket\+\_\+fd\+: file descriptor for the open socket. \\
 \hline
-\mbox{\tt in}  & {\em socket\+\_\+size} & size of the socket. \\
+\mbox{\tt in}  & {\em int} & socket\+\_\+size\+: size of the socket. \\
 \hline
-\mbox{\tt in}  & {\em destination} & structure that contains information about client. \\
+\mbox{\tt in}  & {\em struct} & \mbox{\hyperlink{structuser__score}{user\+\_\+score}} destination\+: structure that contains information about client. \\
 \hline
-\mbox{\tt in}  & {\em num\+\_\+of\+\_\+categories} & number of categories. \\
+\mbox{\tt in}  & {\em int} & num\+\_\+of\+\_\+categories\+: number of categories. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{processes_8h_aa71b51e18ca7b84212b4cce1ffc8c9e4}\label{processes_8h_aa71b51e18ca7b84212b4cce1ffc8c9e4}} 
@@ -100,9 +97,9 @@ Reads message from child sent over the pipe, updates the score table according t
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em score\+\_\+table} & array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
+\mbox{\tt in}  & {\em struct} & \mbox{\hyperlink{structuser__score}{user\+\_\+score}} score\+\_\+table\+: array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
 \hline
-\mbox{\tt in}  & {\em pipefd} & array containing pipe file descriptors. \\
+\mbox{\tt in}  & {\em int} & pipefd\+: array containing pipe file descriptors. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{processes_8h_a91def4abb81d30f2b5a2f4672362ca5d}\label{processes_8h_a91def4abb81d30f2b5a2f4672362ca5d}} 
@@ -117,11 +114,13 @@ Read data sent from another process and send confirmation.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em pipefd\+\_\+to\+\_\+child} & array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
+\mbox{\tt in}  & {\em int} & $\ast$pipefd\+\_\+to\+\_\+child\+: array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
 \hline
-\mbox{\tt in}  & {\em pipefd\+\_\+to\+\_\+parent} & P\+ID of the client that score is about to be placed. \\
+\mbox{\tt in}  & {\em int} & $\ast$pipefd\+\_\+to\+\_\+parent\+: P\+ID of the client that score is about to be placed. \\
 \hline
-\mbox{\tt out}  & {\em message} & number of points to be put. \\
+\mbox{\tt out}  & {\em char} & $\ast$message\+: number of points to be put. \\
+\hline
+\mbox{\tt in}  & {\em int} & message\+\_\+size Size of the message. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{processes_8h_a86a42328baad695d8c30bf05e9d8312e}\label{processes_8h_a86a42328baad695d8c30bf05e9d8312e}} 
@@ -136,7 +135,7 @@ Places the user score in the proper place of the score\+\_\+table and prints sco
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt out}  & {\em score\+\_\+table} & array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
+\mbox{\tt out}  & {\em struct} & \mbox{\hyperlink{structuser__score}{user\+\_\+score}} score\+\_\+table\+: array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{processes_8h_abb59927213e4333ca5998cf2c46fc5e5}\label{processes_8h_abb59927213e4333ca5998cf2c46fc5e5}} 
@@ -151,11 +150,11 @@ Send to process and verify if the information was received.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em pipefd\+\_\+to\+\_\+child} & array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
+\mbox{\tt in}  & {\em int} & $\ast$pipefd\+\_\+to\+\_\+child\+: array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
 \hline
-\mbox{\tt in}  & {\em pipefd\+\_\+to\+\_\+parent} & P\+ID of the client that score is about to be placed. \\
+\mbox{\tt in}  & {\em int} & $\ast$pipefd\+\_\+to\+\_\+parent\+: P\+ID of the client that score is about to be placed. \\
 \hline
-\mbox{\tt in}  & {\em message} & number of points to be put. \\
+\mbox{\tt in}  & {\em char} & $\ast$message\+: number of points to be put. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -173,10 +172,10 @@ Places the user score in the proper place of the score\+\_\+table and prints sco
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt out}  & {\em score\+\_\+table} & array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
+\mbox{\tt out}  & {\em struct} & \mbox{\hyperlink{structuser__score}{user\+\_\+score}} score\+\_\+table\+: array of \mbox{\hyperlink{structuser__score}{user\+\_\+score}} structures containing pid of user and score. \\
 \hline
-\mbox{\tt in}  & {\em client\+\_\+pid} & P\+ID of the client that score is about to be placed. \\
+\mbox{\tt in}  & {\em int} & client\+\_\+pid\+: P\+ID of the client that score is about to be placed. \\
 \hline
-\mbox{\tt in}  & {\em points} & number of points to be put. \\
+\mbox{\tt in}  & {\em int} & points\+: number of points to be put. \\
 \hline
 \end{DoxyParams}

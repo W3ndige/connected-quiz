@@ -126,7 +126,6 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><b>CATEGORIES_FI
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File contains functions used in order to send question data and manipulate questions array. </p>
-<dl class="section author"><dt>Author</dt><dd>W3ndige </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>29 May 2018 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="ae38d83f78445aea13c3e28b7cfd71ae3"></a>
@@ -145,12 +144,6 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><b>CATEGORIES_FI
 </div><div class="memdoc">
 
 <p>Calculate number of categories in categories file. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">filename</td><td>String containing filename. </td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="section return"><dt>Returns</dt><dd>Number of categories or -1 on error. </dd></dl>
 
 </div>
@@ -200,7 +193,7 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><b>CATEGORIES_FI
 <p>Calculate total number of questions in all categories. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filename</td><td>String containing filename. </td></tr>
+    <tr><td class="paramname">char</td><td>*filename String containing filename. </td></tr>
   </table>
   </dd>
 </dl>
@@ -243,9 +236,9 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><b>CATEGORIES_FI
 <p>Chooses the random category and puts it's filename into the category_source. Returns -1 on error and line of choosen category. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">category_source</td><td>Pointer to which a choosen category will be saved. </td></tr>
+    <tr><td class="paramname">char</td><td>*category_source Pointer to which a choosen category will be saved. </td></tr>
     <tr><td class="paramname">size</td><td>Size of the buffer that fget will get from the line. </td></tr>
-    <tr><td class="paramname">num_of_categories</td><td>Number of categories. </td></tr>
+    <tr><td class="paramname">int</td><td>num_of_categories Number of categories. </td></tr>
   </table>
   </dd>
 </dl>
@@ -282,8 +275,8 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><b>CATEGORIES_FI
 <p>Fill the questions array with information about questions. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">questions</td><td>Array of structs <a class="el" href="structquestion__info.html">question_info</a> that will be filled with question info. </td></tr>
-    <tr><td class="paramname">num_of_categories</td><td>Number of categories. </td></tr>
+    <tr><td class="paramname">struct</td><td><a class="el" href="structquestion__info.html">question_info</a> *questions Array of structs <a class="el" href="structquestion__info.html">question_info</a> that will be filled with question info. </td></tr>
+    <tr><td class="paramname">size_t</td><td>num_of_categories Number of categories. </td></tr>
   </table>
   </dd>
 </dl>

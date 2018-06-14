@@ -101,9 +101,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a91def4abb81d30f2b5a2f4672362ca5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="processes_8h.html#a91def4abb81d30f2b5a2f4672362ca5d">readFromProcessAndVerify</a> (int *pipefd_to_child, int *pipefd_to_parent, char *message, int message_size)</td></tr>
 <tr class="memdesc:a91def4abb81d30f2b5a2f4672362ca5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read data sent from another process and send confirmation.  <a href="#a91def4abb81d30f2b5a2f4672362ca5d">More...</a><br /></td></tr>
 <tr class="separator:a91def4abb81d30f2b5a2f4672362ca5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe43ba856c2f0dfd402a41022cd3f492"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="processes_8h.html#abe43ba856c2f0dfd402a41022cd3f492">handleChildProcess</a> (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, struct <a class="el" href="structquestion__info.html">question_info</a> questions[], int total_number_of_questions)</td></tr>
-<tr class="memdesc:abe43ba856c2f0dfd402a41022cd3f492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept a new connection, ask question using askRandomQuestion, points are then sent together with PID to the parent process using pipe.  <a href="#abe43ba856c2f0dfd402a41022cd3f492">More...</a><br /></td></tr>
-<tr class="separator:abe43ba856c2f0dfd402a41022cd3f492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6af1d9874291402facea43a3c8ac0ef3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="processes_8h.html#a6af1d9874291402facea43a3c8ac0ef3">handleChildProcess</a> (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, struct <a class="el" href="structquestion__info.html">question_info</a> *questions, int total_number_of_questions)</td></tr>
+<tr class="memdesc:a6af1d9874291402facea43a3c8ac0ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept a new connection, ask question using askRandomQuestion, points are then sent together with PID to the parent process using pipe.  <a href="#a6af1d9874291402facea43a3c8ac0ef3">More...</a><br /></td></tr>
+<tr class="separator:a6af1d9874291402facea43a3c8ac0ef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa71b51e18ca7b84212b4cce1ffc8c9e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="processes_8h.html#aa71b51e18ca7b84212b4cce1ffc8c9e4">handleParentProcess</a> (struct <a class="el" href="structuser__score.html">user_score</a> score_table[], int *pipefd_to_child, int *pipefd_to_parent)</td></tr>
 <tr class="memdesc:aa71b51e18ca7b84212b4cce1ffc8c9e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads message from child sent over the pipe, updates the score table according to it.  <a href="#aa71b51e18ca7b84212b4cce1ffc8c9e4">More...</a><br /></td></tr>
 <tr class="separator:aa71b51e18ca7b84212b4cce1ffc8c9e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -113,11 +113,10 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File contains functions in interaction between processes. </p>
-<dl class="section author"><dt>Author</dt><dd>W3ndige </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>29 May 2018 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="abe43ba856c2f0dfd402a41022cd3f492"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe43ba856c2f0dfd402a41022cd3f492">&#9670;&nbsp;</a></span>handleChildProcess()</h2>
+<a id="a6af1d9874291402facea43a3c8ac0ef3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6af1d9874291402facea43a3c8ac0ef3">&#9670;&nbsp;</a></span>handleChildProcess()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -161,8 +160,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="structquestion__info.html">question_info</a>&#160;</td>
-          <td class="paramname"><em>questions</em>[], </td>
+          <td class="paramtype">struct <a class="el" href="structquestion__info.html">question_info</a> *&#160;</td>
+          <td class="paramname"><em>questions</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -181,11 +180,11 @@ Functions</h2></td></tr>
 <p>Accept a new connection, ask question using askRandomQuestion, points are then sent together with PID to the parent process using pipe. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">socket_fd</td><td>file descriptor for the open socket. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">socket_size</td><td>size of the socket. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">destination</td><td>structure that contains information about client. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">num_of_categories</td><td>number of categories. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pipefd</td><td>array containing pipe file descriptors. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>socket_fd: file descriptor for the open socket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>socket_size: size of the socket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">struct</td><td>sockaddr_in destination: structure that contains information about client. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">struct</td><td><a class="el" href="structquestion__info.html">question_info</a> num_of_categories: number of categories. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>pipefd: array containing pipe file descriptors. </td></tr>
   </table>
   </dd>
 </dl>
@@ -245,10 +244,10 @@ Functions</h2></td></tr>
 <p>Create the pipe, and forks according to global variable MAX_NUMBER_OF_CONNECTIONS. Then handleChildProcess and handleParentProcess are being called. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">socket_fd</td><td>file descriptor for the open socket. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">socket_size</td><td>size of the socket. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">destination</td><td>structure that contains information about client. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">num_of_categories</td><td>number of categories. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>socket_fd: file descriptor for the open socket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>socket_size: size of the socket. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">struct</td><td><a class="el" href="structuser__score.html">user_score</a> destination: structure that contains information about client. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>num_of_categories: number of categories. </td></tr>
   </table>
   </dd>
 </dl>
@@ -290,8 +289,8 @@ Functions</h2></td></tr>
 <p>Reads message from child sent over the pipe, updates the score table according to it. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">score_table</td><td>array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pipefd</td><td>array containing pipe file descriptors. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">struct</td><td><a class="el" href="structuser__score.html">user_score</a> score_table: array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>pipefd: array containing pipe file descriptors. </td></tr>
   </table>
   </dd>
 </dl>
@@ -339,9 +338,10 @@ Functions</h2></td></tr>
 <p>Read data sent from another process and send confirmation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pipefd_to_child</td><td>array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pipefd_to_parent</td><td>PID of the client that score is about to be placed. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">message</td><td>number of points to be put. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>*pipefd_to_child: array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>*pipefd_to_parent: PID of the client that score is about to be placed. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">char</td><td>*message: number of points to be put. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>message_size Size of the message. </td></tr>
   </table>
   </dd>
 </dl>
@@ -367,7 +367,7 @@ Functions</h2></td></tr>
 <p>Places the user score in the proper place of the score_table and prints scoreboard. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">score_table</td><td>array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">struct</td><td><a class="el" href="structuser__score.html">user_score</a> score_table: array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
   </table>
   </dd>
 </dl>
@@ -409,9 +409,9 @@ Functions</h2></td></tr>
 <p>Send to process and verify if the information was received. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pipefd_to_child</td><td>array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pipefd_to_parent</td><td>PID of the client that score is about to be placed. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">message</td><td>number of points to be put. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>*pipefd_to_child: array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>*pipefd_to_parent: PID of the client that score is about to be placed. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">char</td><td>*message: number of points to be put. </td></tr>
   </table>
   </dd>
 </dl>
@@ -454,9 +454,9 @@ Functions</h2></td></tr>
 <p>Places the user score in the proper place of the score_table and prints scoreboard. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">score_table</td><td>array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">client_pid</td><td>PID of the client that score is about to be placed. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>number of points to be put. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">struct</td><td><a class="el" href="structuser__score.html">user_score</a> score_table: array of <a class="el" href="structuser__score.html">user_score</a> structures containing pid of user and score. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>client_pid: PID of the client that score is about to be placed. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">int</td><td>points: number of points to be put. </td></tr>
   </table>
   </dd>
 </dl>

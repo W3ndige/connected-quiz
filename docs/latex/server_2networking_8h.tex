@@ -32,9 +32,6 @@ const size\+\_\+t \mbox{\hyperlink{server_2networking_8h_aff8dbcbf70f426d8f6a338
 \subsection{Detailed Description}
 File contains functions in sending data between client and server. 
 
-\begin{DoxyAuthor}{Author}
-W3ndige 
-\end{DoxyAuthor}
 \begin{DoxyDate}{Date}
 29 May 2018 
 \end{DoxyDate}
@@ -53,11 +50,11 @@ Checks the answer that client sends and assign points.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em client\+\_\+fd} & File descriptor of client that got accepted. \\
+\mbox{\tt in}  & {\em int} & client\+\_\+fd File descriptor of client that got accepted. \\
 \hline
-\mbox{\tt in}  & {\em destination} & Structure that contains information about client. \\
+\mbox{\tt in}  & {\em struct} & sockaddr\+\_\+in destination Structure that contains information about client. \\
 \hline
-\mbox{\tt out}  & {\em correct\+\_\+answer} & pointer to correct answer. \\
+\mbox{\tt out}  & {\em char} & $\ast$correct\+\_\+answer\+: pointer to correct answer. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -75,11 +72,11 @@ Receives data from the client and puts it in buffer.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em client\+\_\+fd} & File descriptor of client that got accepted. \\
+\mbox{\tt in}  & {\em int} & client\+\_\+fd File descriptor of client that got accepted. \\
 \hline
-\mbox{\tt in}  & {\em destination} & Structure that contains information about client. \\
+\mbox{\tt in}  & {\em struct} & sockaddr\+\_\+in destination destination Structure that contains information about client. \\
 \hline
-\mbox{\tt out}  & {\em buffer} & pointer to buffer variable. \\
+\mbox{\tt out}  & {\em char} & $\ast$buffer\+: pointer to buffer variable. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -97,11 +94,11 @@ Sends the data and waits for verification from the connected client.
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\tt in}  & {\em client\+\_\+fd} & File descriptor of client that got accepted. \\
+\mbox{\tt in}  & {\em int} & client\+\_\+fd File descriptor of client that got accepted. \\
 \hline
-\mbox{\tt in}  & {\em destination} & Structure that contains information about client. \\
+\mbox{\tt in}  & {\em struct} & sockaddr\+\_\+in destination Structure that contains information about client. \\
 \hline
-\mbox{\tt out}  & {\em message} & pointer to message that is meant to be sent. \\
+\mbox{\tt out}  & {\em char} & $\ast$message\+: pointer to message that is meant to be sent. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}

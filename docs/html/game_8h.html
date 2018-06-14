@@ -87,9 +87,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a3376001de554991197c0c6208e887969"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game_8h.html#a3376001de554991197c0c6208e887969">askQuestion</a> (int client_fd, struct sockaddr_in destination, struct <a class="el" href="structquestion__info.html">question_info</a> *questions, int question_number)</td></tr>
 <tr class="memdesc:a3376001de554991197c0c6208e887969"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends the question data to the client.  <a href="#a3376001de554991197c0c6208e887969">More...</a><br /></td></tr>
 <tr class="separator:a3376001de554991197c0c6208e887969"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d3e967359883c44f28492279079c67d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game_8h.html#a1d3e967359883c44f28492279079c67d">shuffleQuestions</a> (struct <a class="el" href="structquestion__info.html">question_info</a> questions[], int total_number_of_questions)</td></tr>
-<tr class="memdesc:a1d3e967359883c44f28492279079c67d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuffle the questions in order to make order random.  <a href="#a1d3e967359883c44f28492279079c67d">More...</a><br /></td></tr>
-<tr class="separator:a1d3e967359883c44f28492279079c67d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8eb810cd7e99d23e94e25fbc18b93bb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="game_8h.html#a8eb810cd7e99d23e94e25fbc18b93bb0">shuffleQuestions</a> (struct <a class="el" href="structquestion__info.html">question_info</a> *questions, int total_number_of_questions)</td></tr>
+<tr class="memdesc:a8eb810cd7e99d23e94e25fbc18b93bb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuffle the questions in order to make order random.  <a href="#a8eb810cd7e99d23e94e25fbc18b93bb0">More...</a><br /></td></tr>
+<tr class="separator:a8eb810cd7e99d23e94e25fbc18b93bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -103,7 +103,6 @@ const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_ANSWER_LI
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File contains functions used in order to get the question data from files. </p>
-<dl class="section author"><dt>Author</dt><dd>W3ndige </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>29 May 2018 </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a3376001de554991197c0c6208e887969"></a>
@@ -147,10 +146,10 @@ const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_ANSWER_LI
 <p>Sends the question data to the client. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">client_fd</td><td>File descriptor of client that got accepted. </td></tr>
-    <tr><td class="paramname">destination</td><td>Structure that contains information about client. </td></tr>
-    <tr><td class="paramname">questions</td><td>Array containing questions. </td></tr>
-    <tr><td class="paramname">question_number</td><td>Number of current question. </td></tr>
+    <tr><td class="paramname">int</td><td>client_fd File descriptor of client that got accepted. </td></tr>
+    <tr><td class="paramname">struct</td><td>sockaddr_in destination Structure that contains information about client. </td></tr>
+    <tr><td class="paramname">struct</td><td><a class="el" href="structquestion__info.html">question_info</a> *questions Array containing questions. </td></tr>
+    <tr><td class="paramname">int</td><td>question_number Number of current question. </td></tr>
   </table>
   </dd>
 </dl>
@@ -158,8 +157,8 @@ const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_ANSWER_LI
 
 </div>
 </div>
-<a id="a1d3e967359883c44f28492279079c67d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d3e967359883c44f28492279079c67d">&#9670;&nbsp;</a></span>shuffleQuestions()</h2>
+<a id="a8eb810cd7e99d23e94e25fbc18b93bb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8eb810cd7e99d23e94e25fbc18b93bb0">&#9670;&nbsp;</a></span>shuffleQuestions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -167,8 +166,8 @@ const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_ANSWER_LI
         <tr>
           <td class="memname">void shuffleQuestions </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structquestion__info.html">question_info</a>&#160;</td>
-          <td class="paramname"><em>questions</em>[], </td>
+          <td class="paramtype">struct <a class="el" href="structquestion__info.html">question_info</a> *&#160;</td>
+          <td class="paramname"><em>questions</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -187,8 +186,8 @@ const size_t&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_ANSWER_LI
 <p>Shuffle the questions in order to make order random. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">questions</td><td>Array containing questions. </td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">total_number_of_questions</td><td>Total number of available questions. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">struct</td><td><a class="el" href="structquestion__info.html">question_info</a> *questions Pointer to rray containing questions. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">int</td><td>total_number_of_questions Total number of available questions. </td></tr>
   </table>
   </dd>
 </dl>

@@ -1,0 +1,74 @@
+.TH "src/server/server.c" 3 "Thu Jun 14 2018" "Connected Quiz" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/server/server.c \- File contains main functions used behind the server logic\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include 'processes\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBmain\fP (int argc __attribute__((unused)), char *argv[] __attribute__((unused)))"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const size_t \fBPORT\fP = 1337"
+.br
+.ti -1c
+.RI "const size_t \fBNUM_OF_ANSWERS\fP = 4"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_RECEIVE_BUFFER\fP = 500"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_ANSWER_LINE_SIZE\fP = 100"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_QUESTION_LINE_SIZE\fP = 300"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_CATEGORY_LINE_SIZE\fP = 100"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_NUMBER_OF_CONNECTIONS\fP = 20"
+.br
+.ti -1c
+.RI "const char * \fBCATEGORIES_FILENAME\fP = 'server_assets/categories\&.txt'"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+File contains main functions used behind the server logic\&. 
+
+
+.PP
+\fBDate:\fP
+.RS 4
+29 May 2018 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "const size_t MAX_RECEIVE_BUFFER = 500"
+Maximum buffer that the client can receive\&. 
+.SS "const size_t NUM_OF_ANSWERS = 4"
+Number of available answers\&.
+.PP
+Number of answers for every question 
+.SS "const size_t PORT = 1337"
+Port used in server - client communication\&.
+.PP
+Port number of the server client\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Connected Quiz from the source code\&.

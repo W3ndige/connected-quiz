@@ -140,8 +140,8 @@ Variables</h2></td></tr>
 <p>Send the data to the server. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">client_fd</td><td>File descriptor for the open socket. </td></tr>
-    <tr><td class="paramname">message</td><td>Pointer to score variable. </td></tr>
+    <tr><td class="paramname">int</td><td>client_fd File descriptor for the open socket. </td></tr>
+    <tr><td class="paramname">char</td><td>*message Pointer to score variable. </td></tr>
   </table>
   </dd>
 </dl>
@@ -177,8 +177,8 @@ Variables</h2></td></tr>
 <p>Get the IP address of the server from the config file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ip_address</td><td>Pointer to buffer that will get the IP address. </td></tr>
-    <tr><td class="paramname">ip_address_size</td><td>Maximum size of the ip address buffer. </td></tr>
+    <tr><td class="paramname">char</td><td>*ip_address Pointer to buffer that will get the IP address. </td></tr>
+    <tr><td class="paramname">size_t</td><td>ip_address_size Maximum size of the ip address buffer. </td></tr>
   </table>
   </dd>
 </dl>
@@ -214,8 +214,8 @@ Variables</h2></td></tr>
 <p>Receive the data from the client and resend confirmation <code>OK</code>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">client_fd</td><td>File descriptor for the open socket. </td></tr>
-    <tr><td class="paramname">buffer</td><td>Pointer to buffer variable. </td></tr>
+    <tr><td class="paramname">int</td><td>client_fd File descriptor for the open socket. </td></tr>
+    <tr><td class="paramname">char</td><td>*buffer Pointer to buffer variable. </td></tr>
   </table>
   </dd>
 </dl>
@@ -251,8 +251,8 @@ Variables</h2></td></tr>
 <p>Send the data to the server. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">client_fd</td><td>File descriptor for the open socket. </td></tr>
-    <tr><td class="paramname">message</td><td>Pointer to message variable. </td></tr>
+    <tr><td class="paramname">int</td><td>client_fd File descriptor for the open socket. </td></tr>
+    <tr><td class="paramname">char</td><td>*message Pointer to message variable. </td></tr>
   </table>
   </dd>
 </dl>

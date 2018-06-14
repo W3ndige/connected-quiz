@@ -52,9 +52,9 @@ Send the data to the server.
 
 
 \begin{DoxyParams}{Parameters}
-{\em client\+\_\+fd} & File descriptor for the open socket. \\
+{\em int} & client\+\_\+fd File descriptor for the open socket. \\
 \hline
-{\em message} & Pointer to score variable. \\
+{\em char} & $\ast$message Pointer to score variable. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{client_2networking_8h_a6b87c1d54aa76748053527efb4dd3387}\label{client_2networking_8h_a6b87c1d54aa76748053527efb4dd3387}} 
@@ -69,9 +69,9 @@ Get the IP address of the server from the config file.
 
 
 \begin{DoxyParams}{Parameters}
-{\em ip\+\_\+address} & Pointer to buffer that will get the IP address. \\
+{\em char} & $\ast$ip\+\_\+address Pointer to buffer that will get the IP address. \\
 \hline
-{\em ip\+\_\+address\+\_\+size} & Maximum size of the ip address buffer. \\
+{\em size\+\_\+t} & ip\+\_\+address\+\_\+size Maximum size of the ip address buffer. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{client_2networking_8h_a8c169c8ec48a21c5ca41028a571ec91d}\label{client_2networking_8h_a8c169c8ec48a21c5ca41028a571ec91d}} 
@@ -86,9 +86,9 @@ Receive the data from the client and resend confirmation {\ttfamily OK}.
 
 
 \begin{DoxyParams}{Parameters}
-{\em client\+\_\+fd} & File descriptor for the open socket. \\
+{\em int} & client\+\_\+fd File descriptor for the open socket. \\
 \hline
-{\em buffer} & Pointer to buffer variable. \\
+{\em char} & $\ast$buffer Pointer to buffer variable. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{client_2networking_8h_a62db16c0fe36420580d131a61c2aa258}\label{client_2networking_8h_a62db16c0fe36420580d131a61c2aa258}} 
@@ -103,9 +103,9 @@ Send the data to the server.
 
 
 \begin{DoxyParams}{Parameters}
-{\em client\+\_\+fd} & File descriptor for the open socket. \\
+{\em int} & client\+\_\+fd File descriptor for the open socket. \\
 \hline
-{\em message} & Pointer to message variable. \\
+{\em char} & $\ast$message Pointer to message variable. \\
 \hline
 \end{DoxyParams}
 

@@ -32,7 +32,6 @@ struct question_info { /**< Structure containing information about question. */
 /**
 * @brief Calculate number of categories in categories file.
 *
-* @param filename String containing filename.
 * @return Number of categories or -1 on error.
 */
 
@@ -50,7 +49,7 @@ int calculateNumberOfQuestions(char *filename);
 /**
 * @brief Calculate total number of questions in all categories.
 *
-* @param filename String containing filename.
+* @param char *filename String containing filename.
 * @return Total number of questions or -1 on error.
 */
 
@@ -61,9 +60,9 @@ int calculateTotalNumberOfQuestions();
  * into the category_source. Returns -1 on error and
  * line of choosen category.
  *
- * @param category_source Pointer to which a choosen category will be saved.
+ * @param char *category_source Pointer to which a choosen category will be saved.
  * @param size Size of the buffer that fget will get from the line.
- * @param num_of_categories Number of categories.
+ * @param int num_of_categories Number of categories.
  * @return Number of category or -1 on error.
  */
 
@@ -72,8 +71,8 @@ int getCategory(char *category_source, size_t size, int category_number);
 /**
 * @brief Fill the questions array with information about questions.
 *
-* @param questions Array of structs question_info that will be filled with question info.
-* @param num_of_categories Number of categories.
+* @param struct question_info *questions Array of structs question_info that will be filled with question info.
+* @param size_t num_of_categories Number of categories.
 */
 
 void populateQuestions(struct question_info *questions,

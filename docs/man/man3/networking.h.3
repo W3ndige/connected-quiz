@@ -52,11 +52,6 @@ File contains functions in sending data between client and server\&.
 
 
 .PP
-\fBAuthor:\fP
-.RS 4
-W3ndige 
-.RE
-.PP
 \fBDate:\fP
 .RS 4
 29 May 2018 
@@ -72,11 +67,11 @@ Checks the answer that client sends and assign points\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIclient_fd\fP File descriptor of client that got accepted\&. 
+\fIint\fP client_fd File descriptor of client that got accepted\&. 
 .br
-\fIdestination\fP Structure that contains information about client\&. 
+\fIstruct\fP sockaddr_in destination Structure that contains information about client\&. 
 .br
-\fIcorrect_answer\fP pointer to correct answer\&. 
+\fIchar\fP *correct_answer: pointer to correct answer\&. 
 .RE
 .PP
 \fBReturns:\fP
@@ -92,11 +87,11 @@ Receives data from the client and puts it in buffer\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIclient_fd\fP File descriptor of client that got accepted\&. 
+\fIint\fP client_fd File descriptor of client that got accepted\&. 
 .br
-\fIdestination\fP Structure that contains information about client\&. 
+\fIstruct\fP sockaddr_in destination destination Structure that contains information about client\&. 
 .br
-\fIbuffer\fP pointer to buffer variable\&. 
+\fIchar\fP *buffer: pointer to buffer variable\&. 
 .RE
 .PP
 \fBReturns:\fP
@@ -112,11 +107,11 @@ Sends the data and waits for verification from the connected client\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIclient_fd\fP File descriptor of client that got accepted\&. 
+\fIint\fP client_fd File descriptor of client that got accepted\&. 
 .br
-\fIdestination\fP Structure that contains information about client\&. 
+\fIstruct\fP sockaddr_in destination Structure that contains information about client\&. 
 .br
-\fImessage\fP pointer to message that is meant to be sent\&. 
+\fIchar\fP *message: pointer to message that is meant to be sent\&. 
 .RE
 .PP
 \fBReturns:\fP
