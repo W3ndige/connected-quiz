@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @date 29 May 2018
+ * @brief Main file containg all the logic behind the client.
+ *
+ */
+
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -7,12 +14,12 @@
 #include "printing.h"
 #include "interaction.h"
 
-const int PORT = 1337;
-const int MAX_RECEIVE_BUFFER = 500;
-const int NUM_OF_ANSWERS = 4;
-const int NUM_OF_MODES = 3;
-const size_t WINDOW_WIDTH = 640;
-const size_t WINDOW_HEIGHT = 480;
+const int PORT = 1337; /**< Port number of the server client. */
+const int MAX_RECEIVE_BUFFER = 500; /**< Maximum buffer that the client can receive. */
+const int NUM_OF_ANSWERS = 4; /**< Number of answers for every question */
+const int NUM_OF_MODES = 3; /**< Number of all modes. */
+const size_t WINDOW_WIDTH = 640; /**< Width of the screen. */
+const size_t WINDOW_HEIGHT = 480; /**< Height of the screen. */
 
 SDL_Rect background_location = {0, 0, 640, 480};
 
@@ -22,8 +29,13 @@ int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)
   int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
   memset(&destination, 0, sizeof(struct sockaddr_in));
 
+  char ip_address[128]; 
+  if (loadTheConfig(ip_address, 128) == 0) {
+    return 1;
+  }
+
   destination.sin_family = AF_INET;
-  destination.sin_addr.s_addr = inet_addr("127.0.0.1");
+  destination.sin_addr.s_addr = inet_addr(ip_address); /**< IP address of the server. */
   destination.sin_port = htons(PORT);
 
   if (connect(socket_fd, (struct sockaddr *)&destination, sizeof(struct sockaddr_in)) < 0) {

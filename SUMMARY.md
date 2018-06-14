@@ -19,12 +19,13 @@ Necessay libraries are SDL and SDL_ttf libraries.
 `make server` - compile only server part
 `make client` - compile only client part
 
+* In file `config.cfg` there is the IP address of the server.
+
 * Running
 
 `./server` - start the server - which works by listening all the time for new connections. In this moment the only way to exit is CTRL-C combination.
 
 `./client` - start the client which tries to connect to server. 
-
 
 * Running the program is very easy, server while running is only used for printing information what is actually doing or errors. As for client, it's only neccessary to click on the answers in order to send them to server. 
 
@@ -58,6 +59,8 @@ Wymagania do kompilacji to biblioteka SDL oraz SDL_ttf.
 make all - skompilowanie całego projektu
 make server - osobna kompilacja serwera
 make client - osobna kompilacja klienta
+
+* W pliku `config.cfg` znajduje się adress IP serwera. 
 
 * Uruchomienie programu.
 ./server - uruchomienie serwera - klient działa nasłuchując cały czas nowych połączeń. W tej chwili jedyny sposób na wyłączenie klienta to kombinacja CTRL-C

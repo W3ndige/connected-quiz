@@ -1,6 +1,5 @@
 /**
  * @file
- * @author W3ndige
  * @date 29 May 2018
  * @brief File contains functions used in interactions between server and client
  *        sending and receiving data over the network.
@@ -20,6 +19,14 @@
 extern const int PORT;  /**< Port used in server - client communication. */
 extern const int MAX_RECEIVE_BUFFER;  /**< Maximum buffer that the client can receive. */
 
+/**
+* @brief Get the IP address of the server from the config file.
+*
+* @param ip_address Pointer to buffer that will get the IP address.
+* @param ip_address_size Maximum size of the ip address buffer.
+*/
+
+int loadTheConfig(char *ip_address, size_t ip_address_size);
 
 /**
 * @brief Receive the data from the client and resend confirmation `OK`.

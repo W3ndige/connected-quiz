@@ -1,6 +1,5 @@
 /**
  * @file
- * @author W3ndige
  * @date 29 May 2018
  * @brief File contains functions used in printing information for the user.
  *

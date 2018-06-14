@@ -1,0 +1,100 @@
+\hypertarget{client_8c}{}\section{src/client/client.c File Reference}
+\label{client_8c}\index{src/client/client.\+c@{src/client/client.\+c}}
+
+
+Main file containg all the logic behind the client.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}networking.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}printing.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}interaction.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{client_8c_a5cebc23be8801049945939c850147278}{main}} (int argc \+\_\+\+\_\+attribute\+\_\+\+\_\+((unused)), char $\ast$argv\mbox{[}$\,$\mbox{]} \+\_\+\+\_\+attribute\+\_\+\+\_\+((unused)))
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const int \mbox{\hyperlink{client_8c_a11717c934f77ad5167dac5d28562d85a}{P\+O\+RT}} = 1337
+\item 
+const int \mbox{\hyperlink{client_8c_af90e8b509b0303da49ac051835d25a85}{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}} = 500
+\item 
+const int \mbox{\hyperlink{client_8c_ac803c14a55e5a5c7b1b9920b307b43bd}{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}} = 4
+\item 
+const int \mbox{\hyperlink{client_8c_a95af6626e3896e6fa71ea20d5362137d}{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}} = 3
+\item 
+const size\+\_\+t \mbox{\hyperlink{client_8c_a65fff4ca5bc5eaf078f7d6ecd409c2ba}{W\+I\+N\+D\+O\+W\+\_\+\+W\+I\+D\+TH}} = 640
+\item 
+const size\+\_\+t \mbox{\hyperlink{client_8c_acbfe963112d67a8fd8ef0332e7ab35ca}{W\+I\+N\+D\+O\+W\+\_\+\+H\+E\+I\+G\+HT}} = 480
+\item 
+S\+D\+L\+\_\+\+Rect \mbox{\hyperlink{client_8c_a21ed40eceeeb90cea906e17787f25b60}{background\+\_\+location}} = \{0, 0, 640, 480\}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main file containg all the logic behind the client. 
+
+\begin{DoxyDate}{Date}
+29 May 2018 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{client_8c_a5cebc23be8801049945939c850147278}\label{client_8c_a5cebc23be8801049945939c850147278}} 
+\index{client.\+c@{client.\+c}!main@{main}}
+\index{main@{main}!client.\+c@{client.\+c}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int argc }]{\+\_\+\+\_\+attribute\+\_\+\+\_\+(unused),  }\item[{char $\ast$argv \mbox{[}$\,$\mbox{]}}]{\+\_\+\+\_\+attribute\+\_\+\+\_\+(unused) }\end{DoxyParamCaption})}
+
+$<$ IP address of the server. 
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{client_8c_a21ed40eceeeb90cea906e17787f25b60}\label{client_8c_a21ed40eceeeb90cea906e17787f25b60}} 
+\index{client.\+c@{client.\+c}!background\+\_\+location@{background\+\_\+location}}
+\index{background\+\_\+location@{background\+\_\+location}!client.\+c@{client.\+c}}
+\subsubsection{\texorpdfstring{background\+\_\+location}{background\_location}}
+{\footnotesize\ttfamily S\+D\+L\+\_\+\+Rect background\+\_\+location = \{0, 0, 640, 480\}}
+
+Coordinates of background rectangle. \mbox{\Hypertarget{client_8c_af90e8b509b0303da49ac051835d25a85}\label{client_8c_af90e8b509b0303da49ac051835d25a85}} 
+\index{client.\+c@{client.\+c}!M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\index{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}!client.\+c@{client.\+c}}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}{MAX\_RECEIVE\_BUFFER}}
+{\footnotesize\ttfamily const int M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER = 500}
+
+Maximum buffer that the client can receive. \mbox{\Hypertarget{client_8c_ac803c14a55e5a5c7b1b9920b307b43bd}\label{client_8c_ac803c14a55e5a5c7b1b9920b307b43bd}} 
+\index{client.\+c@{client.\+c}!N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}}
+\index{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}!client.\+c@{client.\+c}}
+\subsubsection{\texorpdfstring{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}{NUM\_OF\_ANSWERS}}
+{\footnotesize\ttfamily const int N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS = 4}
+
+Number of answers for every question \mbox{\Hypertarget{client_8c_a95af6626e3896e6fa71ea20d5362137d}\label{client_8c_a95af6626e3896e6fa71ea20d5362137d}} 
+\index{client.\+c@{client.\+c}!N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES@{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}}
+\index{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES@{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}!client.\+c@{client.\+c}}
+\subsubsection{\texorpdfstring{N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES}{NUM\_OF\_MODES}}
+{\footnotesize\ttfamily const int N\+U\+M\+\_\+\+O\+F\+\_\+\+M\+O\+D\+ES = 3}
+
+Number of all modes. \mbox{\Hypertarget{client_8c_a11717c934f77ad5167dac5d28562d85a}\label{client_8c_a11717c934f77ad5167dac5d28562d85a}} 
+\index{client.\+c@{client.\+c}!P\+O\+RT@{P\+O\+RT}}
+\index{P\+O\+RT@{P\+O\+RT}!client.\+c@{client.\+c}}
+\subsubsection{\texorpdfstring{P\+O\+RT}{PORT}}
+{\footnotesize\ttfamily const int P\+O\+RT = 1337}
+
+Port number of the server client. \mbox{\Hypertarget{client_8c_acbfe963112d67a8fd8ef0332e7ab35ca}\label{client_8c_acbfe963112d67a8fd8ef0332e7ab35ca}} 
+\index{client.\+c@{client.\+c}!W\+I\+N\+D\+O\+W\+\_\+\+H\+E\+I\+G\+HT@{W\+I\+N\+D\+O\+W\+\_\+\+H\+E\+I\+G\+HT}}
+\index{W\+I\+N\+D\+O\+W\+\_\+\+H\+E\+I\+G\+HT@{W\+I\+N\+D\+O\+W\+\_\+\+H\+E\+I\+G\+HT}!client.\+c@{client.\+c}}
+\subsubsection{\texorpdfstring{W\+I\+N\+D\+O\+W\+\_\+\+H\+E\+I\+G\+HT}{WINDOW\_HEIGHT}}
+{\footnotesize\ttfamily const size\+\_\+t W\+I\+N\+D\+O\+W\+\_\+\+H\+E\+I\+G\+HT = 480}
+
+Height of the screen. \mbox{\Hypertarget{client_8c_a65fff4ca5bc5eaf078f7d6ecd409c2ba}\label{client_8c_a65fff4ca5bc5eaf078f7d6ecd409c2ba}} 
+\index{client.\+c@{client.\+c}!W\+I\+N\+D\+O\+W\+\_\+\+W\+I\+D\+TH@{W\+I\+N\+D\+O\+W\+\_\+\+W\+I\+D\+TH}}
+\index{W\+I\+N\+D\+O\+W\+\_\+\+W\+I\+D\+TH@{W\+I\+N\+D\+O\+W\+\_\+\+W\+I\+D\+TH}!client.\+c@{client.\+c}}
+\subsubsection{\texorpdfstring{W\+I\+N\+D\+O\+W\+\_\+\+W\+I\+D\+TH}{WINDOW\_WIDTH}}
+{\footnotesize\ttfamily const size\+\_\+t W\+I\+N\+D\+O\+W\+\_\+\+W\+I\+D\+TH = 640}
+
+Width of the screen. 

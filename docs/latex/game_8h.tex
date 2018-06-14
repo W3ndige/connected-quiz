@@ -1,0 +1,102 @@
+\hypertarget{game_8h}{}\section{src/server/game.h File Reference}
+\label{game_8h}\index{src/server/game.\+h@{src/server/game.\+h}}
+
+
+File contains functions used in order to get the question data from files.  
+
+
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}files.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}networking.\+h\char`\"{}}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{game_8h_a3376001de554991197c0c6208e887969}{ask\+Question}} (int client\+\_\+fd, struct sockaddr\+\_\+in destination, struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$questions, int question\+\_\+number)
+\begin{DoxyCompactList}\small\item\em Sends the question data to the client. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{game_8h_a1d3e967359883c44f28492279079c67d}{shuffle\+Questions}} (struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} questions\mbox{[}$\,$\mbox{]}, int total\+\_\+number\+\_\+of\+\_\+questions)
+\begin{DoxyCompactList}\small\item\em Shuffle the questions in order to make order random. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const size\+\_\+t \mbox{\hyperlink{game_8h_a064da5095338d9bb9854b471177dc326}{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}}
+\item 
+const size\+\_\+t \mbox{\hyperlink{game_8h_aff8dbcbf70f426d8f6a3384b8e2ff28f}{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\item 
+\mbox{\Hypertarget{game_8h_a7b58048b940defee2745ccf7e47d3bc6}\label{game_8h_a7b58048b940defee2745ccf7e47d3bc6}} 
+const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+A\+N\+S\+W\+E\+R\+\_\+\+L\+I\+N\+E\+\_\+\+S\+I\+ZE}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+File contains functions used in order to get the question data from files. 
+
+\begin{DoxyAuthor}{Author}
+W3ndige 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+29 May 2018 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{game_8h_a3376001de554991197c0c6208e887969}\label{game_8h_a3376001de554991197c0c6208e887969}} 
+\index{game.\+h@{game.\+h}!ask\+Question@{ask\+Question}}
+\index{ask\+Question@{ask\+Question}!game.\+h@{game.\+h}}
+\subsubsection{\texorpdfstring{ask\+Question()}{askQuestion()}}
+{\footnotesize\ttfamily int ask\+Question (\begin{DoxyParamCaption}\item[{int}]{client\+\_\+fd,  }\item[{struct sockaddr\+\_\+in}]{destination,  }\item[{struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$}]{questions,  }\item[{int}]{question\+\_\+number }\end{DoxyParamCaption})}
+
+
+
+Sends the question data to the client. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client\+\_\+fd} & File descriptor of client that got accepted. \\
+\hline
+{\em destination} & Structure that contains information about client. \\
+\hline
+{\em questions} & Array containing questions. \\
+\hline
+{\em question\+\_\+number} & Number of current question. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+User score or -\/1 on error. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{game_8h_a1d3e967359883c44f28492279079c67d}\label{game_8h_a1d3e967359883c44f28492279079c67d}} 
+\index{game.\+h@{game.\+h}!shuffle\+Questions@{shuffle\+Questions}}
+\index{shuffle\+Questions@{shuffle\+Questions}!game.\+h@{game.\+h}}
+\subsubsection{\texorpdfstring{shuffle\+Questions()}{shuffleQuestions()}}
+{\footnotesize\ttfamily void shuffle\+Questions (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}}}]{questions\mbox{[}$\,$\mbox{]},  }\item[{int}]{total\+\_\+number\+\_\+of\+\_\+questions }\end{DoxyParamCaption})}
+
+
+
+Shuffle the questions in order to make order random. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em questions} & Array containing questions. \\
+\hline
+ & {\em total\+\_\+number\+\_\+of\+\_\+questions} & Total number of available questions. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{game_8h_aff8dbcbf70f426d8f6a3384b8e2ff28f}\label{game_8h_aff8dbcbf70f426d8f6a3384b8e2ff28f}} 
+\index{game.\+h@{game.\+h}!M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\index{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}!game.\+h@{game.\+h}}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}{MAX\_RECEIVE\_BUFFER}}
+{\footnotesize\ttfamily const size\+\_\+t M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}
+
+Maximum buffer that the client can receive. \mbox{\Hypertarget{game_8h_a064da5095338d9bb9854b471177dc326}\label{game_8h_a064da5095338d9bb9854b471177dc326}} 
+\index{game.\+h@{game.\+h}!N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}}
+\index{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS@{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}!game.\+h@{game.\+h}}
+\subsubsection{\texorpdfstring{N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}{NUM\_OF\_ANSWERS}}
+{\footnotesize\ttfamily const size\+\_\+t N\+U\+M\+\_\+\+O\+F\+\_\+\+A\+N\+S\+W\+E\+RS}
+
+Number of answers for every question
+
+Number of available answers.
+
+Number of answers for every question 

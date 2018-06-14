@@ -1,0 +1,187 @@
+.TH "src/server/processes.h" 3 "Thu Jun 14 2018" "Connected Quiz" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/server/processes.h \- File contains functions in interaction between processes\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include <signal\&.h>\fP
+.br
+\fC#include 'game\&.h'\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBuser_score\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBresetScoreTable\fP (struct \fBuser_score\fP score_table[])"
+.br
+.RI "Places the user score in the proper place of the score_table and prints scoreboard\&. "
+.ti -1c
+.RI "void \fBupdateScoreTable\fP (struct \fBuser_score\fP score_table[], int client_pid, int points)"
+.br
+.RI "Places the user score in the proper place of the score_table and prints scoreboard\&. "
+.ti -1c
+.RI "int \fBsendToProcessAndVerify\fP (int *pipefd_to_child, int *pipefd_to_parent, char *message)"
+.br
+.RI "Send to process and verify if the information was received\&. "
+.ti -1c
+.RI "void \fBreadFromProcessAndVerify\fP (int *pipefd_to_child, int *pipefd_to_parent, char *message, int message_size)"
+.br
+.RI "Read data sent from another process and send confirmation\&. "
+.ti -1c
+.RI "void \fBhandleChildProcess\fP (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int *pipefd_to_child, int *pipefd_to_parent, struct \fBquestion_info\fP questions[], int total_number_of_questions)"
+.br
+.RI "Accept a new connection, ask question using askRandomQuestion, points are then sent together with PID to the parent process using pipe\&. "
+.ti -1c
+.RI "void \fBhandleParentProcess\fP (struct \fBuser_score\fP score_table[], int *pipefd_to_child, int *pipefd_to_parent)"
+.br
+.RI "Reads message from child sent over the pipe, updates the score table according to it\&. "
+.ti -1c
+.RI "void \fBhandleClientConnection\fP (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, struct \fBquestion_info\fP *questions, int total_number_of_questions)"
+.br
+.RI "Create the pipe, and forks according to global variable MAX_NUMBER_OF_CONNECTIONS\&. Then handleChildProcess and handleParentProcess are being called\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+File contains functions in interaction between processes\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+W3ndige 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+29 May 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "void handleChildProcess (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, int * pipefd_to_child, int * pipefd_to_parent, struct \fBquestion_info\fP questions[], int total_number_of_questions)"
+
+.PP
+Accept a new connection, ask question using askRandomQuestion, points are then sent together with PID to the parent process using pipe\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsocket_fd\fP file descriptor for the open socket\&. 
+.br
+\fIsocket_size\fP size of the socket\&. 
+.br
+\fIdestination\fP structure that contains information about client\&. 
+.br
+\fInum_of_categories\fP number of categories\&. 
+.br
+\fIpipefd\fP array containing pipe file descriptors\&. 
+.RE
+.PP
+
+.SS "void handleClientConnection (int socket_fd, socklen_t socket_size, struct sockaddr_in destination, int num_of_categories, struct \fBquestion_info\fP * questions, int total_number_of_questions)"
+
+.PP
+Create the pipe, and forks according to global variable MAX_NUMBER_OF_CONNECTIONS\&. Then handleChildProcess and handleParentProcess are being called\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsocket_fd\fP file descriptor for the open socket\&. 
+.br
+\fIsocket_size\fP size of the socket\&. 
+.br
+\fIdestination\fP structure that contains information about client\&. 
+.br
+\fInum_of_categories\fP number of categories\&. 
+.RE
+.PP
+
+.SS "void handleParentProcess (struct \fBuser_score\fP score_table[], int * pipefd_to_child, int * pipefd_to_parent)"
+
+.PP
+Reads message from child sent over the pipe, updates the score table according to it\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscore_table\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+.br
+\fIpipefd\fP array containing pipe file descriptors\&. 
+.RE
+.PP
+
+.SS "void readFromProcessAndVerify (int * pipefd_to_child, int * pipefd_to_parent, char * message, int message_size)"
+
+.PP
+Read data sent from another process and send confirmation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpipefd_to_child\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+.br
+\fIpipefd_to_parent\fP PID of the client that score is about to be placed\&. 
+.br
+\fImessage\fP number of points to be put\&. 
+.RE
+.PP
+
+.SS "void resetScoreTable (struct \fBuser_score\fP score_table[])"
+
+.PP
+Places the user score in the proper place of the score_table and prints scoreboard\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscore_table\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+.RE
+.PP
+
+.SS "int sendToProcessAndVerify (int * pipefd_to_child, int * pipefd_to_parent, char * message)"
+
+.PP
+Send to process and verify if the information was received\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpipefd_to_child\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+.br
+\fIpipefd_to_parent\fP PID of the client that score is about to be placed\&. 
+.br
+\fImessage\fP number of points to be put\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Returns 0 on error or 1 on success\&. 
+.RE
+.PP
+
+.SS "void updateScoreTable (struct \fBuser_score\fP score_table[], int client_pid, int points)"
+
+.PP
+Places the user score in the proper place of the score_table and prints scoreboard\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIscore_table\fP array of \fBuser_score\fP structures containing pid of user and score\&. 
+.br
+\fIclient_pid\fP PID of the client that score is about to be placed\&. 
+.br
+\fIpoints\fP number of points to be put\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Connected Quiz from the source code\&.

@@ -1,0 +1,93 @@
+.TH "src/client/client.c" 3 "Thu Jun 14 2018" "Connected Quiz" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/client/client.c \- Main file containg all the logic behind the client\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <errno\&.h>\fP
+.br
+\fC#include <stdlib\&.h>\fP
+.br
+\fC#include <string\&.h>\fP
+.br
+\fC#include <unistd\&.h>\fP
+.br
+\fC#include 'networking\&.h'\fP
+.br
+\fC#include 'printing\&.h'\fP
+.br
+\fC#include 'interaction\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBmain\fP (int argc __attribute__((unused)), char *argv[] __attribute__((unused)))"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const int \fBPORT\fP = 1337"
+.br
+.ti -1c
+.RI "const int \fBMAX_RECEIVE_BUFFER\fP = 500"
+.br
+.ti -1c
+.RI "const int \fBNUM_OF_ANSWERS\fP = 4"
+.br
+.ti -1c
+.RI "const int \fBNUM_OF_MODES\fP = 3"
+.br
+.ti -1c
+.RI "const size_t \fBWINDOW_WIDTH\fP = 640"
+.br
+.ti -1c
+.RI "const size_t \fBWINDOW_HEIGHT\fP = 480"
+.br
+.ti -1c
+.RI "SDL_Rect \fBbackground_location\fP = {0, 0, 640, 480}"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Main file containg all the logic behind the client\&. 
+
+
+.PP
+\fBDate:\fP
+.RS 4
+29 May 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "int main (int argc  __attribute__(unused), char *argv [] __attribute__(unused))"
+< IP address of the server\&. 
+.SH "Variable Documentation"
+.PP 
+.SS "SDL_Rect background_location = {0, 0, 640, 480}"
+Coordinates of background rectangle\&. 
+.SS "const int MAX_RECEIVE_BUFFER = 500"
+Maximum buffer that the client can receive\&. 
+.SS "const int NUM_OF_ANSWERS = 4"
+Number of answers for every question 
+.SS "const int NUM_OF_MODES = 3"
+Number of all modes\&. 
+.SS "const int PORT = 1337"
+Port number of the server client\&. 
+.SS "const size_t WINDOW_HEIGHT = 480"
+Height of the screen\&. 
+.SS "const size_t WINDOW_WIDTH = 640"
+Width of the screen\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Connected Quiz from the source code\&.

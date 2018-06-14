@@ -1,8 +1,8 @@
-.TH "src/client/networking.h" 3 "Tue May 29 2018" "Connected Quiz" \" -*- nroff -*-
+.TH "src/server/networking.h" 3 "Thu Jun 14 2018" "Connected Quiz" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-src/client/networking.h \- File contains functions used in interactions between server and client sending and receiving data over the network\&.  
+src/server/networking.h \- File contains functions in sending data between client and server\&.  
 
 .SH SYNOPSIS
 .br
@@ -15,40 +15,40 @@ src/client/networking.h \- File contains functions used in interactions between 
 .br
 \fC#include <sys/types\&.h>\fP
 .br
-\fC#include <netinet/in\&.h>\fP
-.br
 \fC#include <sys/socket\&.h>\fP
+.br
+\fC#include <netinet/in\&.h>\fP
 .br
 
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "int \fBreceiveAndVerify\fP (int client_fd, char *buffer)"
+.RI "int \fBreceiveData\fP (int client_fd, struct sockaddr_in destination, char *buffer)"
 .br
-.RI "Receive the data from the client and resend confirmation \fCOK\fP\&. "
+.RI "Receives data from the client and puts it in buffer\&. "
 .ti -1c
-.RI "void \fBsendData\fP (int client_fd, char *message)"
+.RI "int \fBsendAndValidate\fP (int client_fd, struct sockaddr_in destination, char *message)"
 .br
-.RI "Send the data to the server\&. "
+.RI "Sends the data and waits for verification from the connected client\&. "
 .ti -1c
-.RI "void \fBgetScore\fP (int client_fd, char *score)"
+.RI "int \fBhandleClientAnswers\fP (int client_fd, struct sockaddr_in destination, char *correct_answer)"
 .br
-.RI "Send the data to the server\&. "
+.RI "Checks the answer that client sends and assign points\&. "
 .in -1c
 .SS "Variables"
 
 .in +1c
 .ti -1c
-.RI "const int \fBPORT\fP"
+.RI "const size_t \fBPORT\fP"
 .br
 .ti -1c
-.RI "const int \fBMAX_RECEIVE_BUFFER\fP"
+.RI "const size_t \fBMAX_RECEIVE_BUFFER\fP"
 .br
 .in -1c
 .SH "Detailed Description"
 .PP 
-File contains functions used in interactions between server and client sending and receiving data over the network\&. 
+File contains functions in sending data between client and server\&. 
 
 
 .PP
@@ -65,51 +65,76 @@ W3ndige
 
 .SH "Function Documentation"
 .PP 
-.SS "void getScore (int client_fd, char * score)"
+.SS "int handleClientAnswers (int client_fd, struct sockaddr_in destination, char * correct_answer)"
 
 .PP
-Send the data to the server\&. 
+Checks the answer that client sends and assign points\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIclient_fd\fP File descriptor for the open socket\&. 
+\fIclient_fd\fP File descriptor of client that got accepted\&. 
 .br
-\fImessage\fP Pointer to score variable\&. 
+\fIdestination\fP Structure that contains information about client\&. 
+.br
+\fIcorrect_answer\fP pointer to correct answer\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Returns 1 when answer is correct, otherwise 0 or -1 on error\&. 
 .RE
 .PP
 
-.SS "int receiveAndVerify (int client_fd, char * buffer)"
+.SS "int receiveData (int client_fd, struct sockaddr_in destination, char * buffer)"
 
 .PP
-Receive the data from the client and resend confirmation \fCOK\fP\&. 
+Receives data from the client and puts it in buffer\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIclient_fd\fP File descriptor for the open socket\&. 
+\fIclient_fd\fP File descriptor of client that got accepted\&. 
 .br
-\fIbuffer\fP Pointer to buffer variable\&. 
+\fIdestination\fP Structure that contains information about client\&. 
+.br
+\fIbuffer\fP pointer to buffer variable\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Returns 1 on success or 0 on error\&. 
 .RE
 .PP
 
-.SS "void sendData (int client_fd, char * message)"
+.SS "int sendAndValidate (int client_fd, struct sockaddr_in destination, char * message)"
 
 .PP
-Send the data to the server\&. 
+Sends the data and waits for verification from the connected client\&. 
 .PP
 \fBParameters:\fP
 .RS 4
-\fIclient_fd\fP File descriptor for the open socket\&. 
+\fIclient_fd\fP File descriptor of client that got accepted\&. 
 .br
-\fImessage\fP Pointer to message variable\&. 
+\fIdestination\fP Structure that contains information about client\&. 
+.br
+\fImessage\fP pointer to message that is meant to be sent\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Returns 1 on success or 0 on error\&. 
 .RE
 .PP
 
 .SH "Variable Documentation"
 .PP 
-.SS "const int MAX_RECEIVE_BUFFER"
+.SS "const size_t MAX_RECEIVE_BUFFER"
 Maximum buffer that the client can receive\&. 
-.SS "const int PORT"
-Port used in server - client communication\&. 
+.SS "const size_t PORT"
+Port number of the server client\&.
+.PP
+Port used in server - client communication\&.
+.PP
+Port number of the server client\&. 
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for Connected Quiz from the source code\&.

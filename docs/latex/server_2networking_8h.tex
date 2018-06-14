@@ -1,0 +1,129 @@
+\hypertarget{server_2networking_8h}{}\section{src/server/networking.h File Reference}
+\label{server_2networking_8h}\index{src/server/networking.\+h@{src/server/networking.\+h}}
+
+
+File contains functions in sending data between client and server.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$arpa/inet.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/in.\+h$>$}\newline
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{server_2networking_8h_a4f3c2278eb21b09bfb058deb47e9e032}{receive\+Data}} (int client\+\_\+fd, struct sockaddr\+\_\+in destination, char $\ast$buffer)
+\begin{DoxyCompactList}\small\item\em Receives data from the client and puts it in buffer. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{server_2networking_8h_a7b51f62730b3d01f5d623cb52ae748cd}{send\+And\+Validate}} (int client\+\_\+fd, struct sockaddr\+\_\+in destination, char $\ast$message)
+\begin{DoxyCompactList}\small\item\em Sends the data and waits for verification from the connected client. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{server_2networking_8h_a31063795a8fb332020e3bfc514659d9a}{handle\+Client\+Answers}} (int client\+\_\+fd, struct sockaddr\+\_\+in destination, char $\ast$correct\+\_\+answer)
+\begin{DoxyCompactList}\small\item\em Checks the answer that client sends and assign points. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const size\+\_\+t \mbox{\hyperlink{server_2networking_8h_af63c66a57aa7df7a0473f9bdfc6126e9}{P\+O\+RT}}
+\item 
+const size\+\_\+t \mbox{\hyperlink{server_2networking_8h_aff8dbcbf70f426d8f6a3384b8e2ff28f}{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+File contains functions in sending data between client and server. 
+
+\begin{DoxyAuthor}{Author}
+W3ndige 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+29 May 2018 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{server_2networking_8h_a31063795a8fb332020e3bfc514659d9a}\label{server_2networking_8h_a31063795a8fb332020e3bfc514659d9a}} 
+\index{server/networking.\+h@{server/networking.\+h}!handle\+Client\+Answers@{handle\+Client\+Answers}}
+\index{handle\+Client\+Answers@{handle\+Client\+Answers}!server/networking.\+h@{server/networking.\+h}}
+\subsubsection{\texorpdfstring{handle\+Client\+Answers()}{handleClientAnswers()}}
+{\footnotesize\ttfamily int handle\+Client\+Answers (\begin{DoxyParamCaption}\item[{int}]{client\+\_\+fd,  }\item[{struct sockaddr\+\_\+in}]{destination,  }\item[{char $\ast$}]{correct\+\_\+answer }\end{DoxyParamCaption})}
+
+
+
+Checks the answer that client sends and assign points. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em client\+\_\+fd} & File descriptor of client that got accepted. \\
+\hline
+\mbox{\tt in}  & {\em destination} & Structure that contains information about client. \\
+\hline
+\mbox{\tt out}  & {\em correct\+\_\+answer} & pointer to correct answer. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 1 when answer is correct, otherwise 0 or -\/1 on error. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{server_2networking_8h_a4f3c2278eb21b09bfb058deb47e9e032}\label{server_2networking_8h_a4f3c2278eb21b09bfb058deb47e9e032}} 
+\index{server/networking.\+h@{server/networking.\+h}!receive\+Data@{receive\+Data}}
+\index{receive\+Data@{receive\+Data}!server/networking.\+h@{server/networking.\+h}}
+\subsubsection{\texorpdfstring{receive\+Data()}{receiveData()}}
+{\footnotesize\ttfamily int receive\+Data (\begin{DoxyParamCaption}\item[{int}]{client\+\_\+fd,  }\item[{struct sockaddr\+\_\+in}]{destination,  }\item[{char $\ast$}]{buffer }\end{DoxyParamCaption})}
+
+
+
+Receives data from the client and puts it in buffer. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em client\+\_\+fd} & File descriptor of client that got accepted. \\
+\hline
+\mbox{\tt in}  & {\em destination} & Structure that contains information about client. \\
+\hline
+\mbox{\tt out}  & {\em buffer} & pointer to buffer variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 1 on success or 0 on error. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{server_2networking_8h_a7b51f62730b3d01f5d623cb52ae748cd}\label{server_2networking_8h_a7b51f62730b3d01f5d623cb52ae748cd}} 
+\index{server/networking.\+h@{server/networking.\+h}!send\+And\+Validate@{send\+And\+Validate}}
+\index{send\+And\+Validate@{send\+And\+Validate}!server/networking.\+h@{server/networking.\+h}}
+\subsubsection{\texorpdfstring{send\+And\+Validate()}{sendAndValidate()}}
+{\footnotesize\ttfamily int send\+And\+Validate (\begin{DoxyParamCaption}\item[{int}]{client\+\_\+fd,  }\item[{struct sockaddr\+\_\+in}]{destination,  }\item[{char $\ast$}]{message }\end{DoxyParamCaption})}
+
+
+
+Sends the data and waits for verification from the connected client. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em client\+\_\+fd} & File descriptor of client that got accepted. \\
+\hline
+\mbox{\tt in}  & {\em destination} & Structure that contains information about client. \\
+\hline
+\mbox{\tt out}  & {\em message} & pointer to message that is meant to be sent. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 1 on success or 0 on error. 
+\end{DoxyReturn}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{server_2networking_8h_aff8dbcbf70f426d8f6a3384b8e2ff28f}\label{server_2networking_8h_aff8dbcbf70f426d8f6a3384b8e2ff28f}} 
+\index{server/networking.\+h@{server/networking.\+h}!M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}}
+\index{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER@{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}!server/networking.\+h@{server/networking.\+h}}
+\subsubsection{\texorpdfstring{M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}{MAX\_RECEIVE\_BUFFER}}
+{\footnotesize\ttfamily const size\+\_\+t M\+A\+X\+\_\+\+R\+E\+C\+E\+I\+V\+E\+\_\+\+B\+U\+F\+F\+ER}
+
+Maximum buffer that the client can receive. \mbox{\Hypertarget{server_2networking_8h_af63c66a57aa7df7a0473f9bdfc6126e9}\label{server_2networking_8h_af63c66a57aa7df7a0473f9bdfc6126e9}} 
+\index{server/networking.\+h@{server/networking.\+h}!P\+O\+RT@{P\+O\+RT}}
+\index{P\+O\+RT@{P\+O\+RT}!server/networking.\+h@{server/networking.\+h}}
+\subsubsection{\texorpdfstring{P\+O\+RT}{PORT}}
+{\footnotesize\ttfamily const size\+\_\+t P\+O\+RT}
+
+Port number of the server client.
+
+Port used in server -\/ client communication.
+
+Port number of the server client. 

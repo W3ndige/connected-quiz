@@ -14,6 +14,8 @@ File contains functions used in interactions between server and client sending a
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
+int \mbox{\hyperlink{client_2networking_8h_a6b87c1d54aa76748053527efb4dd3387}{load\+The\+Config}} (char $\ast$ip\+\_\+address, size\+\_\+t ip\+\_\+address\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Get the IP address of the server from the config file. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{client_2networking_8h_a8c169c8ec48a21c5ca41028a571ec91d}{receive\+And\+Verify}} (int client\+\_\+fd, char $\ast$buffer)
 \begin{DoxyCompactList}\small\item\em Receive the data from the client and resend confirmation {\ttfamily OK}. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{client_2networking_8h_a62db16c0fe36420580d131a61c2aa258}{send\+Data}} (int client\+\_\+fd, char $\ast$message)
@@ -32,9 +34,6 @@ const int \mbox{\hyperlink{client_2networking_8h_af90e8b509b0303da49ac051835d25a
 \subsection{Detailed Description}
 File contains functions used in interactions between server and client sending and receiving data over the network. 
 
-\begin{DoxyAuthor}{Author}
-W3ndige 
-\end{DoxyAuthor}
 \begin{DoxyDate}{Date}
 29 May 2018 
 \end{DoxyDate}
@@ -56,6 +55,23 @@ Send the data to the server.
 {\em client\+\_\+fd} & File descriptor for the open socket. \\
 \hline
 {\em message} & Pointer to score variable. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{client_2networking_8h_a6b87c1d54aa76748053527efb4dd3387}\label{client_2networking_8h_a6b87c1d54aa76748053527efb4dd3387}} 
+\index{client/networking.\+h@{client/networking.\+h}!load\+The\+Config@{load\+The\+Config}}
+\index{load\+The\+Config@{load\+The\+Config}!client/networking.\+h@{client/networking.\+h}}
+\subsubsection{\texorpdfstring{load\+The\+Config()}{loadTheConfig()}}
+{\footnotesize\ttfamily int load\+The\+Config (\begin{DoxyParamCaption}\item[{char $\ast$}]{ip\+\_\+address,  }\item[{size\+\_\+t}]{ip\+\_\+address\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Get the IP address of the server from the config file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ip\+\_\+address} & Pointer to buffer that will get the IP address. \\
+\hline
+{\em ip\+\_\+address\+\_\+size} & Maximum size of the ip address buffer. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{client_2networking_8h_a8c169c8ec48a21c5ca41028a571ec91d}\label{client_2networking_8h_a8c169c8ec48a21c5ca41028a571ec91d}} 
@@ -107,4 +123,6 @@ Maximum buffer that the client can receive. \mbox{\Hypertarget{client_2networkin
 \subsubsection{\texorpdfstring{P\+O\+RT}{PORT}}
 {\footnotesize\ttfamily const int P\+O\+RT}
 
-Port used in server -\/ client communication. 
+Port used in server -\/ client communication.
+
+Port number of the server client. 

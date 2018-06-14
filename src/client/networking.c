@@ -1,5 +1,21 @@
 #include "networking.h"
 
+int loadTheConfig(char *ip_address, size_t ip_address_size) {
+  FILE *config_file = fopen("client_assets/config.cfg", "r");
+  if (config_file == NULL) {
+    perror("Couldn't locate config.cfg file.");
+    return 0;
+  }
+  char line[100];
+  fgets(line, 100, config_file);
+  if (!strncmp("IP", line, 2)) {
+    fgets(ip_address, ip_address_size, config_file);
+    return 1;
+  }
+  perror("No IP marker. Please place word IP at the top line, and actuall IP address at the line under the word.");
+  return 0;
+}
+
 int receiveAndVerify(int client_fd, char *buffer) {
   int len = recv(client_fd, buffer, MAX_RECEIVE_BUFFER,0);
   if (len == -1) {

@@ -1,0 +1,153 @@
+\hypertarget{files_8h}{}\section{src/server/files.h File Reference}
+\label{files_8h}\index{src/server/files.\+h@{src/server/files.\+h}}
+
+
+File contains functions used in order to send question data and manipulate questions array.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}helper.\+h\char`\"{}}\newline
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{files_8h_ae38d83f78445aea13c3e28b7cfd71ae3}{calculate\+Number\+Of\+Categories}} ()
+\begin{DoxyCompactList}\small\item\em Calculate number of categories in categories file. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{files_8h_a81625b1c1eb3ac166c6429fc536d0d8d}{calculate\+Number\+Of\+Questions}} (char $\ast$filename)
+\begin{DoxyCompactList}\small\item\em Calculate number of questions in specified file. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{files_8h_a610a7765b2f5738600eac28b44290c74}{calculate\+Total\+Number\+Of\+Questions}} ()
+\begin{DoxyCompactList}\small\item\em Calculate total number of questions in all categories. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{files_8h_a44a59a73fa412e0d2f99d5a9d399e1c2}{get\+Category}} (char $\ast$category\+\_\+source, size\+\_\+t size, int category\+\_\+number)
+\begin{DoxyCompactList}\small\item\em Chooses the random category and puts it\textquotesingle{}s filename into the category\+\_\+source. Returns -\/1 on error and line of choosen category. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{files_8h_a7df7c1c8d14b7222332588c365e8a973}{populate\+Questions}} (struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$questions, size\+\_\+t num\+\_\+of\+\_\+categories)
+\begin{DoxyCompactList}\small\item\em Fill the questions array with information about questions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{files_8h_a63abdaad0d085b20947eae7664703f80}\label{files_8h_a63abdaad0d085b20947eae7664703f80}} 
+const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+C\+A\+T\+E\+G\+O\+R\+Y\+\_\+\+L\+I\+N\+E\+\_\+\+S\+I\+ZE}
+\item 
+\mbox{\Hypertarget{files_8h_aa8532b5d0cfc4096e1cd8f95f3468bf1}\label{files_8h_aa8532b5d0cfc4096e1cd8f95f3468bf1}} 
+const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+Q\+U\+E\+S\+T\+I\+O\+N\+\_\+\+L\+I\+N\+E\+\_\+\+S\+I\+ZE}
+\item 
+\mbox{\Hypertarget{files_8h_a7b58048b940defee2745ccf7e47d3bc6}\label{files_8h_a7b58048b940defee2745ccf7e47d3bc6}} 
+const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+A\+N\+S\+W\+E\+R\+\_\+\+L\+I\+N\+E\+\_\+\+S\+I\+ZE}
+\item 
+\mbox{\Hypertarget{files_8h_a25301aafb350bd7c81bb64582a60f383}\label{files_8h_a25301aafb350bd7c81bb64582a60f383}} 
+const size\+\_\+t {\bfseries M\+A\+X\+\_\+\+N\+U\+M\+B\+E\+R\+\_\+\+O\+F\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+O\+NS}
+\item 
+\mbox{\Hypertarget{files_8h_a22281740786eb9eb123c145a66a28f6f}\label{files_8h_a22281740786eb9eb123c145a66a28f6f}} 
+const char $\ast$ {\bfseries C\+A\+T\+E\+G\+O\+R\+I\+E\+S\+\_\+\+F\+I\+L\+E\+N\+A\+ME}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+File contains functions used in order to send question data and manipulate questions array. 
+
+\begin{DoxyAuthor}{Author}
+W3ndige 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+29 May 2018 
+\end{DoxyDate}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{files_8h_ae38d83f78445aea13c3e28b7cfd71ae3}\label{files_8h_ae38d83f78445aea13c3e28b7cfd71ae3}} 
+\index{files.\+h@{files.\+h}!calculate\+Number\+Of\+Categories@{calculate\+Number\+Of\+Categories}}
+\index{calculate\+Number\+Of\+Categories@{calculate\+Number\+Of\+Categories}!files.\+h@{files.\+h}}
+\subsubsection{\texorpdfstring{calculate\+Number\+Of\+Categories()}{calculateNumberOfCategories()}}
+{\footnotesize\ttfamily int calculate\+Number\+Of\+Categories (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Calculate number of categories in categories file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & String containing filename. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of categories or -\/1 on error. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{files_8h_a81625b1c1eb3ac166c6429fc536d0d8d}\label{files_8h_a81625b1c1eb3ac166c6429fc536d0d8d}} 
+\index{files.\+h@{files.\+h}!calculate\+Number\+Of\+Questions@{calculate\+Number\+Of\+Questions}}
+\index{calculate\+Number\+Of\+Questions@{calculate\+Number\+Of\+Questions}!files.\+h@{files.\+h}}
+\subsubsection{\texorpdfstring{calculate\+Number\+Of\+Questions()}{calculateNumberOfQuestions()}}
+{\footnotesize\ttfamily int calculate\+Number\+Of\+Questions (\begin{DoxyParamCaption}\item[{char $\ast$}]{filename }\end{DoxyParamCaption})}
+
+
+
+Calculate number of questions in specified file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & String containing filename. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of questions or -\/1 on error. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{files_8h_a610a7765b2f5738600eac28b44290c74}\label{files_8h_a610a7765b2f5738600eac28b44290c74}} 
+\index{files.\+h@{files.\+h}!calculate\+Total\+Number\+Of\+Questions@{calculate\+Total\+Number\+Of\+Questions}}
+\index{calculate\+Total\+Number\+Of\+Questions@{calculate\+Total\+Number\+Of\+Questions}!files.\+h@{files.\+h}}
+\subsubsection{\texorpdfstring{calculate\+Total\+Number\+Of\+Questions()}{calculateTotalNumberOfQuestions()}}
+{\footnotesize\ttfamily int calculate\+Total\+Number\+Of\+Questions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Calculate total number of questions in all categories. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & String containing filename. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Total number of questions or -\/1 on error. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{files_8h_a44a59a73fa412e0d2f99d5a9d399e1c2}\label{files_8h_a44a59a73fa412e0d2f99d5a9d399e1c2}} 
+\index{files.\+h@{files.\+h}!get\+Category@{get\+Category}}
+\index{get\+Category@{get\+Category}!files.\+h@{files.\+h}}
+\subsubsection{\texorpdfstring{get\+Category()}{getCategory()}}
+{\footnotesize\ttfamily int get\+Category (\begin{DoxyParamCaption}\item[{char $\ast$}]{category\+\_\+source,  }\item[{size\+\_\+t}]{size,  }\item[{int}]{category\+\_\+number }\end{DoxyParamCaption})}
+
+
+
+Chooses the random category and puts it\textquotesingle{}s filename into the category\+\_\+source. Returns -\/1 on error and line of choosen category. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em category\+\_\+source} & Pointer to which a choosen category will be saved. \\
+\hline
+{\em size} & Size of the buffer that fget will get from the line. \\
+\hline
+{\em num\+\_\+of\+\_\+categories} & Number of categories. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of category or -\/1 on error. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{files_8h_a7df7c1c8d14b7222332588c365e8a973}\label{files_8h_a7df7c1c8d14b7222332588c365e8a973}} 
+\index{files.\+h@{files.\+h}!populate\+Questions@{populate\+Questions}}
+\index{populate\+Questions@{populate\+Questions}!files.\+h@{files.\+h}}
+\subsubsection{\texorpdfstring{populate\+Questions()}{populateQuestions()}}
+{\footnotesize\ttfamily void populate\+Questions (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} $\ast$}]{questions,  }\item[{size\+\_\+t}]{num\+\_\+of\+\_\+categories }\end{DoxyParamCaption})}
+
+
+
+Fill the questions array with information about questions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em questions} & Array of structs \mbox{\hyperlink{structquestion__info}{question\+\_\+info}} that will be filled with question info. \\
+\hline
+{\em num\+\_\+of\+\_\+categories} & Number of categories. \\
+\hline
+\end{DoxyParams}

@@ -1,0 +1,108 @@
+.TH "src/server/game.h" 3 "Thu Jun 14 2018" "Connected Quiz" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/server/game.h \- File contains functions used in order to get the question data from files\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <time\&.h>\fP
+.br
+\fC#include 'files\&.h'\fP
+.br
+\fC#include 'networking\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBaskQuestion\fP (int client_fd, struct sockaddr_in destination, struct \fBquestion_info\fP *questions, int question_number)"
+.br
+.RI "Sends the question data to the client\&. "
+.ti -1c
+.RI "void \fBshuffleQuestions\fP (struct \fBquestion_info\fP questions[], int total_number_of_questions)"
+.br
+.RI "Shuffle the questions in order to make order random\&. "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const size_t \fBNUM_OF_ANSWERS\fP"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_RECEIVE_BUFFER\fP"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_ANSWER_LINE_SIZE\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+File contains functions used in order to get the question data from files\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+W3ndige 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+29 May 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "int askQuestion (int client_fd, struct sockaddr_in destination, struct \fBquestion_info\fP * questions, int question_number)"
+
+.PP
+Sends the question data to the client\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIclient_fd\fP File descriptor of client that got accepted\&. 
+.br
+\fIdestination\fP Structure that contains information about client\&. 
+.br
+\fIquestions\fP Array containing questions\&. 
+.br
+\fIquestion_number\fP Number of current question\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+User score or -1 on error\&. 
+.RE
+.PP
+
+.SS "void shuffleQuestions (struct \fBquestion_info\fP questions[], int total_number_of_questions)"
+
+.PP
+Shuffle the questions in order to make order random\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquestions\fP Array containing questions\&. 
+.br
+\fItotal_number_of_questions\fP Total number of available questions\&. 
+.RE
+.PP
+
+.SH "Variable Documentation"
+.PP 
+.SS "const size_t MAX_RECEIVE_BUFFER"
+Maximum buffer that the client can receive\&. 
+.SS "const size_t NUM_OF_ANSWERS"
+Number of answers for every question
+.PP
+Number of available answers\&.
+.PP
+Number of answers for every question 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Connected Quiz from the source code\&.

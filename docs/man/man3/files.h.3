@@ -1,0 +1,169 @@
+.TH "src/server/files.h" 3 "Thu Jun 14 2018" "Connected Quiz" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/server/files.h \- File contains functions used in order to send question data and manipulate questions array\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <stdio\&.h>\fP
+.br
+\fC#include <errno\&.h>\fP
+.br
+\fC#include 'helper\&.h'\fP
+.br
+
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBquestion_info\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBcalculateNumberOfCategories\fP ()"
+.br
+.RI "Calculate number of categories in categories file\&. "
+.ti -1c
+.RI "int \fBcalculateNumberOfQuestions\fP (char *filename)"
+.br
+.RI "Calculate number of questions in specified file\&. "
+.ti -1c
+.RI "int \fBcalculateTotalNumberOfQuestions\fP ()"
+.br
+.RI "Calculate total number of questions in all categories\&. "
+.ti -1c
+.RI "int \fBgetCategory\fP (char *category_source, size_t size, int category_number)"
+.br
+.RI "Chooses the random category and puts it's filename into the category_source\&. Returns -1 on error and line of choosen category\&. "
+.ti -1c
+.RI "void \fBpopulateQuestions\fP (struct \fBquestion_info\fP *questions, size_t num_of_categories)"
+.br
+.RI "Fill the questions array with information about questions\&. "
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const size_t \fBMAX_CATEGORY_LINE_SIZE\fP"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_QUESTION_LINE_SIZE\fP"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_ANSWER_LINE_SIZE\fP"
+.br
+.ti -1c
+.RI "const size_t \fBMAX_NUMBER_OF_CONNECTIONS\fP"
+.br
+.ti -1c
+.RI "const char * \fBCATEGORIES_FILENAME\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+File contains functions used in order to send question data and manipulate questions array\&. 
+
+
+.PP
+\fBAuthor:\fP
+.RS 4
+W3ndige 
+.RE
+.PP
+\fBDate:\fP
+.RS 4
+29 May 2018 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "int calculateNumberOfCategories ()"
+
+.PP
+Calculate number of categories in categories file\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP String containing filename\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Number of categories or -1 on error\&. 
+.RE
+.PP
+
+.SS "int calculateNumberOfQuestions (char * filename)"
+
+.PP
+Calculate number of questions in specified file\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP String containing filename\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Number of questions or -1 on error\&. 
+.RE
+.PP
+
+.SS "int calculateTotalNumberOfQuestions ()"
+
+.PP
+Calculate total number of questions in all categories\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP String containing filename\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Total number of questions or -1 on error\&. 
+.RE
+.PP
+
+.SS "int getCategory (char * category_source, size_t size, int category_number)"
+
+.PP
+Chooses the random category and puts it's filename into the category_source\&. Returns -1 on error and line of choosen category\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcategory_source\fP Pointer to which a choosen category will be saved\&. 
+.br
+\fIsize\fP Size of the buffer that fget will get from the line\&. 
+.br
+\fInum_of_categories\fP Number of categories\&. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+Number of category or -1 on error\&. 
+.RE
+.PP
+
+.SS "void populateQuestions (struct \fBquestion_info\fP * questions, size_t num_of_categories)"
+
+.PP
+Fill the questions array with information about questions\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIquestions\fP Array of structs \fBquestion_info\fP that will be filled with question info\&. 
+.br
+\fInum_of_categories\fP Number of categories\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Connected Quiz from the source code\&.
