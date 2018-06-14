@@ -1,3 +1,10 @@
+/**
+ * @file
+ * @date 29 May 2018
+ * @brief File contains main functions used behind the server logic. 
+ *
+ */
+
 #include "processes.h"
 
 const size_t PORT = 1337;
