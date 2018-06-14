@@ -54,9 +54,11 @@ int calculateTotalNumberOfQuestions() {
     return -1;
   }
   else {
+    char line[MAX_CATEGORY_LINE_SIZE];
+    memset(line, 0, sizeof(line));
+    fgets(line, MAX_CATEGORY_LINE_SIZE, categories_file);
     while (!feof(categories_file)) {
       char line[MAX_CATEGORY_LINE_SIZE];
-      memset(line, 0, sizeof(line));
       fgets(line, MAX_CATEGORY_LINE_SIZE, categories_file);
       if (strncmp(line,"END_OF_LIST",11) == 0) {
         break;

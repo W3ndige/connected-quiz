@@ -1,11 +1,5 @@
 #include "processes.h"
 
-static volatile int running = 1;
-
-void interruptHandler(int sig __attribute__ ((unused))) {
-  running = 0;
-}
-
 void resetScoreTable(struct user_score score_table[]) {
   for (size_t i = 0; i < MAX_NUMBER_OF_CONNECTIONS; i++) {
     score_table[i].pid = 0;
@@ -119,8 +113,7 @@ void handleChildProcess(int socket_fd, socklen_t socket_size, struct sockaddr_in
     }
   }
 
-  signal(SIGINT, interruptHandler);
-  while (running) {
+  while (1) {
     if (questions_asked == total_number_of_questions ||
        (mode == 2 && questions_asked == num_of_questions)) {
       if (sendAndValidate(client_fd, destination, "END_OF_QUESTIONS")) {
@@ -197,8 +190,7 @@ void handleParentProcess(struct user_score score_table[], int *pipefd_to_child, 
   close(pipefd_to_parent[1]);
   close(pipefd_to_child[0]);
   char message_from_child[20];
-  signal(SIGINT, interruptHandler);
-  while (running) {
+  while (1) {
     int client_pid, points;
     readFromProcessAndVerify(pipefd_to_child, pipefd_to_parent, message_from_child, 7);
     if (!strncmp(message_from_child, "PTSCORE", 7)) {

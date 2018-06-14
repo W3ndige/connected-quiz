@@ -20,7 +20,7 @@ struct user_score { /**< Structure containing information client score. */
 
 /**
 * @brief Places the user score in the proper place of the score_table and prints scoreboard.
- *
+*
 * @param[out] score_table: array of user_score structures containing pid of user and score.
 */
 
