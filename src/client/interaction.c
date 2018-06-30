@@ -14,7 +14,6 @@ bool sendClickedAnswer(int socket_fd, int mouse_x, int mouse_y, SDL_Rect answer_
       return true;
     }
   }
-
   return false;
 }
 

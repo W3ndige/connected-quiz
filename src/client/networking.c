@@ -27,11 +27,6 @@ int receiveAndVerify(int client_fd, char *buffer) {
   return 1;
 }
 
-void sendData(int client_fd, char *message) {
-  send(client_fd, message, strlen(message), 0);
-  printf("Sending data: %s\nWaiting for confirmation...\n", message);
-}
-
 void getScore(int socket_fd, char *score) {
   receiveAndVerify(socket_fd, score);
 }

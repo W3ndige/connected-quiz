@@ -92,9 +92,7 @@ int main(int argc __attribute__ ((unused)), char *argv[] __attribute__ ((unused)
 
   TTF_SetFontKerning(font, 1);
   TTF_SetFontKerning(header_font, 1);
-
   SDL_WM_SetCaption("Connected Quiz", 0);
-
   SDL_Surface *text_surface = NULL;
   SDL_Color foreground_color = {0, 0, 0, 0};
   SDL_Rect text_location = {108, 100, 200, 50};

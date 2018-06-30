@@ -38,19 +38,10 @@ int loadTheConfig(char *ip_address, size_t ip_address_size);
 int receiveAndVerify(int client_fd, char *buffer);
 
 /**
-* @brief Send the data to the server.
+* @brief Get the score from the server.
 *
 * @param int client_fd File descriptor for the open socket.
-* @param char *message Pointer to message variable.
-*/
-
-void sendData(int client_fd, char *message);
-
-/**
-* @brief Send the data to the server.
-*
-* @param int client_fd File descriptor for the open socket.
-* @param char *message Pointer to score variable.
+* @param char *score Pointer to score variable.
 */
 
 void getScore(int client_fd, char *score);
